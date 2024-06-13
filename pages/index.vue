@@ -1,4 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+useSeoMeta({
+  title: "Marina Bot - Revolucione suas vendas com automação de WhatsApp!",
+})
+</script>
 
 <template>
   <LandingHeader />
