@@ -69,6 +69,7 @@
           </span>
         </div>
       </div>
+      <div class="border-b secondary-color mt-16" />
     </div>
   </ULandingSection>
 </template>
