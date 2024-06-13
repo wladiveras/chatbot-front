@@ -64,7 +64,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       <UButton
         label="Teste grátis por 30 dias"
         trailing-icon="i-heroicons-arrow-right-20-solid"
-        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold"
+        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold primary-bg"
       />
     </template>
 
