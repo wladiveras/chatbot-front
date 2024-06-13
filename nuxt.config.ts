@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     base64: true,
     inject: true,
     families: {
-      Sora: true,
+      Sora: [100, 200, 300, 400, 500, 600, 700, 800],
     }
   },
   supabase: {

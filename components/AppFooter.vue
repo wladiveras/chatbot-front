@@ -1,110 +1,64 @@
 <script setup lang="ts">
-const links = [{
-  label: 'Resources',
-  children: [{
-    label: 'Help center'
-  }, {
-    label: 'Docs'
-  }, {
-    label: 'Roadmap'
-  }, {
-    label: 'Changelog'
-  }]
-}, {
-  label: 'Features',
-  children: [{
-    label: 'Affiliates'
-  }, {
-    label: 'Portal'
-  }, {
-    label: 'Jobs'
-  }, {
-    label: 'Sponsors'
-  }]
-}, {
-  label: 'Company',
-  children: [{
-    label: 'About'
-  }, {
-    label: 'Pricing'
-  }, {
-    label: 'Careers'
-  }, {
-    label: 'Blog'
-  }]
-}]
+const { activeHeadings } = useScrollspy()
 
-const toast = useToast()
-
-const email = ref('')
-const loading = ref(false)
-
-function onSubmit() {
-  loading.value = true
-
-  setTimeout(() => {
-    toast.add({
-      title: 'Subscribed!',
-      description: 'You\'ve been subscribed to our newsletter.'
-    })
-
-    loading.value = false
-  }, 1000)
-}
+const links = computed(() => [
+  {
+    label: "Recursos",
+    to: "#features",
+    icon: "i-heroicons-cube-transparent",
+    active:
+      activeHeadings.value.includes("features") &&
+      !activeHeadings.value.includes("pricing"),
+  },
+  {
+    label: "Preços",
+    to: "#pricing",
+    icon: "i-heroicons-credit-card",
+    active:
+      activeHeadings.value.includes("pricing") &&
+      !activeHeadings.value.includes("testimonials"),
+  },
+  {
+    label: "Depoimentos",
+    to: "#testimonials",
+    icon: "i-heroicons-academic-cap",
+    active: activeHeadings.value.includes("testimonials"),
+  },
+  {
+    label: "Login",
+    to: "/login",
+    icon: "i-heroicons-question-mark-circle",
+    active: activeHeadings.value.includes("/login"),
+  },
+])
 </script>
 
 <template>
-  <UFooter>
-    <template #top>
-      <UFooterColumns :links="links">
-        <template #right>
-          <form @submit.prevent="onSubmit">
-            <UFormGroup
-              label="Subscribe to our newsletter"
-              :ui="{ container: 'mt-3' }"
-            >
-              <UInput
-                v-model="email"
-                type="email"
-                placeholder="Enter your email"
-                :ui="{ icon: { trailing: { pointer: '' } } }"
-                required
-                size="xl"
-                autocomplete="off"
-                class="max-w-sm"
-              >
-                <template #trailing>
-                  <UButton
-                    type="submit"
-                    size="xs"
-                    :label="loading ? 'Subscribing' : 'Subscribe'"
-                    :loading="loading"
-                  />
-                </template>
-              </UInput>
-            </UFormGroup>
-          </form>
-        </template>
-      </UFooterColumns>
-    </template>
-
-    <template #left>
-      <p class="text-gray-500 dark:text-gray-400 text-sm">
-        Copyright © {{ new Date().getFullYear() }}. All rights reserved.
-      </p>
-    </template>
-
-    <template #right>
-      <UColorModeButton size="sm" />
-
-      <UButton
-        to="https://github.com/nuxt-ui-pro/landing"
-        target="_blank"
-        icon="i-simple-icons-github"
-        aria-label="GitHub"
-        color="gray"
-        variant="ghost"
-      />
-    </template>
-  </UFooter>
+  <footer class="w-full">
+    <NuxtImg src="/Logo.png" class="h-[30px] m-auto mt-[100px] mb-[20px]" />
+    <div class="flex flex-nowrap items-center text-center justify-center gap-8">
+      <ULink
+        class="flex mx-5 text-sm font-base secondary-color"
+        v-for="link in links"
+        :key="link.to"
+        :to="link.to"
+        :active="link.active"
+      >
+        {{ link.label }}
+      </ULink>
+    </div>
+    <div
+      class="flex flex-nowrap items-center text-center justify-center gap-5 my-[30px] mb-[80px]"
+    >
+      <UIcon name="uil:facebook" class="flex text-2xl secondary-color" />
+      <UIcon name="uil:twitter" class="flex text-2xl secondary-color" />
+      <UIcon name="uil:instagram" class="flex font-size text-2xl secondary-color" />
+    </div>
+    <p
+      class="secondary-color text-sm text-center border-t secondary-color w-full block py-16"
+    >
+      Copyright © {{ new Date().getFullYear() }}. Todos os direitos reservados.
+    </p>
+  </footer>
 </template>
+<style scoped></style>

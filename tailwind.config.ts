@@ -5,7 +5,7 @@ export default <Partial<Config>>{
   theme: {
     extend: {
       fontFamily: {
-        sans: ["DM Sans", "Sora", ...defaultTheme.fontFamily.sans],
+        sans: ["Sora", ...defaultTheme.fontFamily.sans],
       },
       colors: {
         green: {
