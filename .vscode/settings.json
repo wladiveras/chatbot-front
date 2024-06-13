@@ -1,3 +1,8 @@
 {
-  "eslint.experimental.useFlatConfig": true
+  "eslint.experimental.useFlatConfig": true,
+  "cSpell.words": [
+    "supabase",
+    "Supabase"
+  ],
+  "vue3snippets.enable-compile-vue-file-on-did-save-code": true
 }

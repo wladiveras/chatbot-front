@@ -5,16 +5,69 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@nuxt/eslint',
     '@nuxt/ui',
-    '@nuxt/fonts'
+    '@nuxtjs/supabase',
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@nuxtjs/google-fonts',
+    '@nuxt/image',
+    "@nuxtjs/google-fonts",
+    "@nuxthq/studio"
   ],
-  ui: {
-    icons: ['heroicons', 'simple-icons']
-  },
-  devtools: {
-    enabled: true
-  },
+  css: [
+    '~/assets/css/main.css',
+
+  ],
+  ssr: true,
   typescript: {
     strict: false
+  },
+  devtools: {
+    enabled: true,
+    timeline: {
+      enabled: true,
+    },
+  },
+  colorMode: {
+    preference: 'light'
+  },
+
+  googleFonts: {
+    display: "swap",
+    preload: true,
+    download: true,
+    base64: true,
+    inject: true,
+    families: {
+      Sora: true,
+    }
+  },
+  supabase: {
+    redirectOptions: {
+      login: '/login',
+      callback: '/confirm',
+      exclude: [
+        '/',
+        '/confirm',
+        '/login',
+        '/dashboard',
+        '/order/complete',
+        '/order/checkout'
+      ],
+      cookieRedirect: true
+    },
+    cookieOptions: {
+      maxAge: 60 * 60 * 8,
+      sameSite: 'lax',
+      secure: true
+    },
+    clientOptions: {
+      auth: {
+        flowType: 'pkce',
+        detectSessionInUrl: true,
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    }
   },
   eslint: {
     config: {
