@@ -36,7 +36,7 @@ const links = computed(() => [
 <template>
   <footer class="w-full">
     <NuxtImg src="/Logo.png" class="h-[30px] m-auto mt-[100px] mb-[20px]" />
-    <div class="flex flex-nowrap items-center text-center justify-center gap-8">
+    <div class="flex flex-nowrap items-center text-center justify-center gap-2">
       <ULink
         class="flex mx-5 text-sm font-base secondary-color"
         v-for="link in links"
