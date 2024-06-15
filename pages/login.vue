@@ -41,7 +41,9 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
 </script>
 
 <template>
-  <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
+  <UCard
+    class="max-w-[400px] w-full bg-white/75 dark:bg-white/5 backdrop-blur login-container"
+  >
     <UForm
       :schema="schema"
       :state="state"
@@ -50,49 +52,80 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
       class="space-y-4"
       @submit="handleLogin"
     >
-      <div>
-        <NuxtImg class="max-h-7 m-auto mb-10" src="/Logo.png" />
-        <h1 class="text-xl font-bold text-center">Seja bem vindo(a) 👋</h1>
-        <p class="text-sm font-light text-gray-300 py-2 mb-4">
+      <div class="">
+        <NuxtImg class="max-h-7 m-auto mb-10 mt-6" src="/Logo.png" />
+        <h1 class="text-xl font-bold text-center primary-color">Seja bem vindo(a) 👋</h1>
+        <p class="text-sm font-light text-gray-500 py-2 mb-4 text-center">
           Por favor, insira seus dados para fazer login.
         </p>
-        <div class="text-center w-full flex justify-center">
+        <div class="text-center w-full flex justify-center mb-1">
           <UButton
-            class="text-center px-7 mx-1 py-3 flex"
-            color="green"
-            icon="i-simple-icons-github"
-          />
+            class="text-center px-10 mx-1 py-3 flex text-gray-200"
+            :ui="{ rounded: 'rounded-md' }"
+            variant="outline"
+          >
+            <UIcon name="uim:apple" size="20px" class="text-black" />
+          </UButton>
           <UButton
-            class="text-center px-7 mx-1 py-3 flex"
-            color="green"
-            icon="i-simple-icons-github"
-          />
+            class="text-center px-10 mx-1 py-3 flex text-gray-200"
+            :ui="{ rounded: 'rounded-md' }"
+            variant="outline"
+          >
+            <UIcon name="uim:google" size="20px" class="text-yellow-600" />
+          </UButton>
           <UButton
-            class="text-center px-7 mx-1 py-3 flex"
-            color="green"
-            icon="i-simple-icons-github"
-          />
+            class="text-center px-10 mx-1 py-3 flex text-gray-200"
+            :ui="{ rounded: 'rounded-md' }"
+            variant="outline"
+          >
+            <UIcon name="uim:twitter" size="20px" class="text-blue-500" />
+          </UButton>
         </div>
-        <UDivider label="OU" class="py-5" />
+        <UDivider
+          label="OU"
+          class="py-1 mt-5 text-gray-100"
+          :ui="{ label: 'text-gray-300 font-light' }"
+        />
       </div>
 
-      <UFormGroup label="Endereço de email" name="email">
-        <UInput v-model="state.email" placeholder="informe seu email" />
-      </UFormGroup>
+      <div>
+        <span class="text-gray-500 font-semibold text-sm mb-3 block">
+          Endereço de e-mail
+        </span>
+        <UInput
+          size="lg"
+          class="block mb-7"
+          v-model="state.email"
+          placeholder="informe seu e-mail"
+          variant="outline"
+        />
+      </div>
       <UButton
         type="submit"
-        class="w-full flex text-center py-4"
+        class="w-full flex text-center py-[15px] px-[25px] primary-bg"
         :loading="loading"
         block
       >
         Continuar
       </UButton>
-      <p>
-        Ao continuar, você confirma que entende e concorda com os Termos e Condições e com
-        a Política de Privacidade.
+      <p class="text-gray-400 font-normal text-xs text-center">
+        Ao continuar, você confirma que entende e concorda com os
+        <span class="font-semibold cursor-pointer">Termos e Condições</span> e com a
+        <span class="font-semibold cursor-pointer">Política de Privacidade.</span>
       </p>
     </UForm>
   </UCard>
 </template>
 
-<style scoped></style>
+<style scoped>
+.login-container {
+  border-radius: 10px;
+  background: rgb(255, 255, 255);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 80%,
+    rgba(236, 72, 153, 0.2) 100%
+  );
+  background-origin: content-box;
+}
+</style>

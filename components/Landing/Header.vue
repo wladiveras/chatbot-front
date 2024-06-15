@@ -3,7 +3,9 @@
   <ULandingSection>
     <div>
       <div class="text-center max-w-[804px] m-auto relative border-b secondary-color">
-        <h1 class="text-[48px] font-bold primary-color flex flex-wrap justify-center">
+        <h1
+          class="text-[48px] font-bold primary-color flex flex-wrap justify-center animate__animated animate__backInDown"
+        >
           <span>Revolucione suas vendas</span>
           <span class="highlight">
             com
@@ -24,7 +26,7 @@
           </span>
         </h1>
 
-        <p class="secondary-color mt-7 font-light">
+        <p class="secondary-color mt-7 font-light animate__animated animate__jello">
           Aumente de maneira significante suas vendas, automatize respostas para
           economizar tempo e conquiste seus contatos com facilidade!
         </p>
@@ -32,23 +34,25 @@
           <UButton
             label="Teste grátis por 30 dias"
             trailing-icon="i-heroicons-arrow-right-20-solid"
-            class="py-[12px] px-[20px] gap-[10px] mb-5 w-full md:w-auto md:mr-5 md:mb-0 font-semibold primary-bg"
+            class="py-[12px] px-[20px] gap-[10px] mb-5 w-full md:w-auto md:mr-5 md:mb-0 font-semibold primary-bg animate__animated animate__rubberBand"
             block
           />
           <UButton
             label="Conheça nossos planos"
-            class="py-[12px] px-[20px] gap-[10px] w-full md:w-auto md:ml-5 font-semibold bg-pink-100 text-pink-500"
+            class="py-[12px] px-[20px] gap-[10px] w-full md:w-auto md:ml-5 font-semibold bg-pink-100 text-pink-500 animate__animated animate__rubberBand"
             block
           />
         </div>
 
-        <p class="secondary-color mt-7 font-light text-sm mb-10">
+        <p
+          class="secondary-color mt-7 font-light text-sm mb-10 animate__animated animate__pulse"
+        >
           <UIcon name="uil:arrow-growth" color="green" size="30px" />
           Mais de 987 clientes aumentaram suas vendas.
         </p>
       </div>
       <div
-        class="flex gap-10 flex-wrap mt-[50px] lg:gap-0 lg:flex-nowrap lg:justify-between"
+        class="flex gap-10 flex-wrap mt-[50px] lg:gap-0 lg:flex-nowrap lg:justify-between animate__animated animate__backInRight"
       >
         <div class="flex lg:max-w-[300px] items-center">
           <NuxtImg src="/icon-1.png" />

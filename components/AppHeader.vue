@@ -43,7 +43,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
 </script>
 
 <template>
-  <UHeader class="py-5 border-0">
+  <UHeader class="py-5 border-0 bg-gray-50/0">
     <template #logo>
       <NuxtImg src="/Logo.png" class="h-[30px] w-full" />
     </template>
@@ -64,7 +64,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       <UButton
         label="Teste grátis por 30 dias"
         trailing-icon="i-heroicons-arrow-right-20-solid"
-        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold primary-bg"
+        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold primary-bg animate__animated animate__rubberBand"
       />
     </template>
 

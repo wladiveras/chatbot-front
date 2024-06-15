@@ -30,7 +30,6 @@ export default defineNuxtConfig({
   colorMode: {
     preference: 'light'
   },
-
   googleFonts: {
     display: "swap",
     preload: true,

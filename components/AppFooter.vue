@@ -36,7 +36,7 @@ const links = computed(() => [
 <template>
   <footer class="w-full">
     <NuxtImg src="/Logo.png" class="h-[30px] m-auto mt-[100px] mb-[20px]" />
-    <div class="flex flex-nowrap items-center text-center justify-center gap-2">
+    <div class="hidden md:flex flex-nowrap items-center text-center justify-center gap-2">
       <ULink
         class="flex mx-5 text-sm font-base secondary-color"
         v-for="link in links"
@@ -50,9 +50,9 @@ const links = computed(() => [
     <div
       class="flex flex-nowrap items-center text-center justify-center gap-5 my-[30px] mb-[80px]"
     >
-      <UIcon name="uil:facebook" class="flex text-2xl secondary-color" />
-      <UIcon name="uil:twitter" class="flex text-2xl secondary-color" />
-      <UIcon name="uil:instagram" class="flex font-size text-2xl secondary-color" />
+      <UIcon name="uil:facebook" class="flex text-2xl secondary-color cursor-pointer" />
+      <UIcon name="uil:twitter" class="flex text-2xl secondary-color cursor-pointer" />
+      <UIcon name="uil:instagram" class="flex text-2xl secondary-color cursor-pointer" />
     </div>
     <p
       class="secondary-color text-sm text-center border-t secondary-color w-full block py-16"

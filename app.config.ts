@@ -1,7 +1,7 @@
 export default defineAppConfig({
   ui: {
     primary: 'pink',
-    gray: 'gray',
+
     icons: {
       dynamic: true
     },
