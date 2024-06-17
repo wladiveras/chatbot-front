@@ -1,5 +1,5 @@
 <template>
-  <ULandingSection>
+  <ULandingSection id="promotion">
     <div class="mt-[50px]">
       <div class="text-center max-w-[610px] m-auto relative">
         <h1 class="text-[32px] font-bold primary-color flex flex-wrap justify-center">

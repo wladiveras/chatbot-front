@@ -1,6 +1,6 @@
 <script lang="ts" setup></script>
 <template>
-  <ULandingSection>
+  <ULandingSection id="testimonials">
     <div class="mt-[50px]">
       <div class="text-center max-w-[610px] m-auto relative">
         <UBadge class="text-pink-600 bg-pink-50"> Além das expectativas</UBadge>

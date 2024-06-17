@@ -6,11 +6,11 @@ useSeoMeta({
 
 <template>
   <LandingHeader />
-  <LandingResource />
+  <LandingFeatures />
   <LandingPlans />
   <LandingTestimonial />
   <LandingFaq />
-  <LandingSubscription />
+  <LandingPromotion />
 </template>
 
 <style></style>

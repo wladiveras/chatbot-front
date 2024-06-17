@@ -2,6 +2,13 @@
 const nuxtApp = useNuxtApp()
 const { activeHeadings, updateHeadings } = useScrollspy()
 
+const supabase = useSupabaseClient()
+const user = useSupabaseUser()
+
+const signOut = async () => {
+  const { error } = await supabase.auth.signOut()
+  if (error) console.log(error)
+}
 const links = computed(() => [
   {
     label: "Recursos",
@@ -26,10 +33,10 @@ const links = computed(() => [
     active: activeHeadings.value.includes("testimonials"),
   },
   {
-    label: "Login",
-    to: "/login",
+    label: user ? "Sair" : "/login",
+    to: user ? "/logout" : "login",
     icon: "i-heroicons-question-mark-circle",
-    active: activeHeadings.value.includes("/login"),
+    active: activeHeadings.value.includes(user ? "/logout" : "/login"),
   },
 ])
 
@@ -52,7 +59,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       <ULink
         class="hidden lg:flex mx-5 text-sm font-base primary-color"
         v-for="link in links"
-        :key="link.to"
+        :key="link.label"
         :to="link.to"
         :active="link.active"
         active-class="text-pink-500"

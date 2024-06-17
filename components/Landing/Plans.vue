@@ -1,7 +1,7 @@
 <script lang="ts" setup></script>
 
 <template>
-  <ULandingSection>
+  <ULandingSection id="pricing">
     <div class="mt-[50px]">
       <div class="text-center max-w-[610px] m-auto relative">
         <span class="font-semibold primary-pink">Planos e preços</span>

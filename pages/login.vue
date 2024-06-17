@@ -11,6 +11,7 @@ useSeoMeta({
 })
 
 const supabase = useSupabaseClient()
+const toast = useToast()
 const loading = ref(false)
 
 const schema = z.object({
@@ -23,6 +24,25 @@ const state = reactive({
   email: undefined,
 })
 
+const signInWithOAuth = async (provide: any) => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: provide,
+    options: {
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
+    },
+  })
+  if (error) {
+    toast.add({
+      title: "Atenção!",
+      description: error.message,
+      icon: "material-symbols:error-outline",
+    })
+  }
+}
+
 const handleLogin = async (event: FormSubmitEvent<Schema>) => {
   try {
     loading.value = true
@@ -30,10 +50,18 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
 
     if (error) throw error
 
-    alert("Check your email for the login link!")
+    toast.add({
+      title: "Atenção!",
+      description:
+        "Verifique seu email, foi enviado um link mágico para acessar o sistema.",
+      icon: "i-heroicons-check-badge",
+    })
   } catch (error) {
-    alert(error.error_description || error.message)
-    console.log(event.data)
+    toast.add({
+      title: "Atenção!",
+      description: error.error_description || error.message,
+      icon: "material-symbols:error-outline",
+    })
   } finally {
     loading.value = false
   }
@@ -44,6 +72,12 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
   <UCard
     class="max-w-[400px] w-full bg-white/75 dark:bg-white/5 backdrop-blur login-container"
   >
+    <span class="highlight">
+      <NuxtImg
+        class="absolute top-[-80px] right-[-90px] hidden md:flex"
+        src="/multi-lines.svg"
+      />
+    </span>
     <UForm
       :schema="schema"
       :state="state"
@@ -60,6 +94,7 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
         </p>
         <div class="text-center w-full flex justify-center mb-1">
           <UButton
+            @click="signInWithOAuth('apple')"
             class="text-center px-10 mx-1 py-3 flex text-gray-200"
             :ui="{ rounded: 'rounded-md' }"
             variant="outline"
@@ -67,6 +102,7 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
             <UIcon name="uim:apple" size="20px" class="text-black" />
           </UButton>
           <UButton
+            @click="signInWithOAuth('google')"
             class="text-center px-10 mx-1 py-3 flex text-gray-200"
             :ui="{ rounded: 'rounded-md' }"
             variant="outline"
@@ -74,6 +110,7 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
             <UIcon name="uim:google" size="20px" class="text-yellow-600" />
           </UButton>
           <UButton
+            @click="signInWithOAuth('twitter')"
             class="text-center px-10 mx-1 py-3 flex text-gray-200"
             :ui="{ rounded: 'rounded-md' }"
             variant="outline"
@@ -100,8 +137,10 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
           variant="outline"
         />
       </div>
+
       <UButton
-        type="submit"
+        @click="handleLogin"
+        type="button"
         class="w-full flex text-center py-[15px] px-[25px] primary-bg"
         :loading="loading"
         block
@@ -114,6 +153,9 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
         <span class="font-semibold cursor-pointer">Política de Privacidade.</span>
       </p>
     </UForm>
+    <span class="highlight">
+      <NuxtImg class="absolute top-[70px] right-[70px] hidden md:flex" src="/line.svg" />
+    </span>
   </UCard>
 </template>
 

@@ -39,7 +39,7 @@ const features = reactive([
 ])
 </script>
 <template>
-  <ULandingSection>
+  <ULandingSection id="features">
     <div>
       <div class="text-center lg:text-left max-w-[610px] relative">
         <span class="font-semibold primary-pink">■ Recursos</span>
