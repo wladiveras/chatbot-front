@@ -4,10 +4,23 @@ const { activeHeadings, updateHeadings } = useScrollspy()
 
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
+const toast = useToast()
 
 const signOut = async () => {
   const { error } = await supabase.auth.signOut()
-  if (error) console.log(error)
+  if (error) {
+    toast.add({
+      title: "Atenção!",
+      description: error.message,
+      icon: "material-symbols:error-outline",
+    })
+  } else {
+    toast.add({
+      title: "Atenção!",
+      description: "Desconectado da sua cessão com sucesso.",
+      icon: "i-heroicons-check-badge",
+    })
+  }
 }
 const links = computed(() => [
   {
@@ -31,12 +44,6 @@ const links = computed(() => [
     to: "#testimonials",
     icon: "i-heroicons-academic-cap",
     active: activeHeadings.value.includes("testimonials"),
-  },
-  {
-    label: user ? "Sair" : "/login",
-    to: user ? "/logout" : "login",
-    icon: "i-heroicons-question-mark-circle",
-    active: activeHeadings.value.includes(user ? "/logout" : "/login"),
   },
 ])
 
@@ -66,6 +73,26 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
         inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
       >
         {{ link.label }}
+      </ULink>
+
+      <ULink
+        v-if="!user"
+        class="hidden lg:flex mx-5 text-sm font-base primary-color"
+        to="/login"
+        active-class="text-pink-500"
+        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
+      >
+        Login
+      </ULink>
+
+      <ULink
+        v-else
+        @click="signOut"
+        class="hidden lg:flex mx-5 text-sm font-base primary-color"
+        active-class="text-pink-500"
+        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
+      >
+        Sair
       </ULink>
 
       <UButton
