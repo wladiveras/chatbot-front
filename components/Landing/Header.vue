@@ -3,9 +3,7 @@
   <ULandingSection>
     <div>
       <div class="text-center max-w-[804px] m-auto relative border-b secondary-color">
-        <h1
-          class="text-[48px] font-bold primary-color flex flex-wrap justify-center animate__animated animate__backInDown"
-        >
+        <h1 class="text-[48px] font-bold primary-color flex flex-wrap justify-center">
           <span>Revolucione suas vendas</span>
           <span class="highlight">
             com

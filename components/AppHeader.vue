@@ -74,7 +74,15 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       >
         {{ link.label }}
       </ULink>
-
+      <ULink
+        v-if="user"
+        class="hidden lg:flex mx-5 text-sm font-base primary-color"
+        to="/dashboard"
+        active-class="text-pink-500"
+        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
+      >
+        Dashboard
+      </ULink>
       <ULink
         v-if="!user"
         class="hidden lg:flex mx-5 text-sm font-base primary-color"

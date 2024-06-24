@@ -1,5 +1,24 @@
 <script setup lang="ts">
+const supabase = useSupabaseClient()
 const user = useSupabaseUser()
+const toast = useToast()
+
+const signOut = async () => {
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    toast.add({
+      title: "Atenção!",
+      description: error.message,
+      icon: "material-symbols:error-outline",
+    })
+  } else {
+    toast.add({
+      title: "Atenção!",
+      description: "Desconectado da sua sessão com sucesso.",
+      icon: "i-heroicons-check-badge",
+    })
+  }
+}
 </script>
 
 <template>
@@ -16,6 +35,7 @@ const user = useSupabaseUser()
       />
       <UButton
         trailing-icon="ri:logout-circle-line"
+        @click="signOut"
         class="hidden lg:flex font-semibold bg-gray-200 text-gray-500 animate__animated animate__rubberBand"
       />
     </template>
