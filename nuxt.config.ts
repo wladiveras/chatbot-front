@@ -11,7 +11,8 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     '@nuxt/image',
     "@nuxtjs/google-fonts",
-    "@nuxthq/studio"
+    "@nuxthq/studio",
+    "@nuxthub/core"
   ],
   css: [
     '~/assets/css/main.css',
@@ -21,6 +22,7 @@ export default defineNuxtConfig({
   typescript: {
     strict: false
   },
+
   devtools: {
     enabled: true,
     timeline: {
