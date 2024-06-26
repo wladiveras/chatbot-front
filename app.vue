@@ -22,8 +22,23 @@ useSeoMeta({
 
 <template>
   <div>
+    <UAlert
+      icon="i-heroicons-command-line"
+      description="Bem-vindo(a) ao MarinaBot! Estamos na fase BETA e estamos ansiosos para receber seu feedback. Entre em contato com o suporte para relatar bugs ou sugerir melhorias. Juntos, podemos tornar o MarinaBot ainda melhor!"
+      title="MARINABOT BETA"
+      color="primary"
+      :ui="{
+        rounded: 'rounded-none',
+      }"
+      :close-button="{
+        icon: 'i-heroicons-x-mark-20-solid',
+        color: 'white',
+        variant: 'link',
+        padded: false,
+      }"
+    />
     <NuxtLoadingIndicator />
-    <UMain>
+    <UMain class="overflow-x-hidden">
       <NuxtLayout>
         <UContainer>
           <NuxtPage />

@@ -30,7 +30,7 @@ const signOut = async () => {
     <template #right>
       <UButton
         icon="octicon:fire-24"
-        :label="user.user_metadata.name"
+        :label="user.user_metadata?.name"
         class="hidden lg:flex font-normal bg-pink-100 text-pink-500 animate__animated animate__rubberBand"
       />
       <UButton

@@ -15,6 +15,7 @@
           </div>
           <div class="relative ml-5 mt-[40px]">
             <UButton
+              @click="ModalStore.toggle"
               label="Nova conexão"
               icon="ic:baseline-whatsapp"
               class="py-[12px] px-[20px] font-normal primary-bg"
@@ -30,15 +31,19 @@
         </div>
       </div>
     </ULandingSection>
+    <DashboardModalQrCode />
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useModalStore } from "@/stores/modal"
+
 definePageMeta({
   layout: "dashboard",
 })
 
 const user = useSupabaseUser()
+const ModalStore = useModalStore()
 </script>
 
 <style></style>
