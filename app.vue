@@ -8,8 +8,14 @@ useHead({
       href: "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
     },
   ],
+  script: [
+    {
+      src: "https://js.sentry-cdn.com/d7c65f2114630a042fd1ea76ae6e3bfd.min.js",
+      crossorigin: "anonymous",
+    },
+  ],
   htmlAttrs: {
-    lang: "en",
+    lang: "pt",
   },
 })
 

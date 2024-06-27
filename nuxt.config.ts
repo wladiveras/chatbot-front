@@ -1,6 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { sentryVitePlugin } from "@sentry/vite-plugin";
-
 export default defineNuxtConfig({
   extends: ['@nuxt/ui-pro'],
   modules: [
@@ -78,23 +76,5 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
-  },
-  runtimeConfig: {
-    public: {
-        SENTRY_DSN_PUBLIC: process.env.SENTRY_DSN_PUBLIC,
-        SENTRY_TRACES_SAMPLE_RATE: parseFloat(process.env.SENTRY_TRACES_SAMPLE_RATE ?? '0'),
-        SENTRY_REPLAY_SAMPLE_RATE: parseFloat(process.env.SENTRY_REPLAY_SAMPLE_RATE ?? '0'),
-        SENTRY_ERROR_REPLAY_SAMPLE_RATE: parseFloat(process.env.SENTRY_ERROR_REPLAY_SAMPLE_RATE ?? '0'),
-    },
-  },
-  sourcemap: true,
-  vite: {
-      plugins: [
-          sentryVitePlugin({
-              authToken: process.env.SENTRY_AUTH_TOKEN,
-              org: "gearbox",
-              project: "abc-website-frontend",
-          }),
-      ],
   },
 })
