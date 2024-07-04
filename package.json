@@ -3,14 +3,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build && pnpm sentry:sourcemaps",
+    "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "typecheck": "nuxt typecheck",
-    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org marina-bot --project marinabot .nuxt/build && sentry-cli sourcemaps upload --org marina-bot --project marinabot .nuxt/build"
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@iconify-json/heroicons": "^1.1.21",
