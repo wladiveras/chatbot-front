@@ -21,7 +21,6 @@ This is a WhatsApp chatbot project that helps customers with their purchases on 
  
 ## Technologies Used
 
-    FRONT END
     Javascript
     Typescript
     Nuxt 3
