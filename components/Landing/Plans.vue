@@ -4,8 +4,8 @@
   <ULandingSection id="pricing">
     <div class="mt-[50px]">
       <div class="text-center m-auto relative">
-        <span class="font-semibold primary-pink">Planos e preços</span>
-        <h1 class="text-[32px] font-bold primary-color flex flex-wrap justify-center">
+        <span class="font-semibold text-blue-950">Planos e preços</span>
+        <h1 class="text-[32px] font-bold text-blue-950 flex flex-wrap justify-center">
           <span>Comece </span>
           <span class="highlight">
             grátis
@@ -17,7 +17,7 @@
             />
           </span>
         </h1>
-        <p class="text-[16px] secondary-color mt-7 font-light">
+        <p class="text-[16px] text-gray-500 border-gray-10 mt-7 font-light">
           Preços simples, sem taxas ocultas, recursos avançados para sua empresa
         </p>
         <div class="mt-16">
@@ -27,7 +27,7 @@
               discount="00,00"
               cycle="/mês"
               :badge="{ label: 'Grátis' }"
-              :button="{ label: 'Contratar Plano', color: 'pink' }"
+              :button="{ label: 'Contratar Plano', color: 'gray', text: 'blue' }"
               orientation="vertical"
               align="bottom"
               :features="[
@@ -44,7 +44,7 @@
               cycle="/mês"
               highlight
               :badge="{ label: 'Premium' }"
-              :button="{ label: 'Contratar Plano', color: 'pink' }"
+              :button="{ label: 'Contratar Plano' }"
               orientation="vertical"
               align="bottom"
               :features="[
@@ -58,7 +58,7 @@
             <UPricingCard
               price="Personalizado"
               :badge="{ label: 'Enterprise' }"
-              :button="{ label: 'Entrar em Contato', color: 'pink' }"
+              :button="{ label: 'Entrar em Contato', color: 'gray', text: 'blue' }"
               orientation="vertical"
               align="bottom"
               :features="['Todos os recursos', 'White Label', 'Suporte Exclusivo']"

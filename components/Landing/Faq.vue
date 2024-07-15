@@ -34,8 +34,8 @@ const items = [
   <ULandingSection>
     <div class="mt-[50px]">
       <div class="text-center max-w-[600px] m-auto relative">
-        <UBadge class="text-pink-600 bg-pink-50"> Perguntas frequentes</UBadge>
-        <h1 class="text-[32px] font-bold primary-color flex flex-wrap justify-center">
+        <UBadge class="text-blue-950 bg-gray-100"> Perguntas frequentes</UBadge>
+        <h1 class="text-[32px] font-bold text-blue-950 flex flex-wrap justify-center">
           <span class="highlight">
             Todas as informações sobre nossos serviços
             <NuxtImg

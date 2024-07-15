@@ -88,7 +88,7 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
     >
       <div class="">
         <NuxtImg class="max-h-7 m-auto mb-10 mt-6" src="/Logo.png" />
-        <h1 class="text-xl font-bold text-center primary-color">Seja bem vindo(a) 👋</h1>
+        <h1 class="text-xl font-bold text-center text-blue-950">Seja bem vindo(a) 👋</h1>
         <p class="text-sm font-light text-gray-500 py-2 mb-4 text-center">
           Por favor, insira seus dados para fazer login.
         </p>
@@ -141,7 +141,7 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
       <UButton
         @click="handleLogin"
         type="button"
-        class="w-full flex text-center py-[15px] px-[25px] primary-bg"
+        class="w-full flex text-center py-[15px] px-[25px] bg-blue-950"
         :loading="loading"
         block
       >

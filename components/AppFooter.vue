@@ -38,7 +38,7 @@ const links = computed(() => [
     <NuxtImg src="/Logo.png" class="h-[30px] m-auto mt-[100px] mb-[20px]" />
     <div class="hidden md:flex flex-nowrap items-center text-center justify-center gap-2">
       <ULink
-        class="flex mx-5 text-sm font-base secondary-color"
+        class="flex mx-5 text-sm font-base text-gray-500 border-gray-10"
         v-for="link in links"
         :key="link.to"
         :to="link.to"
@@ -50,12 +50,12 @@ const links = computed(() => [
     <div
       class="flex flex-nowrap items-center text-center justify-center gap-5 my-[30px] mb-[80px]"
     >
-      <UIcon name="uil:facebook" class="flex text-2xl secondary-color cursor-pointer" />
-      <UIcon name="uil:twitter" class="flex text-2xl secondary-color cursor-pointer" />
-      <UIcon name="uil:instagram" class="flex text-2xl secondary-color cursor-pointer" />
+      <UIcon name="uil:facebook" class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer" />
+      <UIcon name="uil:twitter" class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer" />
+      <UIcon name="uil:instagram" class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer" />
     </div>
     <p
-      class="secondary-color text-sm text-center border-t secondary-color w-full block py-16"
+      class="text-gray-500 border-gray-10 text-sm text-center border-t text-gray-500 border-gray-10 w-full block py-16"
     >
       Copyright © {{ new Date().getFullYear() }}. Todos os direitos reservados.
     </p>

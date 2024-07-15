@@ -1,12 +1,11 @@
-
 export default defineAppConfig({
   ui: {
-    primary: 'pink',
+    primary: 'blue',
     accordion: {
       wrapper: 'w-full flex flex-col mt-10',
       container: 'w-full flex flex-col border rounded-lg mb-2 p-3',
       item: {
-        base: '',
+        base: 'text-blue-950',
         size: 'text-sm',
         color: 'text-gray-500',
         padding: 'pt-1.5 pl-3',
@@ -38,7 +37,13 @@ export default defineAppConfig({
       rounded: 'rounded-full',
       default: {
         size: 'md',
-        color: 'blue'
+        color: 'blue',
+        variant: 'solid'
+      },
+      color: {
+        blue: {
+          solid: 'bg-blue-950 text-white'
+        }
       }
     },
     input: {

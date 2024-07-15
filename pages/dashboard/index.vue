@@ -5,11 +5,11 @@
         <div class="md:text-left relative flex flex-wrap items-center justify-between">
           <div>
             <h1
-              class="text-[32px] font-bold primary-color flex flex-wrap lg:justify-left"
+              class="text-[32px] font-bold text-blue-950 flex flex-wrap lg:justify-left"
             >
               Minhas conexões
             </h1>
-            <p class="text-[16px] secondary-color mt-1 font-light text-left">
+            <p class="text-[16px] text-gray-500 border-gray-10 mt-1 font-light text-left">
               Você tem <span class="font-semibold">3</span> conexões ativas
             </p>
           </div>
@@ -18,7 +18,7 @@
               @click="ModalStore.toggle"
               label="Nova conexão"
               icon="ic:baseline-whatsapp"
-              class="py-[12px] px-[20px] font-normal primary-bg"
+              class="py-[12px] px-[20px] font-normal bg-blue-950"
               block
             />
             <NuxtImg src="/multi-lines.svg" class="absolute top-[-50px] right-[-60px]" />

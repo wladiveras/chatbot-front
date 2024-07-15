@@ -2,7 +2,7 @@
   <ULandingSection id="promotion">
     <div class="mt-[50px]">
       <div class="text-center max-w-[610px] m-auto relative">
-        <h1 class="text-[32px] font-bold primary-color flex flex-wrap justify-center">
+        <h1 class="text-[32px] font-bold text-blue-950 flex flex-wrap justify-center">
           <span>Pronto para usar</span>
           <span class="highlight">
             MarinaBot?
@@ -15,14 +15,14 @@
             />
           </span>
         </h1>
-        <p class="text-[16px] secondary-color mt-7 font-light">
+        <p class="text-[16px] text-gray-500 border-gray-10 mt-7 font-light">
           Diga adeus à burocracia. Crie sua conta gratuita e veja a MarinaBot em ação
         </p>
         <div class="flex justify-center mt-10">
           <UButton
             label="Teste grátis por 30 dias"
             trailing-icon="i-heroicons-arrow-right-20-solid"
-            class="py-[12px] px-[20px] gap-[10px] md:w-auto md:mr-5 md:mb-0 font-semibold primary-bg animate__animated animate__rubberBand"
+            class="py-[12px] px-[20px] gap-[10px] md:w-auto md:mr-5 md:mb-0 font-semibold bg-blue-950 animate__animated animate__rubberBand"
             block
           />
         </div>

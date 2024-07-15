@@ -41,8 +41,8 @@ const page = reactive({
   <ULandingSection id="testimonials">
     <div class="mt-[50px]">
       <div class="text-center max-w-[610px] m-auto relative">
-        <UBadge class="text-pink-600 bg-pink-50"> Além das expectativas</UBadge>
-        <h1 class="text-[32px] font-bold primary-color flex flex-wrap justify-center">
+        <UBadge class="text-blue-950 bg-blue-50"> Além das expectativas</UBadge>
+        <h1 class="text-[32px] font-bold text-blue-950 flex flex-wrap justify-center">
           <span>O que nossos clientes dizem</span>
         </h1>
       </div>
@@ -67,7 +67,7 @@ const page = reactive({
               },
               author: {
                 wrapper: 'flex items-center gap-3 mt-6 relative',
-                name: 'font-semibold text-pink-500 text-sm',
+                name: 'font-semibold text-blue-950 text-sm',
                 description: 'text-gray-500 text-sm',
                 avatar: {
                   base: '',
