@@ -47,7 +47,9 @@ useSeoMeta({
     <UMain class="overflow-x-hidden">
       <NuxtLayout>
         <UContainer>
+
           <NuxtPage />
+
         </UContainer>
       </NuxtLayout>
     </UMain>
