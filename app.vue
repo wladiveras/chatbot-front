@@ -17,7 +17,7 @@ useHead({
   htmlAttrs: {
     lang: "pt",
   },
-})
+});
 
 useSeoMeta({
   ogImage: "https://landing-template.nuxt.dev/social-card.png",
