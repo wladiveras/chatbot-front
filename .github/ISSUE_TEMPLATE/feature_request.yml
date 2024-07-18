@@ -5,6 +5,9 @@ labels: ["enhancement", "front"]
 assignees:
 - wladiveras
 
+projects:
+  - "MarinaBot - Central"
+
 body:
   - type: markdown
     attributes:
