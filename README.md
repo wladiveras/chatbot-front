@@ -1,57 +1,96 @@
-![nuxt-ui-landing-social-card](https://github.com/nuxt-ui-pro/landing/assets/739984/d0919c96-e5f2-47e9-b460-44f87341218d)
+# Marinabot
 
-# Nuxt UI Pro - Landing template
+WhatsApp Chatbot for E-commerce
 
-This starter lets you get started with [Nuxt UI Pro](https://ui.nuxt.com/pro) quickly.
+This is a WhatsApp chatbot project that helps customers with their purchases on an e-commerce store. The chatbot uses a workflow gerated by a flow chart creator per connection. It integrates with the e-commerce store's API to provide a seamless customer experience.
 
-[![Nuxt UI Pro](https://img.shields.io/badge/Made%20with-Nuxt%20UI%20Pro-00DC82?logo=nuxt.js&labelColor=020420)](https://ui.nuxt.com/pro)
 
-- [Live demo](https://landing-template.nuxt.dev/)
-- [Play on Stackblitz](https://stackblitz.com/github/nuxt-ui-pro/landing)
-- [Documentation](https://ui.nuxt.com/pro/getting-started)
+![[marinabot]()](https://i.imgur.com/FgPbPGA.png)
+    
+  
+ 
+## Features
 
-https://github.com/nuxt-ui-pro/landing/assets/904724/c7dd64a4-a09c-4cab-9572-92a02a5e06f9
+    Responds to customer inquiries about products
+    Recommends products based on customer preferences
+    Provides product information and pricing
+    Allows customers to make purchases directly from the chatbot
+    Integrates with e-commerce store's API for seamless checkout
+    
+  
+ 
+## Technologies Used
 
-## Quick Start
+    Javascript
+    Typescript
+    Nuxt 3
+    Nuxt UI PRO
+    Supabase
+    Eslint
+    Pinia Store
+    Iconify Library
+    Zod Validation
+    Laravel Reverb websocket
+    NVM(Node Version Module)
+      
+ 
+## How it Works
 
-```bash [Terminal]
-npx nuxi init -t github:nuxt-ui-pro/landing
+    Customer initiates conversation with the chatbot on WhatsApp
+    chatbot responds to customer inquiries using EVOLUTION API
+    chatbot recommends products based on customer preferences by connection
+    Customer selects product and marinabot flow that`s provides a product url link.
+    soon Customer makes purchase directly from the chatbot
+    chatbot integrates with e-commerce store's API for seamless checkout
+    
+  
+ 
+## Setup
+
+Step to setup project in your machine.
+    
+### node setup
+
+Welcome to marinaBot, create a new branch and starting coding with us.
+
+Skip this step if you already use node 21.
+Install NVM by downloading the install script from their GitHub page. You can use curl or wget:
+
+```
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+#or
+
+wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 ```
 
-## Setup
+Now, you can install a specific version of Node.js using NVM. For example, to install Node.js 21, you would use:
+
+```bash
+nvm install 21
+```
+
+You can switch between installed Node versions with:
+
+```bash
+nvm use <version>
+```
+
+### project setup
 
 Make sure to install the dependencies:
 
 ```bash
-# npm
-npm install
-
 # pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
 ## Development Server
 
-Start the development server on `http://localhost:3000`:
+Start the development server on `http://localhost:3000`
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
@@ -59,37 +98,23 @@ bun run dev
 Build the application for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
 pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
 Locally preview production build:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
 pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Check out the [nuxt 3 documentation](https://nuxt.com/docs) and [nuxt UI](https://ui.nuxt.com/getting-started/) for more information.
 
-## Renovate integration
+## Utils Links
 
-Install [Renovate GitHub app](https://github.com/apps/renovate/installations/select_target) on your repository and you are good to go.
+[iconify icons](https://icon-sets.iconify.design/)
+[Tailwind css](https://tailwindcss.com/docs/)
+[Animate Style css](https://animate.style/)
+
+## Licence
+
+[MIT](./LICENSE)
