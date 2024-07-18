@@ -5,6 +5,8 @@ labels: ["enhancement", "front"]
 assignees:
 - wladiveras
 
+projects: ["justdocash/4"]
+
 body:
   - type: markdown
     attributes:
