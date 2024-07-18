@@ -20,7 +20,7 @@
     "@nuxthub/core": "^0.7.1",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.1",
-    "nuxt": "^3.11.2",
+    "nuxt": "^3.12.3",
     "pinia": "^2.1.7",
     "zod": "^3.23.8"
   },
