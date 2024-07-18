@@ -29,7 +29,7 @@
     "@nuxthq/studio": "^2.0.0",
     "@nuxtjs/supabase": "^1.2.2",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
-    "eslint": "^9.2.0",
+    "eslint": "^9.7.0",
     "vue-tsc": "^2.0.16",
     "wrangler": "^3.61.0"
   },
