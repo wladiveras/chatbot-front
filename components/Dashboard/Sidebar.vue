@@ -32,7 +32,7 @@ const { isExpanded } = storeToRefs(sidebarStore);
 const route = useRoute();
 
 const isActive = computed(() => {
-  return (path) => path === route.path
+  return (path) => route.path.includes(path);
 })
 </script>
 
@@ -53,19 +53,5 @@ const isActive = computed(() => {
       <UIcon :name="link.icon" class="w-5 h-5 flex-shrink-0" />
       <span v-if="isExpanded">{{ link.label }}</span>
     </UButton>
-    <!-- <UAsideLinks 
-      :links="links"
-      :ui="{
-        base: 'flex gap-10 p-4 rounded-lg font-medium',
-        active: 'bg-gray-200 text-blue-950',
-        inactive: 'text-gray-500',
-        icon: {
-          wrapper: '',
-          base: 'w-5 h-5 flex-shrink-0',
-          active: '',
-          inactive: ''
-        },
-      }" 
-    /> -->
   </aside>
 </template>
