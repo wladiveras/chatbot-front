@@ -30,6 +30,7 @@
     "@nuxtjs/supabase": "^1.2.2",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "eslint": "^9.2.0",
+    "sass": "^1.77.8",
     "vue-tsc": "^2.0.16",
     "wrangler": "^3.61.0"
   },

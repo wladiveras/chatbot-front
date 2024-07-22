@@ -1,12 +1,9 @@
 export const useModalStore = defineStore('modal', {
   state: () => ({
-    open: false
+    isOpen: false
   }),
-  getters: {
-    isOpen: (state) => state.open,
-  },
   actions: {
     toggle() {
-      this.open = !this.open;
+      this.isOpen = !this.isOpen;
     },
   }});

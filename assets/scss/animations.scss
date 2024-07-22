@@ -1,0 +1,67 @@
+/*
+ * Fade
+ */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/**
+  * Slide fade
+  */
+.slide-fade-toast-enter-active {
+  transition: all 0.3s ease-out;
+  transition-delay: 100ms;
+}
+
+.slide-fade-toast-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-toast-enter-from,
+.slide-fade-toast-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
+
+/**
+  * slide-fade-down
+  */
+.slide-fade-down-enter-active {
+  transition: all 0.3s ease-out;
+  transition-delay: 100ms;
+}
+
+.slide-fade-down-leave-active {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-down-enter-from,
+.slide-fade-down-leave-to {
+  transform: translatey(-20px);
+  opacity: 0;
+}
+
+/**
+  *  List
+  */
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 200ms ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-leave-active {
+  animation: bounce-in 200ms reverse;
+}

@@ -11,6 +11,7 @@ useSeoMeta({
 })
 
 const supabase = useSupabaseClient()
+const user = useSupabaseUser()
 const toast = useToast()
 const loading = ref(false)
 
@@ -25,9 +26,10 @@ const state = reactive({
 })
 
 const signInWithOAuth = async (provide: any) => {
-  const { error } = await supabase.auth.signInWithOAuth({
+  const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provide,
     options: {
+      redirectTo: `${window.location.origin}/flows`,
       queryParams: {
         access_type: "offline",
         prompt: "consent",
@@ -40,6 +42,8 @@ const signInWithOAuth = async (provide: any) => {
       description: error.message,
       icon: "material-symbols:error-outline",
     })
+  } else {
+    console.log(data);
   }
 }
 
@@ -70,11 +74,11 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
 
 <template>
   <UCard
-    class="max-w-[400px] w-full bg-white/75 dark:bg-white/5 backdrop-blur login-container"
+    class="max-w-[400px] w-full backdrop-blur login-container"
   >
     <span class="highlight">
       <NuxtImg
-        class="absolute top-[-80px] right-[-90px] hidden md:flex"
+        class="absolute h-14 top-[-70px] right-[-80px] hidden md:flex"
         src="/multi-lines.svg"
       />
     </span>
@@ -86,7 +90,7 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
       class="space-y-4"
       @submit="handleLogin"
     >
-      <div class="">
+      <div>
         <NuxtImg class="max-h-7 m-auto mb-10 mt-6" src="/Logo.png" />
         <h1 class="text-xl font-bold text-center text-blue-950">Seja bem vindo(a) 👋</h1>
         <p class="text-sm font-light text-gray-500 py-2 mb-4 text-center">
@@ -153,21 +157,5 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
         <span class="font-semibold cursor-pointer">Política de Privacidade.</span>
       </p>
     </UForm>
-    <span class="highlight">
-      <NuxtImg class="absolute top-[70px] right-[70px] hidden md:flex" src="/line.svg" />
-    </span>
   </UCard>
 </template>
-
-<style scoped>
-.login-container {
-  border-radius: 10px;
-  background: rgb(255, 255, 255);
-  background: linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 1) 80%,
-    rgba(236, 72, 153, 0.2) 100%
-  );
-  background-origin: content-box;
-}
-</style>
