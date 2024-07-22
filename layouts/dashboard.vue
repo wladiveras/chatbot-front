@@ -9,7 +9,7 @@
         <ULandingSection
         :ui="{
           wrapper: '',
-          container: 'gap-16 flex flex-col',
+          container: 'relative gap-16 flex flex-col',
         }"
           >
             <NuxtPage />
