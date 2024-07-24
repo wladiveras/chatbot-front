@@ -46,8 +46,8 @@ importers:
         specifier: ^0.3.10
         version: 0.3.13(eslint@9.7.0)(magicast@0.3.4)(rollup@4.18.0)(typescript@5.5.2)(vite@5.3.4(@types/node@20.14.9)(terser@5.31.1))
       '@nuxthq/studio':
-        specifier: ^2.0.0
-        version: 2.0.2(magicast@0.3.4)(rollup@4.18.0)
+        specifier: ^2.0.3
+        version: 2.0.3(magicast@0.3.4)(rollup@4.18.0)
       '@nuxtjs/supabase':
         specifier: ^1.3.5
         version: 1.3.5
@@ -1137,8 +1137,8 @@ packages:
     peerDependencies:
       vue: ^3.3.4
 
-  '@nuxthq/studio@2.0.2':
-    resolution: {integrity: sha512-+SJHwL63MgREsf64+n6n5bzr0mHfzGG0gP0Iwx2Bw2PubVI819DBrX5HnmhkEoNmI21SQYPum4p6EL9GBOx34A==}
+  '@nuxthq/studio@2.0.3':
+    resolution: {integrity: sha512-EeqtfSc7pPUuQJcLiSgHYXkNVVvejjFDIhbyFRTKJDblVvUEb9ecq1FjYEgbi1QYvuBlLUMjvwmcQuXs8wI/bQ==}
 
   '@nuxthub/core@0.7.1':
     resolution: {integrity: sha512-QYuwCD+s9uESakG9ixVwXkeb+RFJqoGreugHawzJ4wYDoXClHGv2VG4wFrDt+gPNNGmgMQof366ZwONlf8DxIg==}
@@ -6962,14 +6962,14 @@ snapshots:
       - vti
       - vue-tsc
 
-  '@nuxthq/studio@2.0.2(magicast@0.3.4)(rollup@4.18.0)':
+  '@nuxthq/studio@2.0.3(magicast@0.3.4)(rollup@4.18.0)':
     dependencies:
-      '@nuxt/kit': 3.12.2(magicast@0.3.4)(rollup@4.18.0)
+      '@nuxt/kit': 3.12.3(magicast@0.3.4)(rollup@4.18.0)
       defu: 6.1.4
       git-url-parse: 14.0.0
       nuxt-component-meta: 0.6.5(magicast@0.3.4)(rollup@4.18.0)
       parse-git-config: 3.0.0
-      pkg-types: 1.1.1
+      pkg-types: 1.1.3
       socket.io-client: 4.7.5
       ufo: 1.5.3
       untyped: 1.4.2
@@ -8003,7 +8003,7 @@ snapshots:
     dependencies:
       '@volar/language-core': 1.11.1
       '@volar/source-map': 1.11.1
-      '@vue/compiler-dom': 3.4.30
+      '@vue/compiler-dom': 3.4.32
       '@vue/shared': 3.4.32
       computeds: 0.0.1
       minimatch: 9.0.5
