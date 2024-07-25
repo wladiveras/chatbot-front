@@ -17,7 +17,7 @@ useHead({
   htmlAttrs: {
     lang: "pt",
   },
-})
+});
 
 useSeoMeta({
   ogImage: "https://landing-template.nuxt.dev/social-card.png",
@@ -47,7 +47,9 @@ useSeoMeta({
     <UMain class="overflow-x-hidden">
       <NuxtLayout>
         <UContainer>
+
           <NuxtPage />
+
         </UContainer>
       </NuxtLayout>
     </UMain>
