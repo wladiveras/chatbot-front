@@ -9,10 +9,10 @@ useHead({
     },
   ],
   script: [
-    {
-      src: "https://js.sentry-cdn.com/d7c65f2114630a042fd1ea76ae6e3bfd.min.js",
-      crossorigin: "anonymous",
-    },
+    // {
+    //   src: "https://js.sentry-cdn.com/d7c65f2114630a042fd1ea76ae6e3bfd.min.js",
+    //   crossorigin: "anonymous",
+    // },
   ],
   htmlAttrs: {
     lang: "pt",
@@ -28,7 +28,7 @@ useSeoMeta({
 
 <template>
   <div>
-    <UAlert
+    <!-- <UAlert
       icon="i-heroicons-command-line"
       description="Bem-vindo(a) ao MarinaBot! Estamos na fase BETA e estamos ansiosos para receber seu feedback. Entre em contato com o suporte para relatar bugs ou sugerir melhorias. Juntos, podemos tornar o MarinaBot ainda melhor!"
       title="MARINABOT BETA"
@@ -42,7 +42,7 @@ useSeoMeta({
         variant: 'link',
         padded: false,
       }"
-    />
+    /> -->
     <NuxtLoadingIndicator />
     <UMain class="overflow-x-hidden">
       <NuxtLayout>

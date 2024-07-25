@@ -15,15 +15,22 @@ export default defineNuxtConfig({
     "@nuxthub/core"
   ],
   css: [
-    '~/assets/css/main.css',
+    '~/assets/scss/main.scss',
   ],
   ssr: true,
   typescript: {
-    strict: false
+    strict: false,
+    tsConfig: {
+      compilerOptions: {
+        types: [
+          'types'
+        ]
+      }
+    }
   },
 
   devtools: {
-    enabled: true,
+    enabled: false,
     timeline: {
       enabled: true,
     },

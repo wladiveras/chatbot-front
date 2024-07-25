@@ -64,19 +64,19 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
 
     <template #right>
       <ULink
-        class="hidden lg:flex mx-5 text-sm font-base primary-color"
+        class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
         v-for="link in links"
         :key="link.label"
         :to="link.to"
         :active="link.active"
-        active-class="text-pink-500"
+        active-class="text-blue-950"
         inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
       >
         {{ link.label }}
       </ULink>
       <ULink
         v-if="user"
-        class="hidden lg:flex mx-5 text-sm font-base primary-color"
+        class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
         to="/dashboard"
         active-class="text-pink-500"
         inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
@@ -85,7 +85,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       </ULink>
       <ULink
         v-if="!user"
-        class="hidden lg:flex mx-5 text-sm font-base primary-color"
+        class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
         to="/login"
         active-class="text-pink-500"
         inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
@@ -96,7 +96,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       <ULink
         v-else
         @click="signOut"
-        class="hidden lg:flex mx-5 text-sm font-base primary-color"
+        class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
         active-class="text-pink-500"
         inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
       >
@@ -106,7 +106,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       <UButton
         label="Teste grátis por 30 dias"
         trailing-icon="i-heroicons-arrow-right-20-solid"
-        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold primary-bg animate__animated animate__rubberBand"
+        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold animate__animated animate__rubberBand"
       />
     </template>
 

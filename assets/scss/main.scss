@@ -1,0 +1,15 @@
+/* these are necessary styles for vue flow */
+@import '@vue-flow/core/dist/style.css';
+@import '@vue-flow/minimap/dist/style.css';
+
+/* this contains the default theme, these are optional styles */
+@import '@vue-flow/core/dist/theme-default.css';
+@import "animations.scss";
+
+.highlight {
+  display: flex;
+  position: relative;
+  max-width: 1000px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
