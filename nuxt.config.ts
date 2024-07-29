@@ -58,7 +58,13 @@ export default defineNuxtConfig({
         '/login',
         '/dashboard',
         '/order/complete',
-        '/order/checkout'
+        '/order/checkout',
+        '/connections',
+        '/connections/*',
+        '/flows',
+        '/flows/*',
+        '/plans',
+        '/settings'
       ],
       cookieRedirect: true
     },

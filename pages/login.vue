@@ -29,7 +29,6 @@ const signInWithOAuth = async (provide: any) => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provide,
     options: {
-      redirectTo: `${window.location.origin}/flows`,
       queryParams: {
         access_type: "offline",
         prompt: "consent",

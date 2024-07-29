@@ -1,11 +1,11 @@
 <script setup>
-import { VueFlow, useVueFlow } from '@vue-flow/core'
-import { MiniMap } from '@vue-flow/minimap';
+import { VueFlow, useVueFlow, Handle, Position,  Panel } from '@vue-flow/core'
 import { initialEdges, initialNodes } from '@/utils/initial-elements.js'
 
 const sidebarStore = useSidebarStore();
+const { isExpanded } = storeToRefs(sidebarStore);
 
-const { onInit, onNodeDragStop, onConnect, addEdges, setViewport, toObject } = useVueFlow()
+const { onInit, onNodeDragStop, onConnect, addEdges, setViewport, toObject, addNodes } = useVueFlow()
 
 const nodes = ref(initialNodes)
 
@@ -80,17 +80,28 @@ function toggleDarkMode() {
   dark.value = !dark.value
 }
 
-function addNewComponent() {
-  sidebarStore.toggleSize();
+function addNewStep() {
+  if (isExpanded.value) {
+    sidebarStore.toggleSize();
+  }
+  addNodes({
+    id: '4',
+    type: 'input',
+    data: { label: 'Node 4' },
+    position: { x: 400, y: 300 },
+    class: 'custom-node init',
+  })
 }
+
+onUnmounted(() => {
+  if (isExpanded.value) {
+    addNewStep();
+  }
+});
 
 definePageMeta({
   layout: "dashboard"
 });
-
-onUnmounted(() => {
-  addNewComponent();
-})
 </script>
 
 <template>
@@ -99,39 +110,20 @@ onUnmounted(() => {
       class="absolute top-0 right-0 z-50"
       icon="material-symbols:add"
       size="xl"
-      @click="addNewComponent"
+      @click="addNewStep"
     />
     <ClientOnly>
       <VueFlow
         :nodes="nodes"
         :edges="edges"
-        class="basic-flow"
         :default-viewport="{ zoom: 0.5 }"
         :min-zoom="0.5"
         :max-zoom="4"
         fit-view-on-init
       >
-        <MiniMap />
-        <!-- <MiniMap />
-
-        <Controls position="top-left">
-          <ControlButton title="Reset Transform" @click="resetTransform">
-            <UIcon name="material-symbols:add" />
-          </ControlButton>
-
-          <ControlButton title="Shuffle Node Positions" @click="updatePos">
-            <UIcon name="material-symbols:add" />
-          </ControlButton>
-
-          <ControlButton title="Toggle Dark Mode" @click="toggleDarkMode">
-            <UIcon v-if="dark" name="material-symbols:add" />
-            <UIcon v-else name="material-symbols:add" />
-          </ControlButton>
-
-          <ControlButton title="Log `toObject`" @click="logToObject">
-            <UIcon name="material-symbols:add" />
-          </ControlButton>
-        </Controls> -->
+        <template #node-input="props">
+          <Handle type="target" :position="Position.Right" />
+        </template>
       </VueFlow>
     </ClientOnly>
   </main>
