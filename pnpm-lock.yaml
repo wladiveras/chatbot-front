@@ -12,8 +12,8 @@ importers:
         specifier: ^1.1.22
         version: 1.1.22
       '@iconify-json/simple-icons':
-        specifier: ^1.1.101
-        version: 1.1.107
+        specifier: ^1.1.110
+        version: 1.1.110
       '@nuxt/content':
         specifier: ^2.13.2
         version: 2.13.2(ioredis@5.4.1)(magicast@0.3.4)(nuxt@3.12.2(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.9)(encoding@0.1.13)(eslint@9.5.0)(ioredis@5.4.1)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(sass@1.77.8)(terser@5.31.1)(typescript@5.5.2)(vite@5.3.1(@types/node@20.14.9)(sass@1.77.8)(terser@5.31.1))(vue-tsc@2.0.22(typescript@5.5.2)))(rollup@4.18.0)(vue@3.4.30(typescript@5.5.2))
@@ -817,8 +817,8 @@ packages:
   '@iconify-json/heroicons@1.1.22':
     resolution: {integrity: sha512-UNfSBdD/JBYBvFFhce6e3FsmeqshGz8u964R36npJvIzuORhIHUXrFerulBWFmbG0V1xvMqLZVZc4bPyjP5p7A==}
 
-  '@iconify-json/simple-icons@1.1.107':
-    resolution: {integrity: sha512-IEIekNX+KsA/xOjTCxgdSDe6OJ1rOpio5CJ8GgCiyFZYSkPG1FPTFJIYGT95qh+HvnLAHqtKqZT53vDfyNl8fQ==}
+  '@iconify-json/simple-icons@1.1.110':
+    resolution: {integrity: sha512-5OiKacS+FL+T8sc5o9HTRVsy4HNnLiit9WkTQ1MxKOIYBhJsO7GgsMmnJPGbvhOuWZbJURLe+/Kohk4H/Sq22w==}
 
   '@iconify/collections@1.0.435':
     resolution: {integrity: sha512-RKaHaUhFDtNRoV/IGw+0W4ygviGB2+Gxsmo+2N938pynRV9VbD/lM+lQ7BWdgoxrDZctb6BX8h5yDHTkaWqZ9g==}
@@ -6485,7 +6485,7 @@ snapshots:
     dependencies:
       '@iconify/types': 2.0.0
 
-  '@iconify-json/simple-icons@1.1.107':
+  '@iconify-json/simple-icons@1.1.110':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -7308,7 +7308,7 @@ snapshots:
       postcss-nesting: 12.1.5(postcss@8.4.38)
       tailwind-config-viewer: 2.0.4(tailwindcss@3.4.4)
       tailwindcss: 3.4.4
-      ufo: 1.5.3
+      ufo: 1.5.4
       unctx: 2.3.1
     transitivePeerDependencies:
       - magicast
@@ -9480,7 +9480,7 @@ snapshots:
       enhanced-resolve: 5.17.0
       mlly: 1.7.1
       pathe: 1.1.2
-      ufo: 1.5.3
+      ufo: 1.5.4
 
   fast-deep-equal@3.1.3: {}
 
@@ -12557,7 +12557,7 @@ snapshots:
       mime: 3.0.0
       node-fetch-native: 1.6.4
       pathe: 1.1.2
-      ufo: 1.5.3
+      ufo: 1.5.4
 
   unenv@1.9.0:
     dependencies:
