@@ -1,40 +1,39 @@
 <script lang="ts" setup>
 import { useModalStore } from "@/stores/modal"
 
-const user = useSupabaseUser();
-const ModalStore = useModalStore();
+const user = {}
+const ModalStore = useModalStore()
 
-const connectionStore = useConnectionsStore();
-const { getConnections, totalConnections } = storeToRefs(connectionStore);
+const connectionStore = useConnectionsStore()
+const { getConnections, totalConnections } = storeToRefs(connectionStore)
 
-await connectionStore.fetchConnections();
+await connectionStore.fetchConnections()
 
 useHead({
-  title: "Minhas conexões"
-});
+  title: "Minhas conexões",
+})
 
 definePageMeta({
-  layout: "dashboard"
-});
+  layout: "dashboard",
+})
 </script>
 
 <template>
   <div>
     <ULandingSection
       :ui="{
-        wrapper: 'py-5 sm:py-5'
+        wrapper: 'py-5 sm:py-5',
       }"
     >
       <!-- My Conections Header -->
       <section class="md:text-left relative flex flex-wrap items-center justify-between">
         <div>
-          <h1
-            class="text-[32px] font-bold text-blue-950 flex flex-wrap lg:justify-left"
-          >
+          <h1 class="text-[32px] font-bold text-blue-950 flex flex-wrap lg:justify-left">
             Minhas conexões
           </h1>
           <p class="text-[16px] text-gray-500 border-gray-10 mt-1 font-light text-left">
-            Você tem <span class="font-semibold">{{ totalConnections }}</span> conexões ativas
+            Você tem <span class="font-semibold">{{ totalConnections }}</span> conexões
+            ativas
           </p>
         </div>
         <UButton
@@ -50,7 +49,7 @@ definePageMeta({
           v-for="(item, index) in getConnections"
           :key="index"
           :ui="{
-            base: ''
+            base: '',
           }"
           class="cursor-pointer"
           @click="navigateTo(`/dashboard/profile/${item.id}`)"
@@ -58,16 +57,13 @@ definePageMeta({
           <section class="w-full flex justify-between gap-5">
             <!-- Logo do usuário -->
             <section class="flex flex-col items-center gap-3">
-              <UAvatar
-                :src="item.url"
-                alt="Avatar"
-                size="xl"
-              />
+              <UAvatar :src="item.url" alt="Avatar" size="xl" />
               <span
                 class="w-[2px] h-full rounded-full"
                 :class="{
                   'bg-gradient-to-b from-[#46C78B] to-white': item.status === 'Connected',
-                  'bg-gradient-to-b from-[#CD0E30] to-white': item.status === 'Disconnected'
+                  'bg-gradient-to-b from-[#CD0E30] to-white':
+                    item.status === 'Disconnected',
                 }"
               />
             </section>
@@ -80,13 +76,15 @@ definePageMeta({
                   :ui="{ rounded: 'rounded-full' }"
                   :class="{
                     'bg-[#46C78B1A] text-[#46C78B]': item.status === 'Connected',
-                    'bg-[#CD0E300D] text-[#CD0E30]': item.status === 'Disconnected'
+                    'bg-[#CD0E300D] text-[#CD0E30]': item.status === 'Disconnected',
                   }"
                 >
                   <UIcon
-                    :name="item.status === 'Connected'
-                    ? 'material-symbols:wifi'
-                    : 'material-symbols:wifi-off'"
+                    :name="
+                      item.status === 'Connected'
+                        ? 'material-symbols:wifi'
+                        : 'material-symbols:wifi-off'
+                    "
                   />
                   {{ item.status === "Connected" ? "Conectado" : "Desconectado" }}
                 </UBadge>
@@ -102,7 +100,7 @@ definePageMeta({
             </section>
           </section>
         </UCard>
-    </section>
+      </section>
     </ULandingSection>
     <DashboardModalQrCode />
   </div>

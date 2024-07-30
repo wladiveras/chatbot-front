@@ -3,8 +3,7 @@ import { MarkerType } from '@vue-flow/core'
 export const initialNodes = [
   {
     id: '1',
-    type: 'input',
-    data: { label: 'Node 1' },
+    data: { label: 'Inicio' },
     position: { x: 0, y: 0 },
     class: 'custom-node init',
   },

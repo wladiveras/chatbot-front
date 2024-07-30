@@ -2,16 +2,15 @@
 const nuxtApp = useNuxtApp()
 const { activeHeadings, updateHeadings } = useScrollspy()
 
-const supabase = useSupabaseClient()
-const user = useSupabaseUser()
 const toast = useToast()
-
+const user = false
 const signOut = async () => {
-  const { error } = await supabase.auth.signOut()
+  const error = {}
+
   if (error) {
     toast.add({
       title: "Atenção!",
-      description: error.message,
+      description: "error",
       icon: "material-symbols:error-outline",
     })
   } else {

@@ -1,20 +1,39 @@
+
+
+const runtimeConfig = useRuntimeConfig()
+const xsrfToken = useCookie("XSRF-TOKEN")
+
+console.log({
+  test: xsrfToken.value,
+})
+
 export default function () {
+
+
   async function instance<T>(
     url: string,
     method: "get" | "post" | "put" | "delete" = "get",
     config?: any,
     body: any = {},
-  ): Promise<T | any> {    
+  ): Promise<T | any> {
+
+
     const { data, status, error } = await useFetch(url, {
-      baseURL: import.meta.env.VITE_API_URL,
+      baseURL: runtimeConfig.public.apiBase,
+      credentials: "include",
       method,
       body,
       ...config,
       onRequest({ request, options }) {
         // Set the request headers
-        options.headers = options.headers || {}
-        // Todo: Adicionar token autorization.
-        // options.headers.autorization = "";
+        options.headers = {
+          "Accept": "application/json",
+          "Cache-Control": "no-cache",
+          "X-XSRF-TOKEN": xsrfToken.value, // Ensure 'token' is defined and holds the CSRF token
+          ...options?.headers,
+          // Authorization: `Bearer ${token}`, // Assuming you have a token variable
+        };
+
       },
       onRequestError({ request, options, error }) {
         // Handle the request errors
@@ -29,19 +48,19 @@ export default function () {
     });
   }
   /**
-   * 
-   * @param url 
-   * @param config 
+   *
+   * @param url
+   * @param config
    * @returns { data }
    * @example
    *  const makeRequests = useMakeRequests();
-   *  makeRequests.read("/users", { query: { param2: 'value2' } }); 
+   *  makeRequests.read("/users", { query: { param2: 'value2' } });
    */
-  async function read<T>(url: string, config?: any) {
+  async function get<T>(url: string, config?: any) {
     return await instance<T>(url, "get", config, null);
   }
 
-  async function create<T>(url: string, data?: any, config?: any) {
+  async function post<T>(url: string, data?: any, config?: any) {
     return await instance<T>(url, "post", config, data);
   }
 
@@ -54,8 +73,8 @@ export default function () {
   }
 
   return {
-    read,
-    create,
+    get,
+    post,
     update,
     remove
   }
