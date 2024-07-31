@@ -1,9 +1,13 @@
 {
   "eslint.experimental.useFlatConfig": true,
   "cSpell.words": [
+    "csrf",
     "MARINABOT",
+    "NUXT",
+    "nuxthub",
     "supabase",
-    "Supabase"
+    "Supabase",
+    "xsrf"
   ],
   "vue3snippets.enable-compile-vue-file-on-did-save-code": true
 }
