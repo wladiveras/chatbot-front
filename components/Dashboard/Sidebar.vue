@@ -37,7 +37,10 @@ const isActive = computed(() => {
 </script>
 
 <template>
-  <aside class="flex flex-col gap-4 w-max h-full px-4 py-8 border-r border-solid border-[#E5E5E5] max-w-64">
+  <aside 
+    class="flex flex-col gap-4 h-full px-4 py-8 border-r border-solid border-[#E5E5E5] max-w-64 ease-in-out transition-all"
+    :class="[isExpanded ? 'w-full' : 'w-max']"
+  >
     <UButton
       v-for="(link, index) in links"
       :key="index"

@@ -18,7 +18,6 @@ const edges = ref(initialEdges)
  * onInit is called when the VueFlow viewport is initialized
  */
 onInit((vueFlowInstance) => {
-  // instance is the same as the return of `useVueFlow`
   vueFlowInstance.fitView()
 })
 
@@ -81,9 +80,8 @@ function toggleDarkMode() {
 }
 
 function addNewStep() {
-  if (isExpanded.value) {
-    sidebarStore.toggleSize();
-  }
+  sidebarStore.toggleSize();
+
   addNodes({
     id: '4',
     type: 'input',
@@ -94,37 +92,61 @@ function addNewStep() {
 }
 
 onUnmounted(() => {
-  if (isExpanded.value) {
+  console.log(isExpanded.value);
+  if (!isExpanded.value) {
     addNewStep();
   }
 });
 
 definePageMeta({
-  layout: "dashboard"
+  layout: "flows"
 });
 </script>
 
 <template>
-  <main class="relative w-full h-full">
-    <UButton 
-      class="absolute top-0 right-0 z-50"
-      icon="material-symbols:add"
-      size="xl"
-      @click="addNewStep"
-    />
-    <ClientOnly>
-      <VueFlow
-        :nodes="nodes"
-        :edges="edges"
-        :default-viewport="{ zoom: 0.5 }"
-        :min-zoom="0.5"
-        :max-zoom="4"
-        fit-view-on-init
-      >
-        <template #node-input="props">
-          <Handle type="target" :position="Position.Right" />
-        </template>
-      </VueFlow>
-    </ClientOnly>
+  <main class="flex gap-5 w-full h-full">
+    <aside v-if="!isExpanded" class="w-full max-w-72 h-full border-r border-[#E5E5E5]">
+      <header class="border-b border-[#E5E5E5] p-5 flex items-center justify-between text-gray-500 font-semibold text-base">
+        <section class="flex items-center gap-4">
+          <UIcon 
+            name="material-symbols:inventory-2-outline"
+            class="size-5"
+          />
+          <p>Conteúdo</p>
+        </section>
+        <UIcon
+          class="size-6 cursor-pointer"
+          name="material-symbols:close"
+          @click="sidebarStore.toggleSize()"
+        />
+      </header>
+      <FlowsOptions />
+    </aside>
+    <section class="relative w-full h-full p-5">
+      <UButton
+        class="absolute right-5 z-50"
+        icon="material-symbols:add"
+        size="xl"
+        @click="addNewStep"
+      />
+      <ClientOnly>
+        <VueFlow
+          :nodes="nodes"
+          :edges="edges"
+          :default-viewport="{ zoom: 2.0 }"
+          :min-zoom="0.5"
+          :max-zoom="3"
+          fit-view-on-init
+        >
+          <template #node-init="props">
+            <NodeInit :node="props" />
+          </template>
+
+          <template #node-content="props">
+            <NodeContent :node="props" />
+          </template>
+        </VueFlow>
+      </ClientOnly>
+    </section>
   </main>
 </template>
