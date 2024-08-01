@@ -22,7 +22,6 @@ export default function () {
         }
         
         if (!!token) headers['Authorization'] = `Bearer ${token}`
-        console.log(headers);
         
         options.headers = headers;
       },
