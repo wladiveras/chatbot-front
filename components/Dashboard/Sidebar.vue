@@ -15,11 +15,11 @@ const links = [
   //   to: '/new-connection',
   //   icon: "material-symbols:add-rounded"
   // },
-  {
-    label: "Configurações",
-    to: '/settings',
-    icon: "material-symbols:settings-outline-rounded"
-  },
+  // {
+  //   label: "Configurações",
+  //   to: '/settings',
+  //   icon: "material-symbols:settings-outline-rounded"
+  // },
   {
     label: "Planos",
     to: '/plans',

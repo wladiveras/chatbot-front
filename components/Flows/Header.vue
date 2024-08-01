@@ -15,14 +15,14 @@ const headerStore = useHeaderStore();
     >
     <template #actions>
       <section class="flex items-center gap-5">
-        <UButton
+        <!-- <UButton
           icon="mdi:cellphone-iphone"
           label="Visualização"
           class="bg-gray-100 text-blue-950"
-        />
+        /> -->
         <UButton
           icon="streamline:interface-content-fire-lit-flame-torch-trending"
-          label="Compartilhar fluxo"
+          label="Salvar fluxo"
         />
       </section>
     </template>
