@@ -19,6 +19,5 @@ defineProps({
       <UIcon name="material-symbols:inventory-2-outline"/>
       <p>Conteúdo</p>
     </section>
-    <p class="text-gray-500 font-normal text-sm">O Fluxo começa neste bloco. Conecte-o com outro bloco de conteúdo</p>
   </section>
 </template>

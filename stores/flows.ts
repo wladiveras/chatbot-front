@@ -7,7 +7,8 @@ export const useFlowsStore = defineStore('flows', {
   state: () => ({
     flows: [],
     nodes: [],
-    edges: []
+    edges: [],
+    selectedNode: {}
   }),
   getters: {
     getFlows: (state) => state.flows,
@@ -16,6 +17,10 @@ export const useFlowsStore = defineStore('flows', {
     getEdges: (state) => state.edges
   },
   actions: {
+    setSelectedNode(node) {
+      this.selectedNode = node;
+    },
+
     async fetchFlows() {
       if (TESTING) {
         this.flows = FLOWS;
