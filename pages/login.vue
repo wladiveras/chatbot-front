@@ -12,6 +12,7 @@ useSeoMeta({
 
 const toast = useToast()
 const loading = ref(false)
+const authStore = useAuthStore();
 
 const schema = z.object({
   email: z.string().email("Informe um email válido."),
@@ -36,27 +37,26 @@ const signInWithOAuth = async (provide: any) => {
 }
 
 const handleLogin = async (event: FormSubmitEvent<Schema>) => {
-  try {
-    loading.value = true
-    const error = false
-
-    if (error) throw error
-
+  loading.value = true;
+  authStore.signIn(state.email)
+  .then(() => {
     toast.add({
       title: "Atenção!",
       description:
         "Verifique seu email, foi enviado um link mágico para acessar o sistema.",
       icon: "i-heroicons-check-badge",
     })
-  } catch (error) {
+  })
+  .catch((error) => {
     toast.add({
       title: "Atenção!",
       description: error.error_description || error.message,
       icon: "material-symbols:error-outline",
     })
-  } finally {
+  })
+  .finally(() => {
     loading.value = false
-  }
+  })
 }
 </script>
 
@@ -130,7 +130,6 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
 
       <UButton
         @click="handleLogin"
-        type="button"
         class="w-full flex text-center py-[15px] px-[25px] bg-blue-950"
         :loading="loading"
         block

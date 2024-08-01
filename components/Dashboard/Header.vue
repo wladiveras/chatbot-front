@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const headerStore = useHeaderStore();
+const authStore = useAuthStore();
+const { userName, userAvatar } = storeToRefs(authStore);
 </script>
 
 <template>
@@ -14,9 +15,10 @@ const headerStore = useHeaderStore();
           <UIcon class="text-2xl" name="material-symbols:person-outline" />
           17 de 50 leads utilizados
         </UBadge>
-        <UAvatar 
-          alt="Marina Bot"
+        <UAvatar
+          :alt="userName"
           size="lg"
+          :src="userAvatar"
         />
       </section>
     </slot>

@@ -1,4 +1,8 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const authStore = useAuthStore();
+
+authStore.init();
+</script>
 
 <template>
   <main class="flex flex-col w-full h-screen box-border">

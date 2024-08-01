@@ -1,22 +1,11 @@
-
-
-const runtimeConfig = useRuntimeConfig()
-const xsrfToken = useCookie("XSRF-TOKEN")
-
-console.log({
-  test: xsrfToken.value,
-})
-
 export default function () {
-
-
   async function instance<T>(
     url: string,
     method: "get" | "post" | "put" | "delete" = "get",
     config?: any,
     body: any = {},
   ): Promise<T | any> {
-
+    const runtimeConfig = useRuntimeConfig()
 
     const { data, status, error } = await useFetch(url, {
       baseURL: runtimeConfig.public.apiBase,
@@ -25,37 +14,36 @@ export default function () {
       body,
       ...config,
       onRequest({ request, options }) {
-        // Set the request headers
-        options.headers = {
+        const token = localStorage.getItem('access_token');
+        const headers = {
           "Accept": "application/json",
           "Cache-Control": "no-cache",
-          "X-XSRF-TOKEN": xsrfToken.value, // Ensure 'token' is defined and holds the CSRF token
           ...options?.headers,
-          // Authorization: `Bearer ${token}`, // Assuming you have a token variable
-        };
-
+        }
+        
+        if (!!token) headers['Authorization'] = `Bearer ${token}`
+        console.log(headers);
+        
+        options.headers = headers;
       },
       onRequestError({ request, options, error }) {
         // Handle the request errors
       },
       onResponse({ request, response, options }) {
-        // Process the response data
-        // localStorage.setItem('access_token', response._data.token)
+        const isMagicLinkRequest = request.toString().includes("/auth/magic-link");
+        if (isMagicLinkRequest) {
+          localStorage.setItem('token', response._data.data.service.payload || "");
+        }
       },
       onResponseError({ request, response, options }) {
         // Handle the response errors
       }
     });
+
+    if (status.value === "error") throw error.value;
+    return data.value;
   }
-  /**
-   *
-   * @param url
-   * @param config
-   * @returns { data }
-   * @example
-   *  const makeRequests = useMakeRequests();
-   *  makeRequests.read("/users", { query: { param2: 'value2' } });
-   */
+
   async function get<T>(url: string, config?: any) {
     return await instance<T>(url, "get", config, null);
   }
