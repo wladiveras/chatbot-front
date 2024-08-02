@@ -10,10 +10,9 @@ useSeoMeta({
   title: "Marina Bot - Entrar no sistema",
 })
 
-const supabase = useSupabaseClient()
-const user = useSupabaseUser()
 const toast = useToast()
 const loading = ref(false)
+const authStore = useAuthStore();
 
 const schema = z.object({
   email: z.string().email("Informe um email válido."),
@@ -26,56 +25,43 @@ const state = reactive({
 })
 
 const signInWithOAuth = async (provide: any) => {
-  const { data, error } = await supabase.auth.signInWithOAuth({
-    provider: provide,
-    options: {
-      redirectTo: `${window.location.origin}/flows`,
-      queryParams: {
-        access_type: "offline",
-        prompt: "consent",
-      },
-    },
-  })
+  const error = false
   if (error) {
     toast.add({
       title: "Atenção!",
-      description: error.message,
+      description: "x",
       icon: "material-symbols:error-outline",
     })
   } else {
-    console.log(data);
   }
 }
 
 const handleLogin = async (event: FormSubmitEvent<Schema>) => {
-  try {
-    loading.value = true
-    const { error } = await supabase.auth.signInWithOtp({ email: state.email })
-
-    if (error) throw error
-
+  loading.value = true;
+  authStore.signIn(state.email)
+  .then(() => {
     toast.add({
       title: "Atenção!",
       description:
         "Verifique seu email, foi enviado um link mágico para acessar o sistema.",
       icon: "i-heroicons-check-badge",
     })
-  } catch (error) {
+  })
+  .catch((error) => {
     toast.add({
       title: "Atenção!",
       description: error.error_description || error.message,
       icon: "material-symbols:error-outline",
     })
-  } finally {
+  })
+  .finally(() => {
     loading.value = false
-  }
+  })
 }
 </script>
 
 <template>
-  <UCard
-    class="max-w-[400px] w-full backdrop-blur login-container"
-  >
+  <UCard class="max-w-[400px] w-full backdrop-blur login-container">
     <span class="highlight">
       <NuxtImg
         class="absolute h-14 top-[-70px] right-[-80px] hidden md:flex"
@@ -144,7 +130,6 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
 
       <UButton
         @click="handleLogin"
-        type="button"
         class="w-full flex text-center py-[15px] px-[25px] bg-blue-950"
         :loading="loading"
         block

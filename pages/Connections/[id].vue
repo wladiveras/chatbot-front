@@ -66,7 +66,7 @@ useHead({
   <main class="grid grid-cols-2 gap-y-5 gap-x-10 w-full gap-10">
     <header class="relative col-span-2 flex items-center justify-start gap-10">
       <UButton
-        class="bg-gray-200 text-gray-500 absolute left-[-50px]"
+        class="bg-gray-200 text-gray-500"
         icon="material-symbols:arrow-back-rounded"
         size="lg"
         @click.prevent="navigateTo('/connections')"

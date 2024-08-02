@@ -1,20 +1,21 @@
-<script setup>
-const flowsStore = useFlowsStore();
-const { getFlows, totalFlows } = storeToRefs(flowsStore);
+<script lang="ts" setup>
+const { $formatDate } = useNuxtApp()
+const flowsStore = useFlowsStore()
+const { getFlows, totalFlows } = storeToRefs(flowsStore)
 
 const description = computed(() => {
-  return `${totalFlows.value} conexões realizadas`;
-});
+  return `${totalFlows.value} conexões realizadas`
+})
 
-await flowsStore.fetchFlows();
+await flowsStore.fetchFlows()
 
 definePageMeta({
-  layout: "dashboard"
-});
+  layout: "dashboard",
+})
 
 useHead({
-  title: "Fluxos de conversa"
-});
+  title: "Fluxos de conversa",
+})
 </script>
 
 <template>
@@ -22,19 +23,23 @@ useHead({
     <template #actions>
       <section class="flex gap-5">
         <UButton class="px-8 py-3" label="Importar fluxo" variant="outline" />
-        <UButton class="px-8 py-3" label="Criar fluxo" @click="navigateTo('/flows/new')" />
+        <UButton
+          class="px-8 py-3"
+          label="Criar fluxo"
+          @click="navigateTo('/flows/new')"
+        />
       </section>
     </template>
   </CustomHeader>
   <section class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-    <UCard 
+    <UCard
       class="cursor-pointer"
-      v-for="(item, index) in getFlows" 
-      :key="index" 
+      v-for="(item, index) in getFlows"
+      :key="index"
       :ui="{
         body: {
-          base: 'flex flex-col gap-6'
-        }
+          base: 'flex flex-col gap-6',
+        },
       }"
       @click="navigateTo(`/flows/${item.id}`)"
     >
@@ -58,18 +63,20 @@ useHead({
           class="gap-3 text-sm font-semibold px-4 py-2"
           :ui="{ rounded: 'rounded-full' }"
           :class="{
-            'bg-[#46C78B1A] text-[#46C78B]': item.isActive,
-            'bg-[#CD0E300D] text-[#CD0E30]': !item.isActive
+            'bg-[#46C78B1A] text-[#46C78B]': item.is_active,
+            'bg-[#CD0E300D] text-[#CD0E30]': !item.is_active,
           }"
         >
           <UIcon
-            :name="item.isActive
-            ? 'material-symbols:flash-on'
-            : 'material-symbols:flash-off'"
+            :name="
+              item.is_active ? 'material-symbols:flash-on' : 'material-symbols:flash-off'
+            "
           />
-          {{ item.isActive ? "Ativo" : "Inativo" }}
+          {{ item.is_active ? "Ativo" : "Inativo" }}
         </UBadge>
-        <p class="text-gray-500 text-xs font-normal">Modificado em 17/07/24 às 12:24</p>
+        <p class="text-gray-500 text-xs font-normal">
+          Modificado em {{ $formatDate(item.updated_at) }}
+        </p>
       </section>
     </UCard>
   </section>

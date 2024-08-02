@@ -1,0 +1,30 @@
+.vue-flow__node-custom {
+  background: purple;
+  color: white;
+  border: 1px solid purple;
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px purple;
+  padding: 8px;
+}
+
+.custom-node {
+  background: #ECEEF2;
+  color: #64748B;
+  border: none;
+  border-radius: 10px;
+  padding: 20px;
+  outline: none;
+  width: fit-content;
+
+  &:hover {
+    box-shadow: none;
+  }
+
+  &.init {
+    background: #2DAD721A;
+  }
+
+  &.content {
+    background: #ECEEF2;
+  }
+}

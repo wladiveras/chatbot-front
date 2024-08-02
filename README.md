@@ -25,7 +25,6 @@ This is a WhatsApp chatbot project that helps customers with their purchases on 
     Typescript
     Nuxt 3
     Nuxt UI PRO
-    Supabase
     Eslint
     Pinia Store
     Iconify Library

@@ -2,7 +2,9 @@
 <template>
   <ULandingSection>
     <div>
-      <div class="text-center max-w-[804px] m-auto relative border-b text-gray-500 border-gray-10">
+      <div
+        class="text-center max-w-[804px] m-auto relative border-b text-gray-500 border-gray-10"
+      >
         <h1 class="text-[48px] font-bold text-blue-950 flex flex-wrap justify-center">
           <span>Revolucione suas vendas</span>
           <span class="highlight">
@@ -24,7 +26,9 @@
           </span>
         </h1>
 
-        <p class="text-gray-500 border-gray-10 mt-7 font-light animate__animated animate__jello">
+        <p
+          class="text-gray-500 border-gray-10 mt-7 font-light animate__animated animate__jello"
+        >
           Aumente de maneira significante suas vendas, automatize respostas para
           economizar tempo e conquiste seus contatos com facilidade!
         </p>
