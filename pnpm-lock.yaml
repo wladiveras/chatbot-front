@@ -33,11 +33,11 @@ importers:
         specifier: ^0.5.1
         version: 0.5.1(magicast@0.3.4)(rollup@4.18.0)(typescript@5.5.2)(vue@3.4.30(typescript@5.5.2))
       '@vue-flow/core':
-        specifier: ^1.39.0
-        version: 1.39.0(vue@3.4.30(typescript@5.5.2))
+        specifier: ^1.39.1
+        version: 1.39.1(vue@3.4.30(typescript@5.5.2))
       '@vue-flow/minimap':
         specifier: ^1.5.0
-        version: 1.5.0(@vue-flow/core@1.39.0(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2))
+        version: 1.5.0(@vue-flow/core@1.39.1(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2))
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -1715,8 +1715,8 @@ packages:
   '@volar/typescript@2.3.4':
     resolution: {integrity: sha512-acCvt7dZECyKcvO5geNybmrqOsu9u8n5XP1rfiYsOLYGPxvHRav9BVmEdRyZ3vvY6mNyQ1wLL5Hday4IShe17w==}
 
-  '@vue-flow/core@1.39.0':
-    resolution: {integrity: sha512-QBcKFrLV5a6f+DmTALQQtNRKKF7q6HRd2KOVx0ygoHOUK0vwcawoOPd3KNpKVDOVjbf/D/L9zM5hrqruW6JjmQ==}
+  '@vue-flow/core@1.39.1':
+    resolution: {integrity: sha512-pw8DqYXfT75+b0isVny/pCrYn6S+or4wJs9iE883ZLhle5UMesl3/R/sI12FjnmqAprccaVqG52nXpwIULgCGw==}
     peerDependencies:
       vue: ^3.3.0
 
@@ -7905,7 +7905,7 @@ snapshots:
       path-browserify: 1.0.1
       vscode-uri: 3.0.8
 
-  '@vue-flow/core@1.39.0(vue@3.4.30(typescript@5.5.2))':
+  '@vue-flow/core@1.39.1(vue@3.4.30(typescript@5.5.2))':
     dependencies:
       '@vueuse/core': 10.11.0(vue@3.4.30(typescript@5.5.2))
       d3-drag: 3.0.0
@@ -7915,9 +7915,9 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
-  '@vue-flow/minimap@1.5.0(@vue-flow/core@1.39.0(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2))':
+  '@vue-flow/minimap@1.5.0(@vue-flow/core@1.39.1(vue@3.4.30(typescript@5.5.2)))(vue@3.4.30(typescript@5.5.2))':
     dependencies:
-      '@vue-flow/core': 1.39.0(vue@3.4.30(typescript@5.5.2))
+      '@vue-flow/core': 1.39.1(vue@3.4.30(typescript@5.5.2))
       d3-selection: 3.0.0
       d3-zoom: 3.0.0
       vue: 3.4.30(typescript@5.5.2)
