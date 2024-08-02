@@ -6,8 +6,10 @@
     "Nuxt",
     "NUXT",
     "nuxthub",
+    "qrcode",
     "supabase",
     "Supabase",
+    "whatsapp",
     "xsrf"
   ],
   "vue3snippets.enable-compile-vue-file-on-did-save-code": true

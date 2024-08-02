@@ -1,11 +1,12 @@
-import { defineStore } from 'pinia'
-import { CONNECTION } from "@/__mocks__/connections"
+import { defineStore } from "pinia";
 
-const TESTING = true;
+const makeRequests = useMakeRequests();
 
-export const useConnectionsStore = defineStore('connections', {
+export const useConnectionsStore = defineStore("connections", {
   state: () => ({
-    connections: []
+    connections: [],
+    connection: [],
+    qrCode: null,
   }),
   getters: {
     getConnections: (state) => state.connections,
@@ -13,9 +14,27 @@ export const useConnectionsStore = defineStore('connections', {
   },
   actions: {
     async fetchConnections() {
-      if (TESTING) {
-        this.connections = CONNECTION;
-      }
-    }
-  }
+      await makeRequests
+        .get("/connections")
+        .then((res) => {
+          this.connections = res.data.service.payload;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {});
+    },
+
+    async createConnection($data: any) {
+      await makeRequests
+        .post("/integration/whatsapp/create-connection", $data)
+        .then((res) => {
+          this.qrCode = res.data.service.payload.qrcode?.base64;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {});
+    },
+  },
 });

@@ -6,8 +6,8 @@ const makeRequests = useMakeRequests();
 export const useFlowsStore = defineStore("flows", {
   state: () => ({
     flows: [],
-    nodes: [],
-    edges: [],
+    //nodes: [],
+    //edges: [],
     selectedNode: {},
 
     //Exemplo de substituição pro storage funcionar com os dados do backend - tudo vem dentro do payload, recomendo puxar o node o edge idividualmente
@@ -20,8 +20,9 @@ export const useFlowsStore = defineStore("flows", {
   getters: {
     getFlows: (state) => state.flows,
     totalFlows: (state) => state.flows.length,
-    getNodes: (state) => state.nodes,
-    getEdges: (state) => state.edges,
+    getNode: (state) => state.node,
+    getEdge: (state) => state.edge,
+    getCommand: (state) => state.edge,
     flowName: (state) => state.flow.name || "Novo fluxo",
     flowDescription: (state) => state.flow.description || "Descrição do fluxo",
     isModifying: (state) => state.modifying,
