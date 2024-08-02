@@ -1,14 +1,17 @@
 <script setup lang="ts">
 const route = useRoute()
-const authStore = useAuthStore();
+const authStore = useAuthStore()
 
-await authStore.validateCode(route?.params?.code || "");
+const code = route?.params?.code
+const codeString = Array.isArray(code) ? code[0] : code
+
+await authStore.validateCode(codeString || "")
 
 definePageMeta({
-  layout: 'auth'
+  layout: "auth",
 })
 </script>
 
 <template>
-  <div>Aguardando conexão...</div>
+  <div>Aguardando autenticar a conexão...</div>
 </template>

@@ -1,25 +1,17 @@
 <script setup lang="ts">
 const nuxtApp = useNuxtApp()
+const authStore = useAuthStore()
+const { isAuthenticated, user } = storeToRefs(authStore)
 const { activeHeadings, updateHeadings } = useScrollspy()
 
 const toast = useToast()
-const user = false
-const signOut = async () => {
-  const error = {}
 
-  if (error) {
-    toast.add({
-      title: "Atenção!",
-      description: "error",
-      icon: "material-symbols:error-outline",
-    })
-  } else {
-    toast.add({
-      title: "Atenção!",
-      description: "Desconectado da sua cessão com sucesso.",
-      icon: "i-heroicons-check-badge",
-    })
-  }
+const signOut = async () => {
+  toast.add({
+    title: "Atenção!",
+    description: "Desconectado da sua cessão com sucesso.",
+    icon: "i-heroicons-check-badge",
+  })
 }
 const links = computed(() => [
   {
@@ -73,17 +65,9 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       >
         {{ link.label }}
       </ULink>
+
       <ULink
-        v-if="user"
-        class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
-        to="/dashboard"
-        active-class="text-pink-500"
-        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
-      >
-        Dashboard
-      </ULink>
-      <ULink
-        v-if="!user"
+        v-if="!isAuthenticated"
         class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
         to="/login"
         active-class="text-pink-500"
@@ -101,10 +85,19 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       >
         Sair
       </ULink>
-
       <UButton
+        v-if="!isAuthenticated"
+        to="/login"
         label="Teste grátis por 30 dias"
         trailing-icon="i-heroicons-arrow-right-20-solid"
+        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold animate__animated animate__rubberBand"
+      />
+
+      <UButton
+        v-if="isAuthenticated"
+        to="/connections"
+        label="Painel de Controle"
+        trailing-icon="material-symbols:dashboard-outline"
         class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold animate__animated animate__rubberBand"
       />
     </template>
@@ -113,7 +106,13 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       <UAsideLinks :links="links" />
 
       <UDivider class="my-6" />
-      <UButton label="Teste 30 dias gratis" block />
+      <UButton
+        v-if="isAuthenticated"
+        to="/connections"
+        label="Painel de Controle"
+        block
+      />
+      <UButton v-else to="/login" label="Teste 30 dias gratis" block />
     </template>
   </UHeader>
 </template>

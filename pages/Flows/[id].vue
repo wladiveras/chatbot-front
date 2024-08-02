@@ -1,15 +1,25 @@
 <script setup>
-import { VueFlow, useVueFlow } from '@vue-flow/core'
-import { initialEdges, initialNodes } from '@/utils/initial-elements.js'
+import { VueFlow, useVueFlow } from "@vue-flow/core"
+import { initialEdges, initialNodes } from "@/utils/initial-elements.js"
 
-const sidebarStore = useSidebarStore();
-const flowsStore = useFlowsStore();
-const { isExpanded } = storeToRefs(sidebarStore);
+const route = useRoute()
+const sidebarStore = useSidebarStore()
+const flowsStore = useFlowsStore()
+const { isExpanded } = storeToRefs(sidebarStore)
+const { flow, edge, node } = storeToRefs(flowsStore)
 
-const { onInit, onNodeDragStop, onConnect, addEdges, addNodes, onNodeClick, setCenter } = useVueFlow()
+await flowsStore.fetchFlow(route.params?.id)
 
+const {
+  onInit,
+  onNodeDragStop,
+  onConnect,
+  addEdges,
+  addNodes,
+  onNodeClick,
+  setCenter,
+} = useVueFlow()
 const nodes = ref(initialNodes)
-
 const edges = ref(initialEdges)
 
 onInit((vueFlowInstance) => {
@@ -17,7 +27,7 @@ onInit((vueFlowInstance) => {
 })
 
 onNodeDragStop(({ event, nodes, node }) => {
-  console.log('Node Drag Stop', { event, nodes, node })
+  console.log("Node Drag Stop", { event, nodes, node })
 })
 
 onConnect((connection) => {
@@ -26,46 +36,43 @@ onConnect((connection) => {
 
 onNodeClick(({ node }) => {
   if (node.type !== "init") {
-    if (isExpanded.value) sidebarStore.toggleSize();
-    flowsStore.setSelectedNode(node);
-    setCenter(node.position.x, node.position.y, { duration: 200, zoom: 1 });
+    if (isExpanded.value) sidebarStore.toggleSize()
+    flowsStore.setSelectedNode(node)
+    setCenter(node.position.x, node.position.y, { duration: 200, zoom: 1 })
   }
 })
 
-
 function addNewStep() {
-  sidebarStore.toggleSize();
+  sidebarStore.toggleSize()
 
   addNodes({
-    id: '4',
-    type: 'input',
-    data: { label: 'Node 4' },
+    id: "4",
+    data: { label: "Node 4" },
     position: { x: 400, y: 300 },
-    class: 'custom-node init',
+    class: "custom-node init",
   })
 }
 
 onUnmounted(() => {
-  console.log(isExpanded.value);
+  console.log(isExpanded.value)
   if (!isExpanded.value) {
-    addNewStep();
+    addNewStep()
   }
-});
+})
 
 definePageMeta({
-  layout: "flows"
-});
+  layout: "flows",
+})
 </script>
 
 <template>
   <main class="flex gap-5 w-full h-full">
     <aside v-if="!isExpanded" class="w-full max-w-72 h-full border-r border-[#E5E5E5]">
-      <header class="border-b border-[#E5E5E5] p-5 flex items-center justify-between text-gray-500 font-semibold text-base">
+      <header
+        class="border-b border-[#E5E5E5] p-5 flex items-center justify-between text-gray-500 font-semibold text-base"
+      >
         <section class="flex items-center gap-4">
-          <UIcon 
-            name="material-symbols:inventory-2-outline"
-            class="size-5"
-          />
+          <UIcon name="material-symbols:inventory-2-outline" class="size-5" />
           <p>Conteúdo</p>
         </section>
         <UIcon

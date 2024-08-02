@@ -1,4 +1,7 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const flowsStore = useFlowsStore()
+const { flow, edge, node } = storeToRefs(flowsStore)
+</script>
 
 <template>
   <main class="flex flex-col w-full h-screen box-border">
