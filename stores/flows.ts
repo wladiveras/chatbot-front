@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { IStateAuth } from "@/types";
 
 const makeRequests = useMakeRequests();
 
