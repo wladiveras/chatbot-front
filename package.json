@@ -29,6 +29,9 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.3.10",
+    "@sentry/node": "^8.22.0",
+    "@sentry/profiling-node": "^8.22.0",
+    "@sentry/vue": "^8.22.0",
     "eslint": "^9.2.0",
     "sass": "^1.77.8",
     "vue-tsc": "^2.0.16",
