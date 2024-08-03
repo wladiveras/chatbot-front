@@ -3,29 +3,29 @@ const items = [
   {
     label: "Este é um serviço seguro?",
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting.",
+      "Sim, a segurança dos seus dados é nossa prioridade. A Marina Bot utiliza criptografia de ponta a ponta para proteger suas conversas e informações pessoais. Além disso, somos totalmente compatíveis com as leis de proteção de dados, garantindo a privacidade e a segurança dos seus clientes.",
 
     defaultOpen: true,
   },
   {
     label: "Como posso cancelar minha assinatura?",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.",
+      "Cancelar sua assinatura na Marina Bot é simples e rápido. Basta acessar sua conta, ir para a seção de configurações e clicar em Cancelar Assinatura. Você pode cancelar a qualquer momento e não haverá cobranças após o período do plano atual.",
   },
   {
     label: "Como funciona o teste gratuito?",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.",
+      "Oferecemos um período de teste gratuito para que você possa experimentar todos os recursos da Marina Bot sem compromisso. Durante o período de teste, você terá acesso completo à plataforma e poderá criar suas primeiras automações. Ao final do período, você poderá escolher um dos nossos planos pagos ou cancelar sua assinatura sem nenhum custo adicional.",
   },
   {
     label: "Posso mudar de plano mais tarde?",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.",
+      "Sim, você pode mudar de plano a qualquer momento. Se precisar de mais recursos, basta acessar sua conta e escolher o plano que melhor atende às suas necessidades. A alteração do plano será aplicada a partir do próximo ciclo de cobrança.",
   },
   {
     label: "Vocês oferecem reembolsos?",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.",
+      "Oferecemos reembolso dentro dos primeiros 7 dias após a contratação do plano, caso você não esteja satisfeito com a ferramenta. Para solicitar o reembolso, entre em contato com nossa equipe de suporte.",
   },
 ]
 </script>

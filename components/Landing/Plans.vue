@@ -27,7 +27,12 @@
               discount="00,00"
               cycle="/mês"
               :badge="{ label: 'Grátis' }"
-              :button="{ label: 'Contratar Plano', color: 'gray', text: 'blue' }"
+              :button="{
+                label: 'Contratar Plano',
+                color: 'gray',
+                text: 'blue',
+                to: '/login',
+              }"
               orientation="vertical"
               align="bottom"
               :features="[
@@ -44,7 +49,7 @@
               cycle="/mês"
               highlight
               :badge="{ label: 'Premium' }"
-              :button="{ label: 'Contratar Plano' }"
+              :button="{ label: 'Contratar Plano', to: '/login' }"
               orientation="vertical"
               align="bottom"
               :features="[
@@ -58,7 +63,12 @@
             <UPricingCard
               price="Personalizado"
               :badge="{ label: 'Enterprise' }"
-              :button="{ label: 'Entrar em Contato', color: 'gray', text: 'blue' }"
+              :button="{
+                label: 'Entrar em Contato',
+                color: 'gray',
+                text: 'blue',
+                to: '/login',
+              }"
               orientation="vertical"
               align="bottom"
               :features="['Todos os recursos', 'White Label', 'Suporte Exclusivo']"
