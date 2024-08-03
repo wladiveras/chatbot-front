@@ -1,33 +1,33 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  extends: ['@nuxt/ui-pro'],
+  extends: ["@nuxt/ui-pro"],
   modules: [
-    '@nuxt/content',
-    '@nuxt/eslint',
-    '@nuxt/ui',
-    '@pinia/nuxt',
-    '@nuxt/image',
+    "@nuxt/content",
+    "@nuxt/eslint",
+    "@nuxt/ui",
+    "@pinia/nuxt",
+    "@nuxt/image",
     "@nuxtjs/google-fonts",
-    "@nuxthub/core"
+    "@nuxthub/core",
   ],
-  css: [
-    '~/assets/scss/main.scss',
-  ],
+  css: ["~/assets/scss/main.scss"],
   ssr: false,
   runtimeConfig: {
     public: {
-      apiBase:  process.env.API_BASE_URL,
-    }
+      apiBase: process.env.API_BASE_URL,
+      sentry: {
+        dsn: process.env.SENTRY_DSN,
+        environment: process.env.SENTRY_ENV,
+      },
+    },
   },
   typescript: {
     strict: false,
     tsConfig: {
       compilerOptions: {
-        types: [
-          'types'
-        ]
-      }
-    }
+        types: ["types"],
+      },
+    },
   },
 
   devtools: {
@@ -37,7 +37,7 @@ export default defineNuxtConfig({
     },
   },
   colorMode: {
-    preference: 'light'
+    preference: "light",
   },
   googleFonts: {
     display: "swap",
@@ -47,14 +47,14 @@ export default defineNuxtConfig({
     inject: true,
     families: {
       Sora: [100, 200, 300, 400, 500, 600, 700, 800],
-    }
+    },
   },
   eslint: {
     config: {
       stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
+        commaDangle: "never",
+        braceStyle: "1tbs",
+      },
+    },
   },
-})
+});
