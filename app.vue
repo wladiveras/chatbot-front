@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig()
+
 useHead({
   meta: [{ name: "viewport", content: "width=device-width, initial-scale=1" }],
   link: [
@@ -8,16 +10,26 @@ useHead({
       href: "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css",
     },
   ],
-  script: [
-    // {
-    //   src: "https://js.sentry-cdn.com/d7c65f2114630a042fd1ea76ae6e3bfd.min.js",
-    //   crossorigin: "anonymous",
-    // },
-  ],
+
   htmlAttrs: {
     lang: "pt",
   },
-});
+})
+
+if (
+  import.meta.client &&
+  process.env.NODE_ENV === "production" &&
+  runtimeConfig.public.sentry.dsn
+) {
+  useHead({
+    script: [
+      {
+        src: runtimeConfig.public.sentry.dsn,
+        crossorigin: "anonymous",
+      },
+    ],
+  })
+}
 
 useSeoMeta({
   ogImage: "https://landing-template.nuxt.dev/social-card.png",
@@ -47,9 +59,7 @@ useSeoMeta({
     <UMain class="overflow-x-hidden">
       <NuxtLayout>
         <UContainer>
-
           <NuxtPage />
-
         </UContainer>
       </NuxtLayout>
     </UMain>
