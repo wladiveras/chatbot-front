@@ -1,26 +1,41 @@
 <script setup>
-const ModalStore = useModalStore()
-const connectionStore = useConnectionsStore();
-const { getConnections, totalConnections } = storeToRefs(connectionStore);
+import { DashboardModalQrCode } from "#components"
+const connectionStore = useConnectionsStore()
+const { getConnections, totalConnections } = storeToRefs(connectionStore)
+
+const toast = useToast()
+const modal = useModal()
+
+function openModal() {
+  modal.open(DashboardModalQrCode, {
+    onClose() {
+      modal.close()
+    },
+    async onSuccess() {
+      await connectionStore.fetchConnections()
+    },
+  })
+}
+
+await connectionStore.fetchConnections()
+
 const description = computed(() => {
-  return `${totalConnections.value} conexões realizadas`;
+  return `${totalConnections.value} conexões realizadas`
 })
 
-await connectionStore.fetchConnections();
-
 definePageMeta({
-  layout: "dashboard"
-});
+  layout: "dashboard",
+})
 
 useHead({
-  title: "Minhas conexões"
-});
+  title: "Minhas conexões",
+})
 </script>
 
 <template>
   <CustomHeader title="Minhas conexões" :description="description">
     <template #actions>
-      <UButton class="px-8 py-3" label="Nova conexão" @click="ModalStore.toggle" />
+      <UButton class="px-8 py-3" label="Nova conexão" @click="openModal" />
     </template>
   </CustomHeader>
   <!-- Connections -->
@@ -29,7 +44,7 @@ useHead({
       v-for="(item, index) in getConnections"
       :key="index"
       :ui="{
-        base: ''
+        base: '',
       }"
       class="cursor-pointer"
       @click="navigateTo(`/connections/${item.id}`)"
@@ -37,16 +52,12 @@ useHead({
       <section class="w-full flex justify-between gap-5">
         <!-- Logo do usuário -->
         <section class="flex flex-col items-center gap-3">
-          <UAvatar
-            :src="item.url"
-            alt="Avatar"
-            size="xl"
-          />
+          <UAvatar :src="item.url" alt="Avatar" size="xl" />
           <span
             class="w-[2px] h-full rounded-full"
             :class="{
-              'bg-gradient-to-b from-[#46C78B] to-white': item.status === 'Connected',
-              'bg-gradient-to-b from-[#CD0E30] to-white': item.status === 'Disconnected'
+              'bg-gradient-to-b from-[#46C78B] to-white': item.is_active,
+              'bg-gradient-to-b from-[#CD0E30] to-white': !item.is_active,
             }"
           />
         </section>
@@ -58,16 +69,16 @@ useHead({
               class="gap-3 mt-5 text-sm font-semibold px-4 py-2"
               :ui="{ rounded: 'rounded-full' }"
               :class="{
-                'bg-[#46C78B1A] text-[#46C78B]': item.status === 'Connected',
-                'bg-[#CD0E300D] text-[#CD0E30]': item.status === 'Disconnected'
+                'bg-[#46C78B1A] text-[#46C78B]': item.is_active,
+                'bg-[#CD0E300D] text-[#CD0E30]': !item.is_active,
               }"
             >
               <UIcon
-                :name="item.status === 'Connected'
-                ? 'material-symbols:wifi'
-                : 'material-symbols:wifi-off'"
+                :name="
+                  item.is_active ? 'material-symbols:wifi' : 'material-symbols:wifi-off'
+                "
               />
-              {{ item.status === "Connected" ? "Conectado" : "Desconectado" }}
+              {{ item.is_active ? "Conectado" : "Desconectado" }}
             </UBadge>
           </section>
         </section>
@@ -82,5 +93,4 @@ useHead({
       </section>
     </UCard>
   </section>
-  <DashboardModalQrCode />
 </template>

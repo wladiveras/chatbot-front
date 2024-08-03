@@ -1,73 +1,134 @@
 <script setup lang="ts">
-import { useModalStore } from "@/stores/modal"
+import { z } from "zod"
+import type { FormSubmitEvent } from "#ui/types"
 
-const modalStore = useModalStore()
-const { isOpen } = storeToRefs(modalStore)
+const toast = useToast()
 
-const qrCode = ref(false)
-const name = ref("")
-const description = ref("")
-const phone = ref("")
+const schema = z.object({
+  name: z.string().min(5, {
+    message: "Informe um nome para a conexão com pelo menos 5 dígitos.",
+  }),
+  description: z.string().min(15, {
+    message: "Informe uma descrição para a descrição com pelo menos 15 dígitos.",
+  }),
+  connection_key: z.string().min(1, {
+    message: "Informe um telefone válido para criar uma conexão.",
+  }),
+})
+
+type Schema = z.output<typeof schema>
+
+const connectionStore = useConnectionsStore()
+const { ConnectionPayload, qrCode, loading } = storeToRefs(connectionStore)
+const emit = defineEmits(["success", "close"])
+
+connectionStore.init()
+
+const createConnection = async (event: FormSubmitEvent<Schema>) => {
+  connectionStore
+    .createConnection()
+    .then(() => {
+      toast.add({
+        title: "Atenção!",
+        description: `Conexão ${ConnectionPayload.value.connection_key} criada com sucesso.`,
+        icon: "i-heroicons-check-badge",
+      })
+      emit("success")
+    })
+    .catch((error) => {
+      toast.add({
+        title: "Atenção!",
+        description: "Não foi possível criar a conexão.",
+        icon: "material-symbols:error-outline",
+      })
+    })
+}
+
+function closeModal() {
+  emit("close")
+}
 </script>
 
 <template>
-  <UModal v-model="isOpen">
+  <UModal>
     <section class="flex flex-col items-center gap-1 p-5">
-      <!-- Close modal -->
       <UIcon
-        @click="modalStore.toggle"
+        @click="closeModal"
         name="material-symbols-light:close"
         class="self-end cursor-pointer"
         size="30px"
       />
 
       <section class="flex flex-col w-full gap-10" v-if="!qrCode">
-        <span class="text-gray-500 font-semibold text-md mb-3 block">
-          Informações essências da conexão
-        </span>
-        <UInput
-          size="lg"
-          class="block"
-          v-model="name"
-          placeholder="informe o nome da conexão"
-          variant="outline"
-        />
-        <UInput
-          size="lg"
-          class="block"
-          v-model="description"
-          placeholder="Descrição da conexão"
-          variant="outline"
-        />
+        <UForm
+          :schema="schema"
+          :state="ConnectionPayload"
+          :ui="{ base: 'text-center', footer: 'text-center' }"
+          :submit-button="{ trailingIcon: 'i-heroicons-arrow-right-20-solid' }"
+          class="space-y-4"
+          @submit="createConnection"
+        >
+          <span class="text-gray-500 font-semibold text-md mb-3 block">
+            Informações essências da conexão
+          </span>
 
-        <UInput
-          size="lg"
-          class="block"
-          v-model="phone"
-          placeholder="Numero de telefone da conexão"
-          variant="outline"
-        />
+          <UFormGroup name="name">
+            <UInput
+              size="lg"
+              class="block"
+              v-model="ConnectionPayload.name"
+              placeholder="informe o nome da conexão"
+              variant="outline"
+            />
+          </UFormGroup>
 
-        <UButton class="w-full flex text-center py-[15px] px-[25px] bg-blue-950" block>
-          Continuar
-        </UButton>
+          <UFormGroup name="description">
+            <UInput
+              size="lg"
+              class="block"
+              v-model="ConnectionPayload.description"
+              placeholder="Descrição da conexão"
+              variant="outline"
+            />
+          </UFormGroup>
+
+          <UFormGroup name="connection_key">
+            <UInput
+              size="lg"
+              class="block"
+              type="tel"
+              v-model="ConnectionPayload.connection_key"
+              v-masked="false"
+              v-mask="['+55 (##) ####-####', '+55 (##) #####-####']"
+              placeholder="Número de telefone. Ex: (11) 99999-9999"
+              variant="outline"
+            />
+          </UFormGroup>
+
+          <UButton
+            class="w-full flex text-center py-[15px] px-[25px] bg-blue-950"
+            type="submit"
+            :loading="loading"
+            block
+          >
+            Continuar
+          </UButton>
+        </UForm>
       </section>
 
       <!-- QRCode -->
       <section v-else>
         <NuxtImg
           class="p-2 border-2 max-w-60 max-h-60 rounded-xl border-[#46C78B]"
-          src="/qr-code.png"
+          :src="qrCode"
         />
         <section class="flex flex-col w-full gap-10">
-          <!-- Title -->
           <p class="text-blue-950 font-semibold text-lg">Siga as instruções abaixo:</p>
-          <!-- Passo a passo -->
+
           <section class="flex flex-col w-full gap-10">
             <ul class="flex flex-col gap-5 text-blue-950 font-normal text-sm">
-              <!-- Passo 1 -->
               <li>1. Abra o WhatsApp no seu celular.</li>
-              <!-- Passo 2 -->
+
               <li>
                 2. Toque em <strong>Mais opções</strong>
                 <UIcon
@@ -83,12 +144,12 @@ const phone = ref("")
                 />
                 no iPhone.
               </li>
-              <!-- Passo 3 -->
+
               <li>
                 3. Toque em <strong>Dispositivos conectados</strong> e, em seguida, em
                 <strong>Conectar dispositivo</strong>.
               </li>
-              <!-- Passo 4 -->
+
               <li>4. Aponte seu celular para esta tela para escanear o QR code.</li>
             </ul>
           </section>

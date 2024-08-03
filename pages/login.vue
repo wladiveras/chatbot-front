@@ -2,6 +2,12 @@
 import { z } from "zod"
 import type { FormSubmitEvent } from "#ui/types"
 
+onBeforeMount(() => {
+  if (isAuthenticated.value) {
+    navigateTo("/connections")
+  }
+})
+
 definePageMeta({
   layout: "auth",
 })
@@ -12,10 +18,13 @@ useSeoMeta({
 
 const toast = useToast()
 const loading = ref(false)
-const authStore = useAuthStore();
+const authStore = useAuthStore()
+const { isAuthenticated } = storeToRefs(authStore)
 
 const schema = z.object({
-  email: z.string().email("Informe um email válido."),
+  email: z.string({ message: "Informe um email pra gente continuar." }).email({
+    message: "Informe um email válido, pra que possamos te enviar o acesso ao sistema.",
+  }),
 })
 
 type Schema = z.output<typeof schema>
@@ -37,26 +46,27 @@ const signInWithOAuth = async (provide: any) => {
 }
 
 const handleLogin = async (event: FormSubmitEvent<Schema>) => {
-  loading.value = true;
-  authStore.signIn(state.email)
-  .then(() => {
-    toast.add({
-      title: "Atenção!",
-      description:
-        "Verifique seu email, foi enviado um link mágico para acessar o sistema.",
-      icon: "i-heroicons-check-badge",
+  loading.value = true
+  authStore
+    .signIn(state.email)
+    .then(() => {
+      toast.add({
+        title: "Bem vindo, falta pouco!",
+        description:
+          "Agora, verifique seu email, foi enviado um link mágico para acessar no sistema automaticamente.",
+        icon: "i-heroicons-check-badge",
+      })
     })
-  })
-  .catch((error) => {
-    toast.add({
-      title: "Atenção!",
-      description: error.error_description || error.message,
-      icon: "material-symbols:error-outline",
+    .catch((error) => {
+      toast.add({
+        title: "Algo deu errado!",
+        description: "Não foi possivel realizar sua conexão.",
+        icon: "material-symbols:error-outline",
+      })
     })
-  })
-  .finally(() => {
-    loading.value = false
-  })
+    .finally(() => {
+      loading.value = false
+    })
 }
 </script>
 
@@ -116,20 +126,23 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
       </div>
 
       <div>
-        <span class="text-gray-500 font-semibold text-sm mb-3 block">
-          Endereço de e-mail
-        </span>
-        <UInput
-          size="lg"
-          class="block mb-7"
-          v-model="state.email"
-          placeholder="informe seu e-mail"
-          variant="outline"
-        />
+        <UFormGroup name="email">
+          <span class="text-gray-500 font-semibold text-sm mb-3 block">
+            Endereço de e-mail
+          </span>
+
+          <UInput
+            size="lg"
+            class="block mb-7"
+            v-model="state.email"
+            placeholder="informe seu e-mail"
+            variant="outline"
+          />
+        </UFormGroup>
       </div>
 
       <UButton
-        @click="handleLogin"
+        type="submit"
         class="w-full flex text-center py-[15px] px-[25px] bg-blue-950"
         :loading="loading"
         block

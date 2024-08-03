@@ -2,8 +2,8 @@ export interface IStateProfile {
   profile: IProfile;
 }
 export interface IStateAuth {
-  user: IUser,
-  token: string
+  user: IUser;
+  token: string;
 }
 export interface IProfile {
   id: number;
@@ -11,7 +11,8 @@ export interface IProfile {
   site: string;
   name: string;
   email: string;
-  status: string;
+  avatar: boolean;
+  is_active: boolean;
   cellphone: string;
   description: string;
   connected_in: string;
