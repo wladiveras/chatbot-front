@@ -1,3 +1,6 @@
+const { $localStorage } = useNuxtApp();
+const runtimeConfig = useRuntimeConfig();
+
 export default function () {
   async function instance<T>(
     url: string,
@@ -5,8 +8,6 @@ export default function () {
     config?: any,
     body: any = {}
   ): Promise<T | any> {
-    const runtimeConfig = useRuntimeConfig();
-
     const { data, status, error } = await useFetch(url, {
       baseURL: runtimeConfig.public.apiBase,
       credentials: "include",
@@ -14,7 +15,7 @@ export default function () {
       body,
       ...config,
       onRequest({ request, options }) {
-        const token = localStorage.getItem("token");
+        const token = $localStorage.getItem("token");
         const headers = {
           Accept: "application/json",
           "Cache-Control": "no-cache",
@@ -33,7 +34,7 @@ export default function () {
           .toString()
           .includes("/auth/magic-link");
         if (isMagicLinkRequest) {
-          localStorage.setItem(
+          $localStorage.setItem(
             "token",
             response._data.data.service.payload || ""
           );

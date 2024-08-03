@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import type { IStateAuth } from "@/types";
 
+const { $localStorage } = useNuxtApp();
 const makeRequests = useMakeRequests();
 
 export const useAuthStore = defineStore("auth", {
@@ -15,8 +16,8 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     init() {
-      this.token = localStorage.getItem("token");
-      this.user = JSON.parse(localStorage.getItem("user"));
+      this.token = $localStorage.getItem("token");
+      this.user = JSON.parse($localStorage.getItem("user"));
     },
     async signIn(email: string) {
       await makeRequests.post("/auth/sign-in", { email });
@@ -25,7 +26,7 @@ export const useAuthStore = defineStore("auth", {
       await makeRequests
         .get("/auth/user")
         .then((res) => {
-          localStorage.setItem(
+          $localStorage.setItem(
             "user",
             JSON.stringify(res.data.service.payload)
           );
