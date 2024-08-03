@@ -1,4 +1,5 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+import { sentryVitePlugin } from "@sentry/vite-plugin";
+
 export default defineNuxtConfig({
   extends: ["@nuxt/ui-pro"],
   modules: [
@@ -17,7 +18,26 @@ export default defineNuxtConfig({
       apiBase: process.env.API_BASE_URL,
       sentryEnv: process.env.SENTRY_ENVIRONMENT,
       sentryDns: process.env.SENTRY_DNS,
+      SENTRY_TRACES_SAMPLE_RATE: parseFloat(
+        process.env.SENTRY_TRACES_SAMPLE_RATE ?? "0"
+      ),
+      SENTRY_REPLAY_SAMPLE_RATE: parseFloat(
+        process.env.SENTRY_REPLAY_SAMPLE_RATE ?? "0"
+      ),
+      SENTRY_ERROR_REPLAY_SAMPLE_RATE: parseFloat(
+        process.env.SENTRY_ERROR_REPLAY_SAMPLE_RATE ?? "0"
+      ),
     },
+  },
+  sourcemap: true,
+  vite: {
+    plugins: [
+      sentryVitePlugin({
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        org: process.env.SENTRY_ORG,
+        project: process.env.SENTRY_PROJECT,
+      }),
+    ],
   },
   typescript: {
     strict: false,
