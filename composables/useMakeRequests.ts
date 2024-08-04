@@ -1,7 +1,7 @@
 export default function () {
   async function instance<T>(
     url: string,
-    method: "get" | "post" | "put" | "delete" = "get",
+    method: "get" | "post" | "put" | "delete",
     config?: any,
     body: any = {}
   ): Promise<T | any> {
