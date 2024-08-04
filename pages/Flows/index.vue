@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-const { $formatDate } = useNuxtApp()
 const flowsStore = useFlowsStore()
 const { getFlows, totalFlows } = storeToRefs(flowsStore)
 
@@ -75,7 +74,7 @@ useHead({
           {{ item.is_active ? "Ativo" : "Inativo" }}
         </UBadge>
         <p class="text-gray-500 text-xs font-normal">
-          Modificado em {{ $formatDate(item.updated_at) }}
+          Modificado em {{ formatDate(item.updated_at) }}
         </p>
       </section>
     </UCard>

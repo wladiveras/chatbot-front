@@ -60,7 +60,7 @@ export default function () {
     return await instance<T>(url, "put", config, data);
   }
 
-  async function remove<T>(url: string, config?: any) {
+  async function destroy<T>(url: string, config?: any) {
     return await instance<T>(url, "delete", config, null);
   }
 
@@ -68,6 +68,6 @@ export default function () {
     get,
     post,
     update,
-    remove,
+    destroy,
   };
 }

@@ -3,6 +3,8 @@ import { z } from "zod"
 import type { FormSubmitEvent } from "#ui/types"
 
 const toast = useToast()
+const modal = useModal()
+const connectionStatus = ref(null)
 
 const schema = z.object({
   name: z.string().min(5, {
@@ -19,47 +21,52 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const connectionStore = useConnectionsStore()
-const { ConnectionPayload, qrCode, loading } = storeToRefs(connectionStore)
+const { ConnectionPayload, getQrcode, loading } = storeToRefs(connectionStore)
 const emit = defineEmits(["success", "close"])
 
 connectionStore.init()
 
 const createConnection = async (event: FormSubmitEvent<Schema>) => {
-  connectionStore
-    .createConnection()
-    .then(() => {
-      toast.add({
-        title: "Atenção!",
-        description: `Conexão ${ConnectionPayload.value.connection_key} criada com sucesso.`,
-        icon: "i-heroicons-check-badge",
-      })
-      emit("success")
+  try {
+    await connectionStore.createConnection()
+
+    toast.add({
+      title: "Atenção!",
+      description: `Conexão ${ConnectionPayload.value.connection_key} criada com sucesso.`,
+      icon: "i-heroicons-check-badge",
     })
-    .catch((error) => {
-      toast.add({
-        title: "Atenção!",
-        description: "Não foi possível criar a conexão.",
-        icon: "material-symbols:error-outline",
-      })
+    emit("success")
+
+    connectionStatus.value = setInterval(async () => {
+      await connectionStore.connectionStatus()
+    }, 29000)
+  } catch (error) {
+    toast.add({
+      title: "Atenção!",
+      description: "Não foi possível criar a conexão.",
+      icon: "material-symbols:error-outline",
     })
+  }
 }
 
-function closeModal() {
-  emit("close")
-}
+onUnmounted(() => {
+  if (connectionStatus.value) {
+    clearInterval(connectionStatus.value)
+  }
+})
 </script>
 
 <template>
   <UModal>
     <section class="flex flex-col items-center gap-1 p-5">
       <UIcon
-        @click="closeModal"
+        @click="modal.close()"
         name="material-symbols-light:close"
         class="self-end cursor-pointer"
         size="30px"
       />
 
-      <section class="flex flex-col w-full gap-10" v-if="!qrCode">
+      <section class="flex flex-col w-full gap-10" v-if="!getQrcode">
         <UForm
           :schema="schema"
           :state="ConnectionPayload"
@@ -117,10 +124,10 @@ function closeModal() {
       </section>
 
       <!-- QRCode -->
-      <section v-else>
+      <section class="flex justify-center items-center flex-col" v-else>
         <NuxtImg
-          class="p-2 border-2 max-w-60 max-h-60 rounded-xl border-[#46C78B]"
-          :src="qrCode"
+          class="p-2 border-2 max-w-60 flex mb-5 max-h-60 rounded-xl border-[#46C78B]"
+          :src="getQrcode"
         />
         <section class="flex flex-col w-full gap-10">
           <p class="text-blue-950 font-semibold text-lg">Siga as instruções abaixo:</p>

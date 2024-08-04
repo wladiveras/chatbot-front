@@ -1,4 +1,5 @@
 export interface IStateProfile {
+  loading: boolean;
   profile: IProfile;
 }
 export interface IStateAuth {
@@ -6,16 +7,56 @@ export interface IStateAuth {
   token: string;
 }
 export interface IProfile {
-  id: number;
-  url: string;
-  site: string;
+  wuid: string;
   name: string;
-  email: string;
-  avatar: boolean;
-  is_active: boolean;
-  cellphone: string;
+  picture: string;
+  email: boolean;
   description: string;
-  connected_in: string;
+  website: string;
+  numberExists: boolean;
+  isBusiness: boolean;
+}
+
+export interface IProfile {
+  wuid: string;
+  name: string;
+  picture: string;
+  email: boolean;
+  description: string;
+  website: string;
+  numberExists: boolean;
+  isBusiness: boolean;
+}
+
+export interface IStateConnection {
+  loading: boolean;
+  connections: IConnection[];
+  connection: IConnection;
+  instance: object;
+  qrCode: string | null;
+  token: string | null;
+  ConnectionPayload: IConnectionPayload;
+}
+
+export interface IConnection {
+  id: number;
+  user_id: number;
+  flow_id: number;
+  name: string;
+  description: string;
+  connection_key: string;
+  token: string;
+  type: string;
+  is_active: boolean;
+  country: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface IConnectionPayload {
+  name: string;
+  description: string;
+  connection_key: string;
 }
 
 export interface IUser {

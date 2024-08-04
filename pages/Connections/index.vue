@@ -1,23 +1,30 @@
 <script setup>
-import { DashboardModalQrCode } from "#components"
+import { DashboardModalQrCode, DashboardModalDelete } from "#components"
 const connectionStore = useConnectionsStore()
-const { getConnections, totalConnections } = storeToRefs(connectionStore)
+const { getConnections, totalConnections, connection } = storeToRefs(connectionStore)
 
-const toast = useToast()
 const modal = useModal()
 
-function openModal() {
+function openQrcodeModal() {
   modal.open(DashboardModalQrCode, {
-    onClose() {
-      modal.close()
-    },
     async onSuccess() {
       await connectionStore.fetchConnections()
     },
   })
 }
 
-await connectionStore.fetchConnections()
+function openDeleteModal(connection_id) {
+  modal.open(DashboardModalDelete, {
+    connection_id: connection_id,
+    async onDelete() {
+      await connectionStore.fetchConnections()
+    },
+  })
+}
+
+onMounted(() => {
+  connectionStore.fetchConnections()
+})
 
 const description = computed(() => {
   return `${totalConnections.value} conexões realizadas`
@@ -35,7 +42,7 @@ useHead({
 <template>
   <CustomHeader title="Minhas conexões" :description="description">
     <template #actions>
-      <UButton class="px-8 py-3" label="Nova conexão" @click="openModal" />
+      <UButton class="px-8 py-3" label="Nova conexão" @click="openQrcodeModal" />
     </template>
   </CustomHeader>
   <!-- Connections -->
@@ -47,12 +54,14 @@ useHead({
         base: '',
       }"
       class="cursor-pointer"
-      @click="navigateTo(`/connections/${item.id}`)"
     >
       <section class="w-full flex justify-between gap-5">
         <!-- Logo do usuário -->
-        <section class="flex flex-col items-center gap-3">
-          <UAvatar :src="item.url" alt="Avatar" size="xl" />
+        <section
+          class="flex flex-col items-center gap-3"
+          @click="navigateTo(`/connections/${item.id}`)"
+        >
+          <UAvatar :src="item.avatar" alt="Avatar" size="xl" />
           <span
             class="w-[2px] h-full rounded-full"
             :class="{
@@ -61,7 +70,10 @@ useHead({
             }"
           />
         </section>
-        <section class="flex flex-col w-full">
+        <section
+          class="flex flex-col w-full"
+          @click="navigateTo(`/connections/${item.id}`)"
+        >
           <p class="text-lg font-semibold text-blue-950">{{ item.name }}</p>
           <p class="text-sm font-normal text-gray-500">{{ item.description }}</p>
           <section>
@@ -87,7 +99,7 @@ useHead({
             class="bg-[#CD0E300D] text-[#CD0E30]"
             icon="material-symbols:delete-outline"
             size="lg"
-            @click.prevent
+            @click.prevent="openDeleteModal(item.id)"
           />
         </section>
       </section>

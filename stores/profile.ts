@@ -1,18 +1,32 @@
-import { defineStore } from 'pinia'
-import { PROFILE } from "@/__mocks__/profile"
-import type { IProfile, IStateProfile } from '~/types';
+import type { IProfile, IStateProfile } from "~/types";
 
-const TESTING = true;
+const makeRequests = useMakeRequests();
 
-export const useProfileStore = defineStore('profile', {
+export const useProfileStore = defineStore("profile", {
   state: (): IStateProfile => ({
-    profile: {} as IProfile
+    loading: false,
+    profile: {} as IProfile,
   }),
   actions: {
     async fetchProfile() {
-      if (TESTING) {
-        this.profile = PROFILE;
-      }
-    }
-  }
+      const connectionStore = useConnectionsStore();
+      const { getToken, getNumber } = storeToRefs(connectionStore);
+
+      this.loading = true;
+
+      await makeRequests
+        .post(`/integration/whatsapp/${getToken.value}/profile`, {
+          number: getNumber.value,
+        })
+        .then((res) => {
+          this.profile = res.data.service.payload;
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
 });
