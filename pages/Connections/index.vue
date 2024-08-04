@@ -78,7 +78,11 @@ useHead({
           class="flex flex-col items-center gap-3"
           @click="navigateOrOpenModal(`/connections/${item.id}`, item)"
         >
-          <UAvatar :src="item.avatar" alt="Avatar" size="xl" />
+          <UAvatar
+            :src="item.connection_profile.picture ?? 'avatar.'"
+            alt="Avatar"
+            size="xl"
+          />
           <span
             class="w-[2px] h-full rounded-full"
             :class="{
