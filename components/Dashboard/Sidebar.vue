@@ -2,13 +2,13 @@
 const links = [
   {
     label: "Fluxo de conversas",
-    to: '/flows',
-    icon: "ic:baseline-swap-vert"
+    to: "/flows",
+    icon: "ic:baseline-swap-vert",
   },
   {
     label: "Minhas Conexões",
-    to: '/connections',
-    icon: "material-symbols:wifi-rounded"
+    to: "/connections",
+    icon: "material-symbols:wifi-rounded",
   },
   // {
   //   label: "Nova Conexão",
@@ -22,22 +22,26 @@ const links = [
   // },
   {
     label: "Planos",
-    to: '/plans',
-    icon: "material-symbols:currency-exchange-rounded"
-  }
-];
+    to: "/plans",
+    icon: "material-symbols:currency-exchange-rounded",
+  },
+  {
+    label: "sair",
+    icon: "material-symbols:logout",
+  },
+]
 
-const sidebarStore = useSidebarStore();
-const { isExpanded } = storeToRefs(sidebarStore);
-const route = useRoute();
+const sidebarStore = useSidebarStore()
+const { isExpanded } = storeToRefs(sidebarStore)
+const route = useRoute()
 
 const isActive = computed(() => {
-  return (path) => route.path.includes(path);
+  return (path) => route.path.includes(path)
 })
 </script>
 
 <template>
-  <aside 
+  <aside
     class="flex flex-col gap-4 h-full px-4 py-8 border-r border-solid border-[#E5E5E5] max-w-64 ease-in-out transition-all"
     :class="[isExpanded ? 'w-full' : 'w-max']"
   >
