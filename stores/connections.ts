@@ -135,5 +135,24 @@ export const useConnectionsStore = defineStore("connections", {
           this.loading = false;
         });
     },
+    async sendMessage(number: string, message: string) {
+      this.loading = true;
+
+      const connectionKey = raw(number);
+
+      const payload = {
+        connection: this.getToken,
+        number: connectionKey,
+        delay: 1000,
+        type: "text",
+        value: message,
+      };
+
+      await makeRequests
+        .post("integration/whatsapp/send-message", payload)
+        .finally(() => {
+          this.loading = false;
+        });
+    },
   },
 });
