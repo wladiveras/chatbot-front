@@ -1,25 +1,47 @@
 <script setup>
-import { DashboardModalQrCode, DashboardModalDelete } from "#components"
+import {
+  DashboardModalCreateConnection,
+  DashboardModalFetchConnection,
+  DashboardModalDeleteConnection,
+} from "#components"
 const connectionStore = useConnectionsStore()
-const { getConnections, totalConnections, connection } = storeToRefs(connectionStore)
+const { getConnections, totalConnections } = storeToRefs(connectionStore)
 
 const modal = useModal()
 
-function openQrcodeModal() {
-  modal.open(DashboardModalQrCode, {
+function openCreateConnection() {
+  modal.open(DashboardModalCreateConnection, {
     async onSuccess() {
+      console.log("success")
+      await connectionStore.fetchConnections()
+    },
+    async onClose() {
+      console.log("close")
       await connectionStore.fetchConnections()
     },
   })
 }
 
-function openDeleteModal(connection_id) {
-  modal.open(DashboardModalDelete, {
+function openDeleteConnection(connection_id) {
+  modal.open(DashboardModalDeleteConnection, {
     connection_id: connection_id,
     async onDelete() {
       await connectionStore.fetchConnections()
     },
   })
+}
+
+function navigateOrOpenModal(path, connection) {
+  if (!connection.is_active) {
+    modal.open(DashboardModalFetchConnection, {
+      connection_id: connection.id,
+      async success() {
+        await connectionStore.fetchConnections()
+      },
+    })
+  } else {
+    navigateTo(path)
+  }
 }
 
 onMounted(() => {
@@ -42,7 +64,7 @@ useHead({
 <template>
   <CustomHeader title="Minhas conexões" :description="description">
     <template #actions>
-      <UButton class="px-8 py-3" label="Nova conexão" @click="openQrcodeModal" />
+      <UButton class="px-8 py-3" label="Nova conexão" @click="openCreateConnection" />
     </template>
   </CustomHeader>
   <!-- Connections -->
@@ -59,9 +81,9 @@ useHead({
         <!-- Logo do usuário -->
         <section
           class="flex flex-col items-center gap-3"
-          @click="navigateTo(`/connections/${item.id}`)"
+          @click="navigateOrOpenModal(`/connections/${item.id}`, item)"
         >
-          <UAvatar :src="item.avatar" alt="Avatar" size="xl" />
+          <UAvatar :src="item.connection_profile?.picture" :alt="item.name" size="xl" />
           <span
             class="w-[2px] h-full rounded-full"
             :class="{
@@ -72,7 +94,7 @@ useHead({
         </section>
         <section
           class="flex flex-col w-full"
-          @click="navigateTo(`/connections/${item.id}`)"
+          @click="navigateOrOpenModal(`/connections/${item.id}`, item)"
         >
           <p class="text-lg font-semibold text-blue-950">{{ item.name }}</p>
           <p class="text-sm font-normal text-gray-500">{{ item.description }}</p>
@@ -99,7 +121,7 @@ useHead({
             class="bg-[#CD0E300D] text-[#CD0E30]"
             icon="material-symbols:delete-outline"
             size="lg"
-            @click.prevent="openDeleteModal(item.id)"
+            @click.prevent="openDeleteConnection(item.id)"
           />
         </section>
       </section>

@@ -16,7 +16,7 @@ const connectionStore = useConnectionsStore()
 const { getName } = storeToRefs(connectionStore)
 
 onMounted(async () => {
-  await connectionStore.getConnection(props.connection_id)
+  await connectionStore.fetchConnection(props.connection_id)
 })
 
 async function onDelete() {

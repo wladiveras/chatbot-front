@@ -8,7 +8,7 @@ const ProfilePersonal = resolveComponent("ProfilePersonal")
 
 const route = useRoute()
 
-const id: number = route?.params?.id
+const id: any = route?.params?.id
 
 const authStore = useAuthStore()
 const {} = storeToRefs(authStore)
@@ -24,21 +24,25 @@ const informations = computed(() => [
     icon: "material-symbols:language",
     label: "Site",
     content: profile.value.website,
+    disabled: !profile.value.website,
   },
   {
     icon: "material-symbols:mail-outline",
     label: "E-mail",
     content: profile.value.email,
+    disabled: !profile.value.email,
   },
   {
     icon: "material-symbols:phone-iphone",
     label: "Whatsapp",
     content: connection.value.connection_key,
+    disabled: !connection.value.connection_key,
   },
   {
     icon: "material-symbols:calendar-today-outline",
     label: "Criada em",
     content: formatDate(connection.value.created_at),
+    disabled: !connection.value.created_at,
   },
 ])
 
@@ -63,7 +67,7 @@ const tabs = [
   },
 ]
 
-await connectionStore.getConnection(parseInt(id)).then(async () => {
+await connectionStore.fetchConnection(parseInt(id)).then(async () => {
   await profileStore.fetchProfile()
 })
 
@@ -110,7 +114,9 @@ useHead({
         />
       </section>
       <p class="font-normal text-xs text-gray-500">{{ connection.connection_key }}</p>
-      <h2 class="text-blue-950 text-lg font-semibold">{{ profile.name }}</h2>
+      <h2 class="text-blue-950 text-lg font-semibold">
+        {{ profile.name || connection.name }}
+      </h2>
       <p class="text-gray-500 text-sm mt-3">{{ profile.description }}</p>
       <section class="flex items-center gap-4 mb-3">
         <UBadge
@@ -197,16 +203,17 @@ useHead({
       }"
     >
       <h2 class="text-base font-semibold text-blue-950">Informações do usuário</h2>
-      <section
-        v-for="(item, index) in informations"
-        :key="index"
-        class="flex justify-between items-center text-gray-400"
-      >
-        <section class="flex items-center gap-4">
-          <UIcon :name="item.icon" class="size-7 font-light" />
-          <p class="text-sm">{{ item.label }}</p>
+      <section v-for="(item, index) in informations" :key="index">
+        <section
+          v-if="!item.disabled"
+          class="flex justify-between items-center text-gray-400"
+        >
+          <section class="flex items-center gap-4">
+            <UIcon :name="item.icon" class="size-7 font-light" />
+            <p class="text-sm">{{ item.label }}</p>
+          </section>
+          <p class="text-gray-600 font-normal text-sm">{{ item.content }}</p>
         </section>
-        <p class="text-gray-600 font-normal text-sm">{{ item.content }}</p>
       </section>
     </UCard>
   </main>

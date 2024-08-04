@@ -5,10 +5,12 @@ const makeRequests = useMakeRequests();
 
 export const useFlowsStore = defineStore("flows", {
   state: () => ({
+    loading: false,
     flows: [],
     //nodes: [],
     //edges: [],
     selectedNode: {},
+    selectedFlow: {},
 
     //Exemplo de substituição pro storage funcionar com os dados do backend - tudo vem dentro do payload, recomendo puxar o node o edge idividualmente
     flow: {},
@@ -18,7 +20,7 @@ export const useFlowsStore = defineStore("flows", {
     modifying: false,
   }),
   getters: {
-    getFlows: (state) => state.flows,
+    getFlows: (state) => state.flows || [],
     totalFlows: (state) => state.flows.length,
     getNode: (state) => state.node,
     getEdge: (state) => state.edge,
@@ -33,6 +35,7 @@ export const useFlowsStore = defineStore("flows", {
     },
 
     async fetchFlows() {
+      this.loading = true;
       await makeRequests
         .get("/flow")
         .then((res) => {
@@ -42,9 +45,13 @@ export const useFlowsStore = defineStore("flows", {
         .catch((error) => {
           console.error(error);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading = false;
+        });
     },
     async fetchFlow(id: any) {
+      this.loading = true;
+
       await makeRequests
         .get(`/flow/${id}`)
         .then((res) => {
@@ -59,9 +66,9 @@ export const useFlowsStore = defineStore("flows", {
         .catch((error) => {
           console.error(error);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading = false;
+        });
     },
-    async fetchNodes() {},
-    async fetchEdges() {},
   },
 });

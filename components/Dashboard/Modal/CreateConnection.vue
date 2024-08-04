@@ -4,14 +4,15 @@ import type { FormSubmitEvent } from "#ui/types"
 
 const toast = useToast()
 const modal = useModal()
+
 const connectionStatus = ref(null)
 
 const schema = z.object({
   name: z.string().min(5, {
     message: "Informe um nome para a conexão com pelo menos 5 dígitos.",
   }),
-  description: z.string().min(15, {
-    message: "Informe uma descrição para a descrição com pelo menos 15 dígitos.",
+  description: z.string().max(34, {
+    message: "Informe uma descrição para a descrição até 34 dígitos.",
   }),
   connection_key: z.string().min(1, {
     message: "Informe um telefone válido para criar uma conexão.",
@@ -27,26 +28,33 @@ const emit = defineEmits(["success", "close"])
 connectionStore.init()
 
 const createConnection = async (event: FormSubmitEvent<Schema>) => {
-  try {
-    await connectionStore.createConnection()
+  await connectionStore
+    .createConnection()
+    .then(() => {
+      toast.add({
+        title: "Atenção!",
+        description: `Conexão ${ConnectionPayload.value.connection_key} criada com sucesso.`,
+        icon: "i-heroicons-check-badge",
+      })
 
-    toast.add({
-      title: "Atenção!",
-      description: `Conexão ${ConnectionPayload.value.connection_key} criada com sucesso.`,
-      icon: "i-heroicons-check-badge",
-    })
-    emit("success")
+      emit("success")
 
-    connectionStatus.value = setInterval(async () => {
-      await connectionStore.connectionStatus()
-    }, 29000)
-  } catch (error) {
-    toast.add({
-      title: "Atenção!",
-      description: "Não foi possível criar a conexão.",
-      icon: "material-symbols:error-outline",
+      connectionStatus.value = setInterval(async () => {
+        await connectionStore.connectionStatus()
+      }, 29000)
     })
-  }
+    .catch(() => {
+      toast.add({
+        title: "Atenção!",
+        description: "Não foi possível criar a conexão.",
+        icon: "material-symbols:error-outline",
+      })
+    })
+}
+
+const closeModal = () => {
+  emit("close")
+  modal.close()
 }
 
 onUnmounted(() => {
@@ -57,10 +65,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <UModal>
+  <UModal prevent-close>
     <section class="flex flex-col items-center gap-1 p-5">
       <UIcon
-        @click="modal.close()"
+        @click="closeModal"
         name="material-symbols-light:close"
         class="self-end cursor-pointer"
         size="30px"
@@ -126,7 +134,7 @@ onUnmounted(() => {
       <!-- QRCode -->
       <section class="flex justify-center items-center flex-col" v-else>
         <NuxtImg
-          class="p-2 border-2 max-w-60 flex mb-5 max-h-60 rounded-xl border-[#46C78B]"
+          class="p-2 border-2 max-w-60 flex mb-16 max-h-60 rounded-xl border-[#46C78B]"
           :src="getQrcode"
         />
         <section class="flex flex-col w-full gap-10">
@@ -139,13 +147,13 @@ onUnmounted(() => {
               <li>
                 2. Toque em <strong>Mais opções</strong>
                 <UIcon
-                  class="p-1 bg-gray-200 rounded ml-1"
+                  class="p-1 bg-blue-950 rounded ml-1 relative top-[0.4rem]"
                   name="material-symbols:more-vert"
                   size="24px"
                 />
                 no Android ou em <strong>Configurações</strong>
                 <UIcon
-                  class="p-1 bg-gray-200 rounded ml-1"
+                  class="p-1 bg-blue-950 rounded ml-1 relative top-[0.5rem]"
                   name="material-symbols:settings-outline"
                   size="24px"
                 />
@@ -158,7 +166,16 @@ onUnmounted(() => {
               </li>
 
               <li>4. Aponte seu celular para esta tela para escanear o QR code.</li>
+              <li>5. Após ler o QR code, clique no botão <strong>finalizar</strong>.</li>
             </ul>
+            <UButton
+              class="w-full flex text-center py-[15px] px-[25px] bg-blue-950 text-md"
+              type="submit"
+              @click="closeModal"
+              block
+            >
+              Finalizar
+            </UButton>
           </section>
         </section>
       </section>
