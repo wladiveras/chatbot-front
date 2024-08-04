@@ -85,7 +85,7 @@ export const useConnectionsStore = defineStore("connections", {
           this.loading = false;
         });
     },
-    async getConnection(id: number) {
+    async fetchConnection(id: number) {
       this.loading = true;
 
       await makeRequests
@@ -107,7 +107,7 @@ export const useConnectionsStore = defineStore("connections", {
       await makeRequests
         .get(`/integration/whatsapp/${this.getToken}/connect`)
         .then((res) => {
-          const qrCodeImage = res.data.service.payload.qrcode?.base64;
+          const qrCodeImage = res.data.service.payload.base64;
 
           if (qrCodeImage) {
             this.qrCode = qrCodeImage;
