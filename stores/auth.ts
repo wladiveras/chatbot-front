@@ -21,6 +21,16 @@ export const useAuthStore = defineStore("auth", {
     async signIn(email: string) {
       await makeRequests.post("/auth/sign-in", { email });
     },
+    async signOut() {
+      const toast = useToast();
+      localStorage.removeItem("token");
+      toast.add({
+        title: "Até mais!",
+        description: "Desconectado da sua sessão, te espero em breve.",
+        icon: "i-heroicons-check-badge",
+      });
+      navigateTo("/");
+    },
     async fetchUser() {
       await makeRequests
         .get("/auth/user")

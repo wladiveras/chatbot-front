@@ -1,19 +1,57 @@
-import { defineStore } from "pinia";
+import type {
+  IConnection,
+  IConnectionPayload,
+  IStateConnection,
+} from "~/types";
 
 const makeRequests = useMakeRequests();
 
 export const useConnectionsStore = defineStore("connections", {
-  state: () => ({
+  state: (): IStateConnection => ({
+    loading: false,
     connections: [],
-    connection: [],
+    connection: {} as IConnection,
+    instance: {},
     qrCode: null,
+    token: null,
+    ConnectionPayload: {} as IConnectionPayload,
   }),
   getters: {
     getConnections: (state) => state.connections,
     totalConnections: (state) => state.connections.length,
+    isLoading: (state) => state.loading,
+    getQrcode: (state) => state.qrCode || null,
+    getToken: (state) => state.token || state.connection.token || null,
+    getName: (state) => state.connection.name || "",
+    getNumber: (state) => state.connection.connection_key || "",
+    getConnection: (state) => (id: number) => {
+      return state.connections.find((connection) => connection.id === id);
+    },
+    getPayload: (state) => {
+      return {
+        ...state.ConnectionPayload,
+        connection_key: raw(state.ConnectionPayload.connection_key),
+      };
+    },
   },
   actions: {
+    init() {
+      this.token = null;
+      this.qrCode = null;
+      this.ConnectionPayload = {
+        name: "",
+        description: "",
+        connection_key: "",
+      };
+    },
+    reset() {
+      this.instance = {};
+      this.init();
+    },
+
     async fetchConnections() {
+      this.loading = true;
+
       await makeRequests
         .get("/connections")
         .then((res) => {
@@ -22,19 +60,80 @@ export const useConnectionsStore = defineStore("connections", {
         .catch((error) => {
           console.error(error);
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading = false;
+        });
     },
+    async createConnection() {
+      this.loading = true;
+      const connectionKey = raw(this.ConnectionPayload.connection_key);
 
-    async createConnection($data: any) {
+      const payload = {
+        name: this.ConnectionPayload.name,
+        description: this.ConnectionPayload.description,
+        connection_key: connectionKey,
+      };
+
       await makeRequests
-        .post("/integration/whatsapp/create-connection", $data)
+        .post("/integration/whatsapp/create-connection", payload)
         .then((res) => {
           this.qrCode = res.data.service.payload.qrcode?.base64;
+          this.token = res.data.service.payload.qrcode?.token;
         })
-        .catch((error) => {
-          console.error(error);
+
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    async getConnection(id: number) {
+      this.loading = true;
+
+      await makeRequests
+        .get(`/connection/${id}`)
+        .then((res) => {
+          const { payload, ...connection } = res.data.service.payload;
+          this.connection = connection;
+          this.instance = payload;
+          this.qrCode = res.data.service.payload.qrcode?.base64;
+          this.token = res.data.service.payload.qrcode?.token;
         })
-        .finally(() => {});
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    async connectionStatus() {
+      this.loading = true;
+
+      await makeRequests
+        .get(`/integration/whatsapp/${this.getToken}/connect`)
+        .then((res) => {
+          const qrCodeImage = res.data.service.payload.qrcode?.base64;
+
+          if (qrCodeImage) {
+            this.qrCode = qrCodeImage;
+          }
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    async disconnectConnection() {
+      this.loading = true;
+
+      await makeRequests
+        .destroy(`/integration/whatsapp/${this.getToken}/disconnect`)
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    async deleteConnection() {
+      this.loading = true;
+
+      await makeRequests
+        .destroy(`/integration/whatsapp/${this.getToken}/delete`)
+        .finally(() => {
+          this.loading = false;
+        });
     },
   },
 });

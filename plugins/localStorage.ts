@@ -2,7 +2,7 @@ export default defineNuxtPlugin(() => {
   return {
     provide: {
       localStorage: {
-        getItem(item: any) {
+        getItem(item: string) {
           if (import.meta.client) {
             return localStorage.getItem(item);
           } else {
@@ -10,7 +10,7 @@ export default defineNuxtPlugin(() => {
           }
         },
 
-        setItem(item: any, value: any) {
+        setItem(item: string, value: any) {
           if (import.meta.client) {
             return localStorage.setItem(item, value);
           }

@@ -1,18 +1,9 @@
 <script setup lang="ts">
 const nuxtApp = useNuxtApp()
 const authStore = useAuthStore()
-const { isAuthenticated, user } = storeToRefs(authStore)
+const { isAuthenticated } = storeToRefs(authStore)
 const { activeHeadings, updateHeadings } = useScrollspy()
 
-const toast = useToast()
-
-const signOut = async () => {
-  toast.add({
-    title: "Atenção!",
-    description: "Desconectado da sua cessão com sucesso.",
-    icon: "i-heroicons-check-badge",
-  })
-}
 const links = computed(() => [
   {
     label: "Recursos",
@@ -78,7 +69,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
 
       <ULink
         v-else
-        @click="signOut"
+        @click="authStore.signOut()"
         class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
         active-class="text-pink-500"
         inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "

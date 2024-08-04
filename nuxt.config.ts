@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   extends: ["@nuxt/ui-pro"],
+
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
@@ -10,8 +11,10 @@ export default defineNuxtConfig({
     "@nuxtjs/google-fonts",
     "@nuxthub/core",
   ],
+
   css: ["~/assets/scss/main.scss"],
   ssr: false,
+
   runtimeConfig: {
     public: {
       apiBase: process.env.API_BASE_URL,
@@ -21,6 +24,7 @@ export default defineNuxtConfig({
       },
     },
   },
+
   typescript: {
     strict: false,
     tsConfig: {
@@ -36,9 +40,11 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
+
   colorMode: {
     preference: "light",
   },
+
   googleFonts: {
     display: "swap",
     preload: true,
@@ -49,6 +55,7 @@ export default defineNuxtConfig({
       Sora: [100, 200, 300, 400, 500, 600, 700, 800],
     },
   },
+
   eslint: {
     config: {
       stylistic: {
@@ -57,4 +64,6 @@ export default defineNuxtConfig({
       },
     },
   },
+
+  compatibilityDate: "2024-08-03",
 });

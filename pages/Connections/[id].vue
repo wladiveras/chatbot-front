@@ -1,65 +1,79 @@
 <script setup lang="ts">
-import type { _background } from '#tailwind-config/theme/accentColor';
+import type { _background } from "#tailwind-config/theme/accentColor"
 
 // Components
-const ProfileSettings = resolveComponent('ProfileSettings');
-const ProfileMessage = resolveComponent('ProfileMessage');
-const ProfilePersonal = resolveComponent('ProfilePersonal');
+const ProfileSettings = resolveComponent("ProfileSettings")
+const ProfileMessage = resolveComponent("ProfileMessage")
+const ProfilePersonal = resolveComponent("ProfilePersonal")
 
-const profileStore = useProfileStore();
-const { profile } = storeToRefs(profileStore);
+const route = useRoute()
+
+const id: number = route?.params?.id
+
+const authStore = useAuthStore()
+const {} = storeToRefs(authStore)
+
+const profileStore = useProfileStore()
+const connectionStore = useConnectionsStore()
+
+const { connection } = storeToRefs(connectionStore)
+const { profile } = storeToRefs(profileStore)
 
 const informations = computed(() => [
   {
     icon: "material-symbols:language",
     label: "Site",
-    content: profile.value.site
+    content: profile.value.website,
   },
   {
     icon: "material-symbols:mail-outline",
     label: "E-mail",
-    content: profile.value.email
+    content: profile.value.email,
   },
   {
     icon: "material-symbols:phone-iphone",
     label: "Whatsapp",
-    content: profile.value.cellphone
+    content: connection.value.connection_key,
   },
   {
     icon: "material-symbols:calendar-today-outline",
-    label: "Conectado em",
-    content: profile.value.connected_in
+    label: "Criada em",
+    content: formatDate(connection.value.created_at),
   },
-]);
+])
 
-const tabs = [{
-  key: 'settings',
-  label: 'Configurações',
-  icon: 'material-symbols:settings-outline',
-  component: ProfileSettings
-}, 
-{
-  key: 'message',
-  label: 'Mensagem',
-  icon: 'material-symbols:chat-outline-rounded',
-  component: ProfileMessage
-}, 
-{
-  key: 'profile',
-  label: 'Perfil',
-  icon: 'material-symbols:account-circle-outline',
-  component: ProfilePersonal
-}];
+const tabs = [
+  {
+    key: "settings",
+    label: "Configurações",
+    icon: "material-symbols:settings-outline",
+    component: ProfileSettings,
+  },
+  {
+    key: "message",
+    label: "Mensagem",
+    icon: "material-symbols:chat-outline-rounded",
+    component: ProfileMessage,
+  },
+  {
+    key: "profile",
+    label: "Perfil",
+    icon: "material-symbols:account-circle-outline",
+    component: ProfilePersonal,
+  },
+]
 
-await profileStore.fetchProfile();
+await connectionStore.getConnection(parseInt(id)).then(async () => {
+  await profileStore.fetchProfile()
+})
 
 definePageMeta({
-  layout: "dashboard"
-});
+  layout: "dashboard",
+})
 
 useHead({
-  title: `Perfil | ${profile.value.name}`
-});
+  title: `Conexão | ${connection.value.name}`,
+})
 </script>
 
 <template>
@@ -71,29 +85,31 @@ useHead({
         size="lg"
         @click.prevent="navigateTo('/connections')"
       />
-      <h1 class="text-blue-950 font-bold text-2xl">{{ profile.name }}</h1>
+      <h1 class="text-blue-950 font-bold text-2xl">{{ connection.name }}</h1>
     </header>
     <!-- Profile -->
-    <UCard :ui="{
-      base: 'px-0 py-0 sm:p-0',
-      body: {
-        base: 'flex flex-col items-center',
-        padding: 'p-2 pb-5 sm:p-2 sm:pb-10',
-      },
-    }">
+    <UCard
+      :ui="{
+        base: 'px-0 py-0 sm:p-0',
+        body: {
+          base: 'flex flex-col items-center',
+          padding: 'p-2 pb-5 sm:p-2 sm:pb-10',
+        },
+      }"
+    >
       <section class="relative bg-blue-950 w-full h-[120px] rounded-lg mb-16">
         <UAvatar
           img-class="object-cover"
           class="absolute top-[100%] left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-          :src="profile.url"
+          :src="profile.picture"
           alt="Avatar"
           size="3xl"
           :ui="{
-            wrapper: 'border-2 border-white'
+            wrapper: 'border-2 border-white',
           }"
         />
       </section>
-      <p class="font-normal text-xs text-gray-500">{{ profile.cellphone }}</p>
+      <p class="font-normal text-xs text-gray-500">{{ connection.connection_key }}</p>
       <h2 class="text-blue-950 text-lg font-semibold">{{ profile.name }}</h2>
       <p class="text-gray-500 text-sm mt-3">{{ profile.description }}</p>
       <section class="flex items-center gap-4 mb-3">
@@ -108,33 +124,35 @@ useHead({
           class="gap-3 mt-5 text-sm font-semibold px-4 py-2"
           :ui="{ rounded: 'rounded-full' }"
           :class="{
-            'bg-[#46C78B1A] text-[#46C78B]': profile.status === 'Disconnected',
-            'bg-[#CD0E300D] text-[#CD0E30]': profile.status === 'Connected'
+            'bg-[#46C78B1A] text-[#46C78B]': connection.is_active,
+            'bg-[#CD0E300D] text-[#CD0E30]': !connection.is_active,
           }"
         >
           <UIcon
-            :name="profile.status === 'Connected'
-            ? 'material-symbols:wifi-off'
-            : 'material-symbols:wifi'"
+            :name="
+              !connection.is_active
+                ? 'material-symbols:wifi-off'
+                : 'material-symbols:wifi'
+            "
           />
-          {{ profile.status === "Connected" ? "Desconectar" : "Conectar" }}
+          {{ !connection.is_active ? "Desconectar" : "Conectado" }}
         </UBadge>
       </section>
       <p class="font-normal text-gray-500 text-sm">
         <span class="text-[#46C78B]">
-          {{ profile.status === "Connected" ? "Conectado" : "Desconectado" }}
-        </span> 
-        | Desde Junho de 2024
+          {{ connection.is_active ? "Conectado" : "Desconectado" }}
+        </span>
+        | Desde {{ formatDate(connection.updated_at) }}
       </p>
     </UCard>
     <!-- Actions -->
-    <UCard 
+    <UCard
       class="p-5 row-span-2"
       :ui="{
-        body: 'flex flex-col'
+        body: 'flex flex-col',
       }"
     >
-      <UTabs 
+      <UTabs
         :items="tabs"
         :ui="{
           base: '',
@@ -152,9 +170,9 @@ useHead({
               rounded: 'rounded-full',
             },
             tab: {
-              rounded: 'rounded-full'
-            }
-          }
+              rounded: 'rounded-full',
+            },
+          },
         }"
       >
         <template #default="{ item, index, selected }">
@@ -170,17 +188,17 @@ useHead({
       </UTabs>
     </UCard>
     <!-- Informations -->
-    <UCard 
+    <UCard
       class="p-[10px]"
       :ui="{
         body: {
-          base: 'flex flex-col gap-5'
-        }
+          base: 'flex flex-col gap-5',
+        },
       }"
     >
       <h2 class="text-base font-semibold text-blue-950">Informações do usuário</h2>
-      <section 
-        v-for="(item, index) in informations" 
+      <section
+        v-for="(item, index) in informations"
         :key="index"
         class="flex justify-between items-center text-gray-400"
       >
