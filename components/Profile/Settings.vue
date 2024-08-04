@@ -64,7 +64,12 @@ const items = [
               <div class="flex flex-col items-center justify-center py-6 gap-3">
                 <UIcon name="carbon:flow-modeler" size="30px" />
                 <span class="text-md"> Não foi possivel encontrar nenhum fluxo. </span>
-                <UButton label="Criar um fluxo" variant="soft" class="mt-5" />
+                <UButton
+                  label="Criar um novo fluxo"
+                  @click="navigateTo('/flows/new')"
+                  variant="soft"
+                  class="mt-5"
+                />
               </div>
             </template>
           </UCommandPalette>
