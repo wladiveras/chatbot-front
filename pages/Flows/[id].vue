@@ -6,7 +6,7 @@ const route = useRoute()
 const sidebarStore = useSidebarStore()
 const flowsStore = useFlowsStore()
 const { isExpanded } = storeToRefs(sidebarStore)
-const { nodes, edges, lastNode } = storeToRefs(flowsStore)
+const { nodes, edges, lastNode, selectedNode } = storeToRefs(flowsStore)
 
 await flowsStore.fetchFlow(route.params?.id)
 
@@ -43,6 +43,7 @@ onNodeClick(({ node }) => {
 function addNewStep() {
   sidebarStore.toggleSize()
 
+  console.log({ test: Number(lastNode.value.id) + 1 })
   addNodes({
     id: Number(lastNode.value.id) + 1,
     position: { x: lastNode.value.position.x + 300, y: lastNode.value.position.y + 300 },
@@ -68,13 +69,16 @@ definePageMeta({
 
 <template>
   <main class="flex gap-5 w-full h-full">
-    <aside v-if="!isExpanded" class="overflow-auto w-full max-w-72 h-full border-r border-[#E5E5E5]">
+    <aside
+      v-if="!isExpanded"
+      class="overflow-auto w-full max-w-72 h-full border-r border-[#E5E5E5]"
+    >
       <header
         class="border-b border-[#E5E5E5] p-5 flex items-center justify-between text-gray-500 font-semibold text-base"
       >
         <section class="flex items-center gap-4">
           <UIcon name="material-symbols:inventory-2-outline" class="size-5" />
-          <p>Conteúdo</p>
+          <p>Grupo {{ selectedNode.id }}</p>
         </section>
         <UIcon
           class="size-6 cursor-pointer"

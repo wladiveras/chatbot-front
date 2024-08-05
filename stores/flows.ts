@@ -27,13 +27,15 @@ export const useFlowsStore = defineStore("flows", {
     flowName: (state) => state.flow.name || "Novo fluxo",
     flowDescription: (state) => state.flow.description || "Descrição do fluxo",
     isModifying: (state) => state.modifying,
-    lastNode: (state) => state.nodes[state.nodes.length - 1]
+    lastNode: (state) => state.nodes[state.nodes.length - 1],
   },
   actions: {
     setSelectedNode(node: any) {
       this.selectedNode = node;
       if (!!node) {
-        this.currentCommands = this.commands.filter(command => command.node_id === Number(this.selectedNode.id));
+        this.currentCommands = this.commands.filter(
+          (command) => command.node_id === Number(this.selectedNode.id)
+        );
         return;
       }
       this.currentCommands = [];
@@ -76,19 +78,34 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async updateFlow() {
+      const toast = useToast();
+
       this.loading = true;
-      makeRequests.update(`/flow/${this.flow.id}`, {
-        ...this.flow,
-        node: this.nodes,
-        edge: this.edges,
-        commands: this.commands
-      })
-      .then(() => {})
-      .catch(() => {})
-      .finally(() => {
-        this.loading = true;
-        this.modifying = false;
-      })
-    }
+      makeRequests
+        .update(`/flow/${this.flow.id}`, {
+          ...this.flow,
+          node: this.nodes,
+          edge: this.edges,
+          commands: this.commands,
+        })
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi atualizado com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível atualizar a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = true;
+          this.modifying = false;
+        });
+    },
   },
 });
