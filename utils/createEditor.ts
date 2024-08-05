@@ -40,10 +40,7 @@ export async function createEditor(container: HTMLElement) {
 
   // Nodes
   const a = new ClassicPreset.Node("A");
-  a.addControl(
-    "a",
-    new ClassicPreset.InputControl("text", { initial: "hello" })
-  );
+  a.addControl("a", new ClassicPreset.InputControl("text", {}));
   a.addOutput("a", new ClassicPreset.Output(socket));
   await editor.addNode(a);
 
