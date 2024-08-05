@@ -1,62 +1,86 @@
 <script setup>
+const flowsStore = useFlowsStore();
+const { commands } = storeToRefs(flowsStore);
+
 const options = [
   {
     label: "Texto",
+    type: "text",
     icon: "material-symbols:font-download-outline",
-    action: () => {}
+    action: addCommand
   },
   {
     label: "Imagem",
+    type: "image",
     icon: "material-symbols:imagesmode-outline",
-    action: () => {}
+    action: addCommand
   },
   {
     label: "Vídeo",
+    type: "video",
     icon: "material-symbols:videocam-outline",
-    action: () => {}
+    action: addCommand
   },
   {
     label: "Arquivo",
+    type: "file",
     icon: "material-symbols:draft-outline",
-    action: () => {}
+    action: addCommand
   },
   {
     label: "Audio",
+    type: "media_audio",
     icon: "material-symbols:mic-outline",
-    action: () => {}
+    action: addCommand
   },
   {
     label: "Atraso",
+    type: "delay",
     icon: "material-symbols:schedule-outline",
-    action: () => {}
+    action: addCommand
   },
-  {
-    label: "Auto Off",
-    icon: "material-symbols:power-settings-new",
-    action: () => {}
-  },
-  {
-    label: "Contato",
-    icon: "material-symbols:id-card-outline",
-    action: () => {}
-  },
+  // {
+  //   label: "Auto Off",
+  //   type: "auto_off",
+  //   icon: "material-symbols:power-settings-new",
+  //   action: addCommand
+  // },
+  // {
+  //   label: "Contato",
+  //   type: "contact",
+  //   icon: "material-symbols:id-card-outline",
+  //   action: addCommand
+  // },
   {
     label: "Link",
     icon: "material-symbols:link",
-    action: () => {}
+    action: addCommand
   },
 ]
+
+function addCommand(command) {
+  commands.value.push({
+    ...command,
+    value: ""
+  });
+}
 </script>
 
 <template>
-  <section class="flex flex-col p-5">
+  <section class="flex flex-col p-5 gap-20">
+    <FlowsCommands 
+      editable
+      v-if="commands.length"
+    />
+
     <section class="grid grid-cols-3 gap-x-2 gap-y-5">
       <section
         v-for="(opt, index) in options"
         :key="index"
         class="flex flex-col gap-3 items-center border border-gray-300 border-dashed py-3 rounded-lg cursor-pointer hover:border-gray-600 hover:text-gray-600 transition-all ease-in-out"
+        @click="opt.action(opt)"
       >
-        <UIcon 
+        <UIcon
           :name="opt?.icon"
           class="size-5"
         />

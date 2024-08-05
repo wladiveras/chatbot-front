@@ -26,6 +26,7 @@ const { flowName, flowDescription, isModifying } = storeToRefs(flowsStore)
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
             label="Salvar fluxo"
+            @click="flowsStore.updateFlow()"
           />
         </section>
       </template>

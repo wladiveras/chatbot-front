@@ -12,11 +12,9 @@ const modal = useModal()
 function openCreateConnection() {
   modal.open(DashboardModalCreateConnection, {
     async onSuccess() {
-      console.log("success")
       await connectionStore.fetchConnections()
     },
     async onClose() {
-      console.log("close")
       await connectionStore.fetchConnections()
     },
   })

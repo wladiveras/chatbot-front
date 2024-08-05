@@ -19,5 +19,6 @@ defineProps({
       <UIcon name="material-symbols:inventory-2-outline"/>
       <p>Conteúdo</p>
     </section>
+    <FlowsCommands :node-id="Number(node.id)" />
   </section>
 </template>

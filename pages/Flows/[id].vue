@@ -6,7 +6,7 @@ const route = useRoute()
 const sidebarStore = useSidebarStore()
 const flowsStore = useFlowsStore()
 const { isExpanded } = storeToRefs(sidebarStore)
-const { flow, edge, node } = storeToRefs(flowsStore)
+const { nodes, edges, lastNode } = storeToRefs(flowsStore)
 
 await flowsStore.fetchFlow(route.params?.id)
 
@@ -19,8 +19,6 @@ const {
   onNodeClick,
   setCenter,
 } = useVueFlow()
-const nodes = ref(initialNodes)
-const edges = ref(initialEdges)
 
 onInit((vueFlowInstance) => {
   vueFlowInstance.fitView()
@@ -46,15 +44,18 @@ function addNewStep() {
   sidebarStore.toggleSize()
 
   addNodes({
-    id: "4",
-    data: { label: "Node 4" },
-    position: { x: 400, y: 300 },
-    class: "custom-node init",
+    id: Number(lastNode.value.id) + 1,
+    position: { x: lastNode.value.position.x + 300, y: lastNode.value.position.y + 300 },
+    class: "custom-node content",
   })
 }
 
+function resetSidebar() {
+  sidebarStore.toggleSize()
+  flowsStore.setSelectedNode()
+}
+
 onUnmounted(() => {
-  console.log(isExpanded.value)
   if (!isExpanded.value) {
     addNewStep()
   }
@@ -67,7 +68,7 @@ definePageMeta({
 
 <template>
   <main class="flex gap-5 w-full h-full">
-    <aside v-if="!isExpanded" class="w-full max-w-72 h-full border-r border-[#E5E5E5]">
+    <aside v-if="!isExpanded" class="overflow-auto w-full max-w-72 h-full border-r border-[#E5E5E5]">
       <header
         class="border-b border-[#E5E5E5] p-5 flex items-center justify-between text-gray-500 font-semibold text-base"
       >
@@ -78,7 +79,7 @@ definePageMeta({
         <UIcon
           class="size-6 cursor-pointer"
           name="material-symbols:close"
-          @click="sidebarStore.toggleSize()"
+          @click="resetSidebar"
         />
       </header>
       <FlowsOptions />
@@ -92,8 +93,8 @@ definePageMeta({
       />
       <ClientOnly>
         <VueFlow
-          :nodes="nodes"
-          :edges="edges"
+          v-model:nodes="nodes"
+          v-model:edges="edges"
           :default-viewport="{ zoom: 0.5 }"
           :min-zoom="0.5"
           :max-zoom="3"
