@@ -10,7 +10,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/google-fonts",
     "@nuxthub/core",
-    "vue3-pixi-nuxt",
   ],
 
   css: ["~/assets/scss/main.scss"],

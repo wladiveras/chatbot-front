@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import "./RegisterServiceWorker"
+
 const runtimeConfig = useRuntimeConfig()
 
 useHead({
