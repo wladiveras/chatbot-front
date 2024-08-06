@@ -24,7 +24,7 @@ const commands = ref([...props?.node?.data?.commands]);
 
 <template>
   <!--  -->
-  <section class="flex flex-col gap-5" v-if="node?.data?.commands?.length && !currentCommands.lenght">
+  <section class="flex flex-col gap-5" v-if="node?.data?.commands?.length && !currentCommands.length">
     <UCard
       v-for="(command, index) in node.data.commands"
       :key="index"

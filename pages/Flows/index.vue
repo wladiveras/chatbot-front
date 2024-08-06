@@ -1,12 +1,24 @@
 <script lang="ts" setup>
+import { DashboardModalDeleteFlow } from "#components"
+
 const flowsStore = useFlowsStore()
 const { getFlows, totalFlows } = storeToRefs(flowsStore)
+const modal = useModal()
 
 const description = computed(() => {
   return `${totalFlows.value} conexões realizadas`
 })
 
 await flowsStore.fetchFlows()
+
+function openDeleteFlow(flow_id) {
+  modal.open(DashboardModalDeleteFlow, {
+    flow_id: flow_id,
+    async onDelete() {
+      await flowsStore.fetchFlows()
+    },
+  })
+}
 
 definePageMeta({
   layout: "dashboard",
@@ -53,7 +65,7 @@ useHead({
             class="bg-[#CD0E300D] text-[#CD0E30]"
             icon="material-symbols:delete-outline"
             size="lg"
-            @click.stop="flowsStore.removeFlow(item.id)"
+            @click.stop="openDeleteFlow(item.id)"
           />
         </template>
       </CustomHeader>

@@ -43,14 +43,14 @@ const options = [
   {
     label: "Variável",
     type: "Input",
-    action: "message",
+    action: "input",
     icon: "fluent:braces-variable-20-filled",
     callback: addCommand,
   },
   {
     label: "Atraso",
     type: "delay",
-    action: "message",
+    action: "delay",
     icon: "material-symbols:schedule-outline",
     callback: addCommand,
   },
