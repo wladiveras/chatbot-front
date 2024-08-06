@@ -93,6 +93,7 @@ const auxCommands = computed(() => {
             <source :src="command.value" type="video/mp4" />
             <span>Seu navegador não é compatível.</span>
           </video>
+          <i>{{command.caption}}</i>
         </p>
       </section>
 
@@ -102,6 +103,7 @@ const auxCommands = computed(() => {
       >
         <p class="text-ellipsis overflow-hidden">
           <NuxtImg :src="command.value" alt="Imagem" />
+          <i>{{command.caption}}</i>
         </p>
       </section>
 
@@ -139,63 +141,188 @@ const auxCommands = computed(() => {
 
       <section v-if="editable">
         <section class="gap-5 flex-1" v-if="command.type === 'text'">
-          <UFormGroup label="Tempo digitando">
-            <UInput v-model="command.delay" placeholder="1" />
+          <UFormGroup>
+            <template #label>
+            <p> <UIcon name="material-symbols:font-download-outline" size="15" class="relative top-[0.2rem]"/> Mensagem </p>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.value" placeholder="Olá...."/>
+            </template>
           </UFormGroup>
-          <br />
-          <UFormGroup label="Mensagem">
-            <UInput v-model="command.value" placeholder="Olá...." />
+          <br>
+          <UFormGroup>
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p> <UIcon name="material-symbols:schedule-outline" size="15" class="relative top-[0.1rem]"/> Digitando... <strong>{{command.delay}} segundos</strong>. </p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <URange v-model="command.delay" :min="1" :max="140" class="mt-2" />
+            </template>
           </UFormGroup>
         </section>
+
         <section class="gap-5 flex-1" v-else-if="command.action === 'delay'">
-          <UFormGroup label="Atraso">
-            <UInput v-model="command.value" placeholder="1" />
+          <UFormGroup>
+            <template #label>
+            <p><UIcon name="material-symbols:schedule-outline" size="15" class="relative top-[0.1rem]" /> Atraso de <strong>{{command.value}}</strong> segundos.</p>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <URange v-model="command.value" :min="1" :max="140" class="mt-2"  />
+            </template>
           </UFormGroup>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.action === 'input'">
-          <UFormGroup label="Nome da variável">
-            <UInput v-model="command.name" placeholder="exemplo: nome" />
+
+          <UFormGroup>
+            <template #label>
+              <p><UIcon name="fluent:braces-variable-20-filled" class="relative top-[0.1rem]"/> Nome da variável</p>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.name" placeholder="exemplo: nome" />
+            </template>
           </UFormGroup>
+
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'audio'">
-          <UFormGroup label="Tempo gravando">
-            <UInput v-model="command.delay" placeholder="1" />
+
+          <UFormGroup>
+            <template #label>
+            <span class="flex items-center justify-center">
+            <p><UIcon name="material-symbols:mic-outline" size="15" class="relative top-[0.2rem]" /> Audio</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.value" placeholder="https://exemplo.com/audio.mp3" />
+            </template>
           </UFormGroup>
-          <br />
-          <UFormGroup label="Audio">
-            <UInput v-model="command.value" placeholder="https://exemplo.com/audio.mp3" />
+          <br>
+          <UFormGroup>
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p><UIcon name="material-symbols:schedule-outline" size="15" class="relative top-[0.1rem]" /> Gravando... <strong>{{command.delay}} segundos</strong>.</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <URange v-model="command.delay" :min="1" :max="140" class="mt-2" />
+            </template>
           </UFormGroup>
         </section>
 
+
         <section class="gap-5 flex-1" v-else-if="command.type === 'image'">
-          <UFormGroup label="Imagem">
-            <UInput v-model="command.value" placeholder="https://exemplo.com/image.jpg" />
+
+          <UFormGroup>
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p><UIcon name="material-symbols:imagesmode-outline" size="15" class="relative top-[0.2rem]" /> Imagem</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.value" placeholder="https://exemplo.com/image.jpg" />
+            </template>
           </UFormGroup>
           <br />
-          <UFormGroup label="Descrição">
-            <UInput v-model="command.caption" placeholder="Um descrição." />
+          <UFormGroup>
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p><UIcon name="fluent:closed-caption-20-regular" size="15" class="relative top-[0.2rem]" /> Descrição</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.caption" placeholder="Uma descrição..." />
+            </template>
           </UFormGroup>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'video'">
-          <UFormGroup label="Video">
-            <UInput v-model="command.value" placeholder="https://exemplo.com/video.mp4" />
+          <UFormGroup >
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p><UIcon name="material-symbols:videocam-outline" size="15" class="relative top-[0.1rem]" /> Video</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.value" placeholder="https://exemplo.com/video.mp4" />
+            </template>
           </UFormGroup>
           <br />
-          <UFormGroup label="Descrição">
-            <UInput v-model="command.caption" placeholder="Um descrição." />
+
+          <UFormGroup >
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p><UIcon name="fluent:closed-caption-20-regular" size="15" class="relative top-[0.2rem]" /> Descrição</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.caption" placeholder="Uma descrição..." />
+            </template>
           </UFormGroup>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'media_audio'">
-          <UFormGroup label="Audio">
-            <UInput v-model="command.value" placeholder="https://exemplo.com/audio.mp3" />
+          <UFormGroup label="Media Audio">
+
           </UFormGroup>
+          <UFormGroup>
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p><UIcon name="fluent:closed-caption-20-regular" size="15" class="relative top-[0.2rem]" /> Descrição</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.value" placeholder="https://exemplo.com/audio.mp3" />
+            </template>
+          </UFormGroup>
+
           <br />
-          <UFormGroup label="Descrição">
-            <UInput v-model="command.caption" placeholder="Um descrição." />
+          <UFormGroup >
+            <template #label>
+            <span class="flex items-center justify-center">
+              <p><UIcon name="fluent:closed-caption-20-regular" size="15" class="relative top-[0.2rem]" /> Descrição</p>
+            </span>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput v-model="command.caption" placeholder="Uma descrição..." />
+            </template>
           </UFormGroup>
         </section>
       </section>
