@@ -1,6 +1,14 @@
 <script setup lang="ts">
 const flowsStore = useFlowsStore()
-const { flowName, flowDescription, isModifying } = storeToRefs(flowsStore)
+const { flowName, flowDescription, isModifying, isCreation } = storeToRefs(flowsStore)
+
+function handleClick() {
+  if (isCreation.value) {
+    flowsStore.createFlow()
+    return;
+  }
+  flowsStore.updateFlow()
+}
 </script>
 
 <template>
@@ -26,7 +34,7 @@ const { flowName, flowDescription, isModifying } = storeToRefs(flowsStore)
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
             label="Salvar fluxo"
-            @click="flowsStore.updateFlow()"
+            @click="handleClick"
           />
         </section>
       </template>

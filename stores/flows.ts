@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
 import type { IStateAuth } from "@/types";
-
 const makeRequests = useMakeRequests();
 
+const toast = useToast();
 export const useFlowsStore = defineStore("flows", {
   state: () => ({
     loading: false,
@@ -17,6 +17,7 @@ export const useFlowsStore = defineStore("flows", {
     commands: [],
     currentCommands: [],
     modifying: false,
+    isCreation: false
   }),
   getters: {
     getFlows: (state) => state.flows || [],
@@ -32,8 +33,8 @@ export const useFlowsStore = defineStore("flows", {
   actions: {
     setSelectedNode(node: any) {
       this.selectedNode = node;
-      if (!!node) {
-        this.currentCommands = this.commands.filter(
+      if (!!node && node?.data?.commands?.length) {
+        this.currentCommands = node.data.commands.filter(
           (command) => command.node_id === Number(this.selectedNode.id)
         );
         return;
@@ -57,6 +58,14 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async fetchFlow(id: any) {
+      if (id === "new") {
+        this.isCreation = true;
+        this.flow = initialFlow;
+        this.nodes = initialNodes;
+        this.edges = initialEdges;
+        return;
+      }
+      this.isCreation = false;
       this.loading = true;
 
       await makeRequests
@@ -68,6 +77,16 @@ export const useFlowsStore = defineStore("flows", {
           this.nodes = JSON.parse(node);
           this.edges = JSON.parse(edge);
           this.commands = JSON.parse(commands);
+          if (this?.commands?.length) {
+            this.nodes = this.nodes.map(item => ({
+              ...item,
+              data: {
+                ...item.data,
+                commands: this.commands.filter(command => command.node_id === Number(item.id))
+              }
+            }));
+          }
+
           this.modifying = true;
         })
         .catch((error) => {
@@ -78,15 +97,12 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async updateFlow() {
-      const toast = useToast();
-
       this.loading = true;
-      makeRequests
+      await makeRequests
         .update(`/flow/${this.flow.id}`, {
           ...this.flow,
           node: this.nodes,
-          edge: this.edges,
-          commands: this.commands,
+          edge: this.edges
         })
         .then(() => {
           toast.add({
@@ -107,5 +123,38 @@ export const useFlowsStore = defineStore("flows", {
           this.modifying = false;
         });
     },
+    async createFlow() {
+      this.loading = true;
+      await makeRequests
+      .post(`/flow`, {
+        ...this.flow,
+        node: this.nodes,
+        edge: this.edges
+      })
+      .then(() => {
+        toast.add({
+          icon: "i-heroicons-check-circle",
+          title: `O fluxo foi atualizado com sucesso.`,
+          color: "green",
+        });
+      })
+      .catch(() => {
+        toast.add({
+          icon: "i-heroicons-check-circle",
+          title: `Não foi possível atualizar a o fluxo.`,
+          color: "red",
+        });
+      })
+      .finally(() => {
+        this.loading = true;
+        this.modifying = false;
+      });
+    },
+    async removeFlow(id: number) {
+      await makeRequests.destroy(`/flow/${id}`)
+      .then(() => {})
+      .catch(() => {})
+      .finally(() => {})
+    }
   },
 });

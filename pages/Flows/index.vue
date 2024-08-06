@@ -53,7 +53,7 @@ useHead({
             class="bg-[#CD0E300D] text-[#CD0E30]"
             icon="material-symbols:delete-outline"
             size="lg"
-            @click.prevent
+            @click.stop="flowsStore.removeFlow(item.id)"
           />
         </template>
       </CustomHeader>

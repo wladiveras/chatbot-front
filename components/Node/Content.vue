@@ -19,6 +19,6 @@ defineProps({
       <UIcon name="material-symbols:inventory-2-outline" />
       <p>Grupo {{ node.id }}</p>
     </section>
-    <FlowsCommands :node-id="Number(node.id)" />
+    <FlowsCommands :node="node" />
   </section>
 </template>
