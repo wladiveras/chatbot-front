@@ -1,5 +1,6 @@
 <script setup>
 const flowStore = useFlowsStore()
+const connectionStore = useConnectionsStore()
 const { getFlows, selectedFlow } = storeToRefs(flowStore)
 
 await flowStore.fetchFlows()
@@ -24,6 +25,13 @@ const items = [
     icon: "material-symbols:lock-outline",
   },
 ]
+
+const onSelectFlow = (option) => {
+  const id = ref(option?.id)
+  if (id) {
+    connectionStore.selectFlow(id.value)
+  }
+}
 </script>
 
 <template>
@@ -47,6 +55,7 @@ const items = [
             icon="carbon:flow-modeler"
             :loading="getFlows.loading"
             v-model="selectedFlow"
+            @update:model-value="onSelectFlow"
             placeholder="Pesquisar fluxos..."
             nullable
             :fuse="{
