@@ -15,8 +15,7 @@ const { userName, userAvatar } = storeToRefs(authStore)
           :ui="{ rounded: 'rounded-full' }"
         >
           <UIcon class="text-2xl" name="material-symbols:person-outline" />
-          <!-- 17 de 50 leads utilizados -->
-          BETA
+          leads ilimitados
         </UBadge>
         <UAvatar :alt="userName" size="lg" :src="userAvatar" />
       </section>

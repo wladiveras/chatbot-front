@@ -30,14 +30,13 @@
               :button="{
                 label: 'Contratar Plano',
                 color: 'gray',
-                text: 'blue',
                 to: '/login',
               }"
               orientation="vertical"
               align="bottom"
               :features="[
-                '30 dias gratis',
                 '1 Conexão de WhatsApp',
+                '30 dias gratis',
                 '100 leads de Limite',
                 'Fluxo Marina Bot',
                 'Dashboard exclusiva',
@@ -45,7 +44,7 @@
               ]"
             />
             <UPricingCard
-              price="147,00"
+              price="297,00"
               cycle="/mês"
               highlight
               :badge="{ label: 'Premium' }"
@@ -53,8 +52,8 @@
               orientation="vertical"
               align="bottom"
               :features="[
-                '1 Conexão de WhatsApp',
-                '100 leads de Limite',
+                '5 Conexão de WhatsApp',
+                'Leads ilimitados',
                 'Fluxo Marina Bot',
                 'Dashboard exclusiva',
                 'Suporte por WhatsApp',
@@ -66,7 +65,6 @@
               :button="{
                 label: 'Entrar em Contato',
                 color: 'gray',
-                text: 'blue',
                 to: '/login',
               }"
               orientation="vertical"
