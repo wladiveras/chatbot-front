@@ -135,6 +135,32 @@ export const useConnectionsStore = defineStore("connections", {
           this.loading = false;
         });
     },
+    async selectFlow(data: any) {
+      const toast = useToast();
+
+      this.loading = true;
+      makeRequests
+        .update(`/integration/whatsapp/select-flow/${this.connection.id}`, {
+          flow_id: data["flow_id"],
+        })
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi selecionado com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível selecionar a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
     async sendMessage(number: string, message: string) {
       this.loading = true;
 

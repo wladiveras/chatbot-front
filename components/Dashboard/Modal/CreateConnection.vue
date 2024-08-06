@@ -22,7 +22,7 @@ const schema = z.object({
 type Schema = z.output<typeof schema>
 
 const connectionStore = useConnectionsStore()
-const { ConnectionPayload, getQrcode, loading } = storeToRefs(connectionStore)
+const { ConnectionPayload, getQrcode, isLoading } = storeToRefs(connectionStore)
 const emit = defineEmits(["success", "close"])
 
 connectionStore.init()
@@ -123,7 +123,7 @@ onUnmounted(() => {
           <UButton
             class="w-full flex text-center py-[15px] px-[25px] bg-blue-950"
             type="submit"
-            :loading="loading"
+            :loading="isLoading"
             block
           >
             Continuar

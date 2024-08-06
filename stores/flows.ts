@@ -103,7 +103,7 @@ export const useFlowsStore = defineStore("flows", {
           });
         })
         .finally(() => {
-          this.loading = true;
+          this.loading = false;
           this.modifying = false;
         });
     },
