@@ -16,8 +16,13 @@ defineProps({
 
   <section class="flex flex-col gap-5 max-w-60">
     <section class="flex items-center gap-3 text-gray-500 text-sm font-semibold">
-      <UIcon name="material-symbols:inventory-2-outline" />
-      <p>Grupo {{ node.id }}</p>
+      <p class="text-lg">
+        <UIcon
+          name="material-symbols:inventory-2-outline"
+          class="relative top-[0.2rem]"
+        />
+        Grupo {{ node.id }}
+      </p>
     </section>
     <FlowsCommands :node-id="Number(node.id)" />
   </section>
