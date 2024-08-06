@@ -169,7 +169,7 @@ export const useConnectionsStore = defineStore("connections", {
       const payload = {
         connection: this.getToken,
         number: connectionKey,
-        delay: 1000,
+        delay: 10,
         type: "text",
         value: message,
       };
