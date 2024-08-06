@@ -65,7 +65,7 @@ function resetSidebar() {
 
 onUnmounted(() => {
   if (!isExpanded.value) {
-    addNewStep()
+    resetSidebar()
   }
 })
 
