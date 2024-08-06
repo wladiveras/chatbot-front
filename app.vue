@@ -65,6 +65,6 @@ useSeoMeta({
     </UMain>
 
     <UModals />
-    <UNotifications :ui="{ strategy: 'override', position: 'bottom-0 left-1/3' }" />
+    <UNotifications :ui="{ strategy: 'override', position: 'top-0 right-0' }" />
   </div>
 </template>

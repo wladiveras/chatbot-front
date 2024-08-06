@@ -30,14 +30,13 @@
               :button="{
                 label: 'Contratar Plano',
                 color: 'gray',
-                text: 'blue',
                 to: '/login',
               }"
               orientation="vertical"
               align="bottom"
               :features="[
-                '30 dias gratis',
                 '1 Conexão de WhatsApp',
+                '30 dias gratis',
                 '100 leads de Limite',
                 'Fluxo Marina Bot',
                 'Dashboard exclusiva',
@@ -48,30 +47,36 @@
               price="147,00"
               cycle="/mês"
               highlight
-              :badge="{ label: 'Premium' }"
+              :badge="{ label: 'Starter' }"
               :button="{ label: 'Contratar Plano', to: '/login' }"
               orientation="vertical"
               align="bottom"
               :features="[
-                '1 Conexão de WhatsApp',
-                '100 leads de Limite',
+                '3 Conexão de WhatsApp',
+                'Leads ilimitados',
                 'Fluxo Marina Bot',
                 'Dashboard exclusiva',
                 'Suporte por WhatsApp',
               ]"
             />
             <UPricingCard
-              price="Personalizado"
-              :badge="{ label: 'Enterprise' }"
+              price="247,00"
+              :badge="{ label: 'Premium' }"
               :button="{
-                label: 'Entrar em Contato',
+                label: 'Contratar',
                 color: 'gray',
-                text: 'blue',
                 to: '/login',
               }"
               orientation="vertical"
               align="bottom"
-              :features="['Todos os recursos', 'White Label', 'Suporte Exclusivo']"
+              :features="[
+                '6 Conexão de WhatsApp',
+                'Leads ilimitados',
+                'Fluxo Marina Bot',
+                'Dashboard exclusiva',
+                'Suporte por WhatsApp',
+                'Suporte Prioritário.',
+              ]"
             />
           </UPricingGrid>
         </div>
