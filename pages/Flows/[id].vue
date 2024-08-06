@@ -34,7 +34,6 @@ onConnect((connection) => {
 })
 
 onNodeClick(({ node }) => {
-  console.log(node);
   if (node.type !== "init") {
     if (isExpanded.value) sidebarStore.toggleSize()
     flowsStore.setSelectedNode(node)
