@@ -135,13 +135,13 @@ export const useConnectionsStore = defineStore("connections", {
           this.loading = false;
         });
     },
-    async selectFlow(data: any) {
+    async selectFlow(flow_id: any) {
       const toast = useToast();
 
       this.loading = true;
       makeRequests
         .update(`/integration/whatsapp/select-flow/${this.connection.id}`, {
-          flow_id: data["flow_id"],
+          flow_id: flow_id,
         })
         .then(() => {
           toast.add({

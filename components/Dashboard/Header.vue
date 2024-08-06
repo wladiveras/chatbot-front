@@ -1,11 +1,13 @@
 <script setup lang="ts">
-const authStore = useAuthStore();
-const { userName, userAvatar } = storeToRefs(authStore);
+const authStore = useAuthStore()
+const { userName, userAvatar } = storeToRefs(authStore)
 </script>
 
 <template>
-  <header class="flex items-center justify-between h-full max-h-24 border-b border-solid border-[#E5E5E5] px-8 py-6">
-    <NuxtImg src="/Logo.png" class="w-32" />
+  <header
+    class="flex items-center justify-between h-full max-h-24 border-b border-solid border-[#E5E5E5] px-8 py-6"
+  >
+    <NuxtImg src="/Logo.png" class="w-32 cursor-pointer" @click="navigateTo('/flows')" />
     <slot>
       <section class="flex items-center gap-5">
         <UBadge
@@ -13,13 +15,10 @@ const { userName, userAvatar } = storeToRefs(authStore);
           :ui="{ rounded: 'rounded-full' }"
         >
           <UIcon class="text-2xl" name="material-symbols:person-outline" />
-          17 de 50 leads utilizados
+          <!-- 17 de 50 leads utilizados -->
+          BETA
         </UBadge>
-        <UAvatar
-          :alt="userName"
-          size="lg"
-          :src="userAvatar"
-        />
+        <UAvatar :alt="userName" size="lg" :src="userAvatar" />
       </section>
     </slot>
   </header>

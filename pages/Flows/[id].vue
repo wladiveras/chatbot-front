@@ -1,6 +1,5 @@
 <script setup>
 import { VueFlow, useVueFlow } from "@vue-flow/core"
-import { initialEdges, initialNodes } from "@/utils/initial-elements.js"
 
 const route = useRoute()
 const sidebarStore = useSidebarStore()
@@ -18,7 +17,6 @@ const {
   addNodes,
   onNodeClick,
   setCenter,
-  dimensions
 } = useVueFlow()
 
 onInit((vueFlowInstance) => {
@@ -42,8 +40,11 @@ onNodeClick(({ node }) => {
 })
 
 function addNewStep() {
-  const id = Number(lastNode.value.id) + 1;
-  const position = { x: lastNode.value.position.x + 500, y: lastNode.value.position.y + 500 };
+  const id = Number(lastNode.value.id) + 1
+  const position = {
+    x: lastNode.value.position.x + 500,
+    y: lastNode.value.position.y + 500,
+  }
 
   const newNode = {
     id,
@@ -51,11 +52,11 @@ function addNewStep() {
     class: "custom-node content",
     position,
     data: {
-      commands: []
-    }
+      commands: [],
+    },
   }
-  addNodes([newNode]);
-  setCenter(position.x, position.y, { duration: 200, zoom: 1 });
+  addNodes([newNode])
+  setCenter(position.x, position.y, { duration: 200, zoom: 1 })
 }
 
 function resetSidebar() {
@@ -65,7 +66,7 @@ function resetSidebar() {
 
 onUnmounted(() => {
   if (!isExpanded.value) {
-    addNewStep()
+    resetSidebar()
   }
 })
 

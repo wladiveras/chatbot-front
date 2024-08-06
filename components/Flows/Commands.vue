@@ -19,12 +19,18 @@ const props = defineProps({
   }
 })
 
-const commands = ref([...props?.node?.data?.commands]);
+
+function removeCommand(deleteCommand) {
+  selectedNode.value.data.commands = selectedNode.value.data.commands.filter(
+    (command) => command !== deleteCommand
+  )
+}
+
 </script>
 
 <template>
   <!--  -->
-  <section class="flex flex-col gap-5" v-if="node?.data?.commands?.length && !currentCommands.lenght">
+  <section class="flex flex-col gap-5" v-if="node?.data?.commands?.length && !currentCommands.length">
     <UCard
       v-for="(command, index) in node.data.commands"
       :key="index"
@@ -167,6 +173,7 @@ const commands = ref([...props?.node?.data?.commands]);
               <URange v-model="command.delay" :min="1" :max="140" class="mt-2" />
             </template>
           </UFormGroup>
+          <UButton block @click="removeCommand(command)">Remover</UButton>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.action === 'delay'">
@@ -181,6 +188,7 @@ const commands = ref([...props?.node?.data?.commands]);
               <URange v-model="command.value" :min="1" :max="140" class="mt-2"  />
             </template>
           </UFormGroup>
+          <UButton block @click="removeCommand(command)">Remover</UButton>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.action === 'input'">
@@ -196,11 +204,10 @@ const commands = ref([...props?.node?.data?.commands]);
               <UInput v-model="command.name" placeholder="exemplo: nome" />
             </template>
           </UFormGroup>
-
+          <UButton block @click="removeCommand(command)">Remover</UButton>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'audio'">
-
           <UFormGroup>
             <template #label>
             <span class="flex items-center justify-center">
@@ -228,11 +235,11 @@ const commands = ref([...props?.node?.data?.commands]);
               <URange v-model="command.delay" :min="1" :max="140" class="mt-2" />
             </template>
           </UFormGroup>
+          <UButton block @click="removeCommand(command)">Remover</UButton>
         </section>
 
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'image'">
-
           <UFormGroup>
             <template #label>
             <span class="flex items-center justify-center">
@@ -260,6 +267,7 @@ const commands = ref([...props?.node?.data?.commands]);
               <UInput v-model="command.caption" placeholder="Uma descrição..." />
             </template>
           </UFormGroup>
+          <UButton block @click="removeCommand(command)">Remover</UButton>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'video'">
@@ -277,7 +285,6 @@ const commands = ref([...props?.node?.data?.commands]);
             </template>
           </UFormGroup>
           <br />
-
           <UFormGroup >
             <template #label>
             <span class="flex items-center justify-center">
@@ -291,16 +298,15 @@ const commands = ref([...props?.node?.data?.commands]);
               <UInput v-model="command.caption" placeholder="Uma descrição..." />
             </template>
           </UFormGroup>
+          <UButton block @click="removeCommand(command)">Remover</UButton>
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'media_audio'">
-          <UFormGroup label="Media Audio">
 
-          </UFormGroup>
           <UFormGroup>
             <template #label>
             <span class="flex items-center justify-center">
-              <p><UIcon name="fluent:closed-caption-20-regular" size="15" class="relative top-[0.2rem]" /> Descrição</p>
+              <p><UIcon name="fluent:closed-caption-20-regular" size="15" class="relative top-[0.2rem]" /> Audio em Media</p>
             </span>
             </template>
             <template #help>
@@ -310,7 +316,6 @@ const commands = ref([...props?.node?.data?.commands]);
               <UInput v-model="command.value" placeholder="https://exemplo.com/audio.mp3" />
             </template>
           </UFormGroup>
-
           <br />
           <UFormGroup >
             <template #label>
@@ -325,12 +330,13 @@ const commands = ref([...props?.node?.data?.commands]);
               <UInput v-model="command.caption" placeholder="Uma descrição..." />
             </template>
           </UFormGroup>
+          <UButton block @click="removeCommand(command)">Remover</UButton>
         </section>
       </section>
     </UCard>
   </section>
   <!-- To edit -->
-  <section class="flex flex-col gap-5" v-if="currentCommands.lenght">
+  <section class="flex flex-col gap-5" v-if="currentCommands.length">
     <UCard
       v-for="(command, index) in currentCommands"
       :key="index"
