@@ -75,7 +75,7 @@ const options = [
 function addCommand(command) {
   selectedNode.value.data.commands.push({
     ...command,
-    value: "",
+    value: command.action === "delay" ? 1 : "",
   })
 }
 </script>
