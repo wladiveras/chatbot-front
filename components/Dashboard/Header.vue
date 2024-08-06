@@ -5,7 +5,7 @@ const { userName, userAvatar } = storeToRefs(authStore);
 
 <template>
   <header class="flex items-center justify-between h-full max-h-24 border-b border-solid border-[#E5E5E5] px-8 py-6">
-    <NuxtImg src="/Logo.png" class="w-32" />
+    <NuxtImg src="/Logo.png" class="w-32 cursor-pointer" @click="navigateTo('/flows')" />
     <slot>
       <section class="flex items-center gap-5">
         <UBadge

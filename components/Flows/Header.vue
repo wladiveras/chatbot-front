@@ -16,7 +16,7 @@ function handleClick() {
     class="flex items-center justify-between h-full max-h-24 border-b border-solid border-[#E5E5E5] px-8 py-6 gap-10"
   >
     <section class="w-full max-w-56 border-r border-[#E5E5E5]">
-      <NuxtImg src="/Logo.png" class="w-32" />
+      <NuxtImg src="/Logo.png" class="w-32 cursor-pointer" @click="navigateTo('/flows')" />
     </section>
     <CustomHeader
       :title="flowName"
