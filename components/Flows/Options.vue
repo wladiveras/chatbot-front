@@ -12,6 +12,20 @@ const options = [
     callback: addCommand,
   },
   {
+    label: "Audio",
+    type: "audio",
+    action: "message",
+    icon: "material-symbols:mic-outline",
+    callback: addCommand,
+  },
+  {
+    label: "Variável",
+    type: "Input",
+    action: "input",
+    icon: "fluent:braces-variable-20-filled",
+    callback: addCommand,
+  },
+  {
     label: "Imagem",
     type: "image",
     action: "message",
@@ -27,26 +41,14 @@ const options = [
     callback: addCommand,
   },
   {
-    label: "Arquivo",
-    type: "file",
+    label: "Media",
+    type: "media_audio",
     action: "message",
+    caption: "",
     icon: "material-symbols:draft-outline",
     callback: addCommand,
   },
-  {
-    label: "Audio",
-    type: "audio",
-    action: "message",
-    icon: "material-symbols:mic-outline",
-    callback: addCommand,
-  },
-  {
-    label: "Variável",
-    type: "Input",
-    action: "input",
-    icon: "fluent:braces-variable-20-filled",
-    callback: addCommand,
-  },
+
   {
     label: "Atraso",
     type: "delay",
