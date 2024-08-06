@@ -18,6 +18,7 @@ const {
   addNodes,
   onNodeClick,
   setCenter,
+  dimensions
 } = useVueFlow()
 
 onInit((vueFlowInstance) => {
@@ -41,14 +42,20 @@ onNodeClick(({ node }) => {
 })
 
 function addNewStep() {
-  sidebarStore.toggleSize()
+  const id = Number(lastNode.value.id) + 1;
+  const position = { x: lastNode.value.position.x + 500, y: lastNode.value.position.y + 500 };
 
-  console.log({ test: Number(lastNode.value.id) + 1 })
-  addNodes({
-    id: Number(lastNode.value.id) + 1,
-    position: { x: lastNode.value.position.x + 300, y: lastNode.value.position.y + 300 },
+  const newNode = {
+    id,
+    type: "content",
     class: "custom-node content",
-  })
+    position,
+    data: {
+      commands: []
+    }
+  }
+  addNodes([newNode]);
+  setCenter(position.x, position.y, { duration: 200, zoom: 1 });
 }
 
 function resetSidebar() {
