@@ -293,13 +293,11 @@ const auxCommands = computed(() => {
         </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'media_audio'">
-          <UFormGroup label="Media Audio">
 
-          </UFormGroup>
           <UFormGroup>
             <template #label>
             <span class="flex items-center justify-center">
-              <p><UIcon name="fluent:closed-caption-20-regular" size="15" class="relative top-[0.2rem]" /> Descrição</p>
+              <p><UIcon name="material-symbols:mic-outline" size="15" class="relative top-[0.2rem]" /> Audio em Media</p>
             </span>
             </template>
             <template #help>
