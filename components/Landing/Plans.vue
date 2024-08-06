@@ -44,15 +44,15 @@
               ]"
             />
             <UPricingCard
-              price="297,00"
+              price="147,00"
               cycle="/mês"
               highlight
-              :badge="{ label: 'Premium' }"
+              :badge="{ label: 'Starter' }"
               :button="{ label: 'Contratar Plano', to: '/login' }"
               orientation="vertical"
               align="bottom"
               :features="[
-                '5 Conexão de WhatsApp',
+                '3 Conexão de WhatsApp',
                 'Leads ilimitados',
                 'Fluxo Marina Bot',
                 'Dashboard exclusiva',
@@ -60,16 +60,23 @@
               ]"
             />
             <UPricingCard
-              price="Personalizado"
-              :badge="{ label: 'Enterprise' }"
+              price="247,00"
+              :badge="{ label: 'Premium' }"
               :button="{
-                label: 'Entrar em Contato',
+                label: 'Contratar',
                 color: 'gray',
                 to: '/login',
               }"
               orientation="vertical"
               align="bottom"
-              :features="['Todos os recursos', 'White Label', 'Suporte Exclusivo']"
+              :features="[
+                '6 Conexão de WhatsApp',
+                'Leads ilimitados',
+                'Fluxo Marina Bot',
+                'Dashboard exclusiva',
+                'Suporte por WhatsApp',
+                'Suporte Prioritário.',
+              ]"
             />
           </UPricingGrid>
         </div>
