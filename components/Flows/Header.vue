@@ -4,13 +4,18 @@ const { flow, flowName, flowDescription, isCreation } = storeToRefs(flowsStore)
 
 const isOpen = ref(false)
 
-function handleClick() {
+async function saveFlow() {
   if (isCreation.value) {
-    flowsStore.createFlow()
-    navigateTo(`/flows`)
+    await flowsStore.createFlow()
+    .then(() => {
+      navigateTo(`/flows`);
+    });
     return
   }
-  flowsStore.updateFlow()
+  await flowsStore.updateFlow()
+  .then(() => {
+    navigateTo(`/flows`);
+  });
 }
 </script>
 
@@ -44,7 +49,7 @@ function handleClick() {
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
             :label="isCreation ? 'Criar Fluxo' : 'Salvar fluxo'"
-            @click="handleClick"
+            @click="saveFlow"
           />
         </section>
       </template>

@@ -11,20 +11,15 @@ await flowsStore.fetchFlow(route.params?.id)
 
 const {
   onInit,
-  onNodeDragStop,
   onConnect,
   addEdges,
   addNodes,
   onNodeClick,
-  setCenter,
+  setCenter
 } = useVueFlow()
 
 onInit((vueFlowInstance) => {
   vueFlowInstance.fitView()
-})
-
-onNodeDragStop(({ event, nodes, node }) => {
-  console.log("Node Drag Stop", { event, nodes, node })
 })
 
 onConnect((connection) => {
@@ -76,7 +71,7 @@ definePageMeta({
 </script>
 
 <template>
-  <main class="flex gap-5 w-full h-full">
+  <main class="flex w-full h-full">
     <aside
       v-if="!isExpanded"
       class="overflow-auto w-full max-w-72 h-full border-r border-[#E5E5E5]"
@@ -96,9 +91,9 @@ definePageMeta({
       </header>
       <FlowsOptions />
     </aside>
-    <section class="relative w-full h-full p-5">
+    <section class="relative w-full h-full">
       <UButton
-        class="absolute right-5 z-50"
+        class="absolute right-5 top-5 z-50"
         icon="material-symbols:add"
         size="xl"
         @click="addNewStep"
