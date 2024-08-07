@@ -7,7 +7,7 @@ const isOpen = ref(false)
 function handleClick() {
   if (isCreation.value) {
     flowsStore.createFlow()
-    isCreation.value = false
+    navigateTo(`/flows`)
     return
   }
   flowsStore.updateFlow()
