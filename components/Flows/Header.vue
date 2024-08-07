@@ -17,6 +17,11 @@ async function saveFlow() {
     navigateTo(`/flows`);
   });
 }
+
+async function handleClick() {
+  await flowsStore.createCommands();
+  saveFlow();
+}
 </script>
 
 <template>
@@ -49,7 +54,7 @@ async function saveFlow() {
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
             :label="isCreation ? 'Criar Fluxo' : 'Salvar fluxo'"
-            @click="saveFlow"
+            @click="handleClick"
           />
         </section>
       </template>

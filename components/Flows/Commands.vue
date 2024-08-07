@@ -1,9 +1,6 @@
 <script setup>
 import { useVueFlow } from '@vue-flow/core';
 
-const flowsStore = useFlowsStore()
-const { selectedNode, currentCommands } = storeToRefs(flowsStore)
-
 const { updateNodeData } = useVueFlow()
 
 const props = defineProps({
@@ -12,17 +9,22 @@ const props = defineProps({
     default: false,
     required: false,
   },
-  node: {
+  id: {
+    type: String,
+    required: true,
+    default: () => {},
+  },
+  data: {
     type: Object,
-    default: 0,
-    required: false,
-  }
+    required: true,
+    default: () => {},
+  },
 })
 
-const commands = ref([...props?.node?.data?.commands]);
+const commands = ref([...props?.data]);
 
 watch(
-  () => props?.node,
+  () => props?.data,
   handleNodeChange,
   { deep: true }
 )
@@ -34,12 +36,12 @@ watch(
 )
 
 function handleNodeChange() {
-  commands.value = props?.node?.data?.commands;
+  commands.value = props?.data;
 }
 
 function handleChange() {
   if (props.editable) {
-    updateNodeData(props.node.id, { commands: commands.value });
+    updateNodeData(props.id, { commands: commands.value });
   }
 }
 

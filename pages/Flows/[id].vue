@@ -15,7 +15,8 @@ const {
   addEdges,
   addNodes,
   onNodeClick,
-  setCenter
+  setCenter,
+  onNodesChange
 } = useVueFlow()
 
 onInit((vueFlowInstance) => {
@@ -31,6 +32,12 @@ onNodeClick(({ node }) => {
     if (isExpanded.value) sidebarStore.toggleSize()
     flowsStore.setSelectedNode(node)
     setCenter(node.position.x, node.position.y, { duration: 200, zoom: 1 })
+  }
+})
+
+onNodesChange((param) => {
+  if (param[0].type === 'remove') {
+    sidebarStore.toggleSize();
   }
 })
 
@@ -111,8 +118,8 @@ definePageMeta({
             <NodeInit :node="props" />
           </template>
 
-          <template #node-content="props">
-            <NodeContent :node="props" />
+          <template #node-content="{ data, id }">
+            <NodeContent :id="id" :data="data" />
           </template>
         </VueFlow>
       </ClientOnly>

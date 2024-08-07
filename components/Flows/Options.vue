@@ -81,7 +81,7 @@ function addCommand(command) {
 
 <template>
   <section class="flex flex-col p-5 gap-20">
-    <FlowsCommands editable :node="selectedNode" />
+    <FlowsCommands editable :id="selectedNode.id" :data="selectedNode.data.commands" />
 
     <section class="grid grid-cols-3 gap-x-2 gap-y-5">
       <section
