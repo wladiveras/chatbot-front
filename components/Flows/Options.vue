@@ -1,6 +1,9 @@
 <script setup>
+import { useVueFlow } from '@vue-flow/core';
+
 const flowsStore = useFlowsStore()
-const { commands, selectedNode } = storeToRefs(flowsStore)
+const { selectedNode } = storeToRefs(flowsStore)
+const { updateNodeData } = useVueFlow()
 
 const options = [
   {
@@ -62,27 +65,23 @@ const options = [
     action: "message",
     icon: "material-symbols:link",
     callback: addCommand,
-  },
-
-  // {
-  //   label: "Contato",
-  //   type: "contact",
-  //   icon: "material-symbols:id-card-outline",
-  //   action: addCommand
-  // },
+  }
 ]
 
 function addCommand(command) {
-  selectedNode.value.data.commands.push({
+  const commands = selectedNode.value.data.commands;
+  commands.push({
     ...command,
     value: command.action === "delay" ? 1 : "",
-  })
+  });
+
+  updateNodeData(selectedNode.value.id, { commands })
 }
 </script>
 
 <template>
   <section class="flex flex-col p-5 gap-20">
-    <FlowsCommands editable :node="selectedNode" />
+    <FlowsCommands editable :id="selectedNode.id" :data="selectedNode.data.commands" />
 
     <section class="grid grid-cols-3 gap-x-2 gap-y-5">
       <section

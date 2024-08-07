@@ -15,7 +15,7 @@ export const useFlowsStore = defineStore("flows", {
     nodes: [],
     edges: [],
     commands: [],
-    currentCommands: [],
+    commandsList: [],
     modifying: false,
     isCreation: false
   }),
@@ -33,13 +33,37 @@ export const useFlowsStore = defineStore("flows", {
   actions: {
     setSelectedNode(node: any) {
       this.selectedNode = node;
-      if (!!node && node?.data?.commands?.length) {
-        this.currentCommands = node.data.commands.filter(
-          (command) => command.node_id === Number(this.selectedNode.id)
-        );
-        return;
-      }
-      this.currentCommands = [];
+    },
+    createCommands() {
+      const extractCommandsFromNodes = (nodes) => {
+        return nodes
+          .map((node) => {
+            if (!node.data.commands) {
+              return [];
+            }
+            return node.data.commands.map((command) => {
+              const nodeId = node.id;
+              const { icon, ...rest } = command;
+              return { ...rest, nodeId };
+            });
+          })
+          .flat();
+      };
+
+      let edges = this.edges.map((node) => {
+        const { source, target } = node;
+        return [source, target];
+      });
+
+      edges = [...new Set(edges.flat())];
+
+      let commands = extractCommandsFromNodes(this.nodes);
+
+      this.commandsList = commands
+        .filter((command) => edges.includes(command.nodeId))
+        .sort((a, b) => {
+          return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
+        });
     },
 
     async fetchFlows() {
@@ -82,7 +106,7 @@ export const useFlowsStore = defineStore("flows", {
               ...item,
               data: {
                 ...item.data,
-                commands: this.commands.filter(command => command.node_id === Number(item.id))
+                commands: this.commands.filter(command => Number(command.nodeId) === Number(item.id))
               }
             }));
           }
@@ -102,7 +126,8 @@ export const useFlowsStore = defineStore("flows", {
         .update(`/flow/${this.flow.id}`, {
           ...this.flow,
           node: this.nodes,
-          edge: this.edges
+          edge: this.edges,
+          commands: this.commandsList
         })
         .then(() => {
           toast.add({
@@ -129,7 +154,8 @@ export const useFlowsStore = defineStore("flows", {
       .post(`/flow`, {
         ...this.flow,
         node: this.nodes,
-        edge: this.edges
+        edge: this.edges,
+        commands: this.commandsList
       })
       .then(() => {
         toast.add({
