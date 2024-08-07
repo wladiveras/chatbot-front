@@ -52,7 +52,7 @@
               orientation="vertical"
               align="bottom"
               :features="[
-                '3 Conexão de WhatsApp',
+                '1 Conexão de WhatsApp',
                 'Leads ilimitados',
                 'Fluxo Marina Bot',
                 'Dashboard exclusiva',
