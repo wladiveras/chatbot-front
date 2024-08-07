@@ -17,7 +17,7 @@ export const useFlowsStore = defineStore("flows", {
     commands: [],
     currentCommands: [],
     modifying: false,
-    isCreation: false
+    isCreation: false,
   }),
   getters: {
     getFlows: (state) => state.flows || [],
@@ -42,6 +42,39 @@ export const useFlowsStore = defineStore("flows", {
       this.currentCommands = [];
     },
 
+    createCommands() {
+      const extractCommandsFromNodes = (nodes) => {
+        return nodes
+          .map((node) => {
+            if (!node.data.commands) {
+              return [];
+            }
+            return node.data.commands.map((command) => {
+              const nodeId = node.id;
+              const { icon, ...rest } = command;
+              return { ...rest, nodeId };
+            });
+          })
+          .flat();
+      };
+
+      let edges = this.edges.map((node) => {
+        const { source, target } = node;
+        return [source, target];
+      });
+
+      edges = [...new Set(edges.flat())];
+
+      let commands = extractCommandsFromNodes(this.nodes);
+
+      commands = commands
+        .filter((command) => edges.includes(command.nodeId))
+        .sort((a, b) => {
+          return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
+        });
+
+      this.commands = commands;
+    },
     async fetchFlows() {
       this.loading = true;
       await makeRequests
@@ -78,12 +111,14 @@ export const useFlowsStore = defineStore("flows", {
           this.edges = JSON.parse(edge);
           this.commands = JSON.parse(commands);
           if (this?.commands?.length) {
-            this.nodes = this.nodes.map(item => ({
+            this.nodes = this.nodes.map((item) => ({
               ...item,
               data: {
                 ...item.data,
-                commands: this.commands.filter(command => command.node_id === Number(item.id))
-              }
+                commands: this.commands.filter(
+                  (command) => command.node_id === Number(item.id)
+                ),
+              },
             }));
           }
 
@@ -102,7 +137,8 @@ export const useFlowsStore = defineStore("flows", {
         .update(`/flow/${this.flow.id}`, {
           ...this.flow,
           node: this.nodes,
-          edge: this.edges
+          edge: this.edges,
+          commands: this.commands,
         })
         .then(() => {
           toast.add({
@@ -126,35 +162,37 @@ export const useFlowsStore = defineStore("flows", {
     async createFlow() {
       this.loading = true;
       await makeRequests
-      .post(`/flow`, {
-        ...this.flow,
-        node: this.nodes,
-        edge: this.edges
-      })
-      .then(() => {
-        toast.add({
-          icon: "i-heroicons-check-circle",
-          title: `O fluxo foi atualizado com sucesso.`,
-          color: "green",
+        .post(`/flow`, {
+          ...this.flow,
+          node: this.nodes,
+          edge: this.edges,
+          commands: this.commands,
+        })
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi atualizado com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível atualizar a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = true;
+          this.modifying = false;
         });
-      })
-      .catch(() => {
-        toast.add({
-          icon: "i-heroicons-check-circle",
-          title: `Não foi possível atualizar a o fluxo.`,
-          color: "red",
-        });
-      })
-      .finally(() => {
-        this.loading = true;
-        this.modifying = false;
-      });
     },
     async removeFlow(id: number) {
-      await makeRequests.destroy(`/flow/${id}`)
-      .then(() => {})
-      .catch(() => {})
-      .finally(() => {})
-    }
+      await makeRequests
+        .destroy(`/flow/${id}`)
+        .then(() => {})
+        .catch(() => {})
+        .finally(() => {});
+    },
   },
 });

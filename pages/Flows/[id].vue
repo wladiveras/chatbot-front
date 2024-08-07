@@ -24,6 +24,7 @@ onInit((vueFlowInstance) => {
 })
 
 onNodeDragStop(({ event, nodes, node }) => {
+  flowsStore.createCommands()
   console.log("Node Drag Stop", { event, nodes, node })
 })
 

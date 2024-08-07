@@ -5,6 +5,11 @@ const { flow, flowName, flowDescription, isCreation } = storeToRefs(flowsStore)
 const isOpen = ref(false)
 
 function handleClick() {
+  flowsStore.createCommands()
+  createOrUpdateFlow()
+}
+
+function createOrUpdateFlow() {
   if (isCreation.value) {
     flowsStore.createFlow()
     navigateTo(`/flows`)
