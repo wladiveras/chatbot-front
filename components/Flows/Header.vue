@@ -7,7 +7,7 @@ const isOpen = ref(false)
 function handleClick() {
   if (isCreation.value) {
     flowsStore.createFlow()
-    isCreation.value = false
+    navigateTo(`/flows`)
     return
   }
   flowsStore.updateFlow()
@@ -43,7 +43,7 @@ function handleClick() {
           />
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
-            label="Salvar fluxo"
+            :label="isCreation ? 'Criar Fluxo' : 'Salvar fluxo'"
             @click="handleClick"
           />
         </section>
