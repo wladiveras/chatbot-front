@@ -4,8 +4,6 @@ import { useVueFlow } from '@vue-flow/core';
 const flowsStore = useFlowsStore()
 const { selectedNode, currentCommands } = storeToRefs(flowsStore)
 
-const { updateNode } = useVueFlow()
-
 const props = defineProps({
   editable: {
     type: Boolean,
