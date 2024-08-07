@@ -101,16 +101,6 @@ export const useFlowsStore = defineStore("flows", {
           this.nodes = JSON.parse(node);
           this.edges = JSON.parse(edge);
           this.commands = JSON.parse(commands);
-          if (this?.commands?.length) {
-            this.nodes = this.nodes.map(item => ({
-              ...item,
-              data: {
-                ...item.data,
-                commands: this.commands.filter(command => Number(command.nodeId) === Number(item.id))
-              }
-            }));
-          }
-
           this.modifying = true;
         })
         .catch((error) => {
