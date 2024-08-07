@@ -43,7 +43,7 @@ function handleClick() {
           />
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
-            label="Salvar fluxo"
+            :label="isCreation ? 'Criar Fluxo' : 'Salvar fluxo'"
             @click="handleClick"
           />
         </section>
