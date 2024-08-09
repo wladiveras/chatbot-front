@@ -273,7 +273,7 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" placeholder="https://exemplo.com/image.jpg" />
+              <UInput v-model="command.value" type="file"  @change="flowStore.uploadFile"/>
             </template>
           </UFormGroup>
           <br />
@@ -303,7 +303,7 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" placeholder="https://exemplo.com/video.mp4" />
+              <UInput v-model="command.value" type="file"  @change="flowStore.uploadFile"/>
             </template>
           </UFormGroup>
           <br />
@@ -335,7 +335,7 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" placeholder="https://exemplo.com/audio.mp3" />
+              <UInput v-model="command.value" type="file" @change="flowStore.uploadFile"/>
             </template>
           </UFormGroup>
 
