@@ -29,8 +29,11 @@ export const useFlowsStore = defineStore("flows", {
     getCommands: (state) => state.commands,
     flowName: (state) => state.flow.name || "Novo fluxo",
     flowDescription: (state) => state.flow.description || "Descrição do fluxo",
+    flowById: (state) => (id: number) => {
+      return state.flows.find((flow) => flow.id === id);
+    },
     isModifying: (state) => state.modifying,
-    lastNode: (state) => state.nodes[state.nodes.length - 1]
+    lastNode: (state) => state.nodes[state.nodes.length - 1],
   },
   actions: {
     setSelectedNode(node: any) {

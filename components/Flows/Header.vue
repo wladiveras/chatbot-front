@@ -55,7 +55,15 @@ async function handleClick() {
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
             :loading="isLoading"
-            :label="isCreation ? 'Criar Fluxo' : 'Salvar fluxo'"
+            :label="
+              isCreation
+                ? isLoading
+                  ? 'Criando fluxo'
+                  : 'Criar Fluxo'
+                : isLoading
+                ? 'Salvando fluxo'
+                : 'Salvar fluxo'
+            "
             @click="handleClick"
           />
         </section>

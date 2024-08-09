@@ -1,7 +1,7 @@
 <script setup>
 const flowStore = useFlowsStore()
 const connectionStore = useConnectionsStore()
-const { getFlows, selectedFlow } = storeToRefs(flowStore)
+const { getFlows, flowById } = storeToRefs(flowStore)
 
 await flowStore.fetchFlows()
 
@@ -54,7 +54,7 @@ const onSelectFlow = (option) => {
           <UCommandPalette
             icon="carbon:flow-modeler"
             :loading="getFlows.loading"
-            v-model="selectedFlow"
+            v-model="getFlowId"
             @update:model-value="onSelectFlow"
             placeholder="Pesquisar fluxos..."
             nullable

@@ -120,13 +120,6 @@ useHead({
       <p class="text-gray-500 text-sm mt-3">{{ profile.description }}</p>
       <section class="flex items-center gap-4 mb-3">
         <UBadge
-          class="gap-3 mt-5 text-sm font-semibold px-4 py-2 bg-[#46C78B1A] text-[#46C78B]"
-          :ui="{ rounded: 'rounded-full' }"
-        >
-          <UIcon name="material-symbols:sync" />
-          Atualizar
-        </UBadge>
-        <UBadge
           class="gap-3 mt-5 text-sm font-semibold px-4 py-2"
           :ui="{ rounded: 'rounded-full' }"
           :class="{
