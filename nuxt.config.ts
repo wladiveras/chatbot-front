@@ -54,7 +54,14 @@ export default defineNuxtConfig({
       Sora: [100, 200, 300, 400, 500, 600, 700, 800],
     },
   },
-
+  nitro: {
+    routeRules: {
+      "/api/*": {
+        proxy: "https://api.marinabot.com.br/api/*",
+        cors: true,
+      },
+    },
+  },
   eslint: {
     config: {
       stylistic: {
