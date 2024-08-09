@@ -24,6 +24,7 @@ export const useConnectionsStore = defineStore("connections", {
     getToken: (state) => state.token || state.connection.token || null,
     getName: (state) => state.connection.name || "",
     getNumber: (state) => state.connection.connection_key || "",
+    getFlowId: (state) => state.connection.flow_id || null,
     getConnection: (state) => (id: number) => {
       return state.connections.find((connection) => connection.id === id);
     },
