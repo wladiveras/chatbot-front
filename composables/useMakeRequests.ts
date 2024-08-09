@@ -18,7 +18,7 @@ export default function () {
         const headers = {
           Accept: "application/json",
           "Cache-Control": "no-cache",
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "https://api.marinabot.com.br",
           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
           "Access-Control-Allow-Headers": "Content-Type, Authorization",
           ...options?.headers,
