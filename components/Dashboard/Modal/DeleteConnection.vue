@@ -22,7 +22,6 @@ onMounted(async () => {
 async function onDelete() {
   loading.value = true
 
-  await connectionStore.disconnectConnection()
   await connectionStore
     .deleteConnection()
     .then(() => {
@@ -45,6 +44,8 @@ async function onDelete() {
     .finally(() => {
       loading.value = false
     })
+
+  await connectionStore.disconnectConnection()
 }
 </script>
 
