@@ -30,8 +30,7 @@ export const useFlowsStore = defineStore("flows", {
     flowName: (state) => state.flow.name || "Novo fluxo",
     flowDescription: (state) => state.flow.description || "Descrição do fluxo",
     isModifying: (state) => state.modifying,
-    lastNode: (state) => state.nodes[state.nodes.length - 1],
-    uploadProgress: (state) => state.uploadProgress || 0,
+    lastNode: (state) => state.nodes[state.nodes.length - 1]
   },
   actions: {
     setSelectedNode(node: any) {
@@ -148,31 +147,32 @@ export const useFlowsStore = defineStore("flows", {
     },
     async updateFlow() {
       this.loading = true;
-      await makeRequests
-        .update(`/flow/${this.flow.id}`, {
-          ...this.flow,
-          node: this.nodes,
-          edge: this.edges,
-          commands: this.commandsList,
-        })
-        .then(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `O fluxo foi atualizado com sucesso.`,
-            color: "green",
-          });
-        })
-        .catch(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `Não foi possível atualizar a o fluxo.`,
-            color: "red",
-          });
-        })
-        .finally(() => {
-          this.loading = false;
-          this.modifying = false;
-        });
+      console.log(this.commandsList);
+      // await makeRequests
+      //   .update(`/flow/${this.flow.id}`, {
+      //     ...this.flow,
+      //     node: this.nodes,
+      //     edge: this.edges,
+      //     commands: this.commandsList,
+      //   })
+      //   .then(() => {
+      //     toast.add({
+      //       icon: "i-heroicons-check-circle",
+      //       title: `O fluxo foi atualizado com sucesso.`,
+      //       color: "green",
+      //     });
+      //   })
+      //   .catch(() => {
+      //     toast.add({
+      //       icon: "i-heroicons-check-circle",
+      //       title: `Não foi possível atualizar a o fluxo.`,
+      //       color: "red",
+      //     });
+      //   })
+      //   .finally(() => {
+      //     this.loading = false;
+      //     this.modifying = false;
+      //   });
     },
     async createFlow() {
       this.loading = true;
