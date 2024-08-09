@@ -1,4 +1,6 @@
 import { defineStore } from "pinia";
+import Vapor from "laravel-vapor";
+
 import type { IStateAuth } from "@/types";
 const makeRequests = useMakeRequests();
 
@@ -10,14 +12,14 @@ export const useFlowsStore = defineStore("flows", {
     selectedNode: {},
     selectedFlow: {},
 
-    //Exemplo de substituição pro storage funcionar com os dados do backend - tudo vem dentro do payload, recomendo puxar o node o edge idividualmente
     flow: {},
     nodes: [],
     edges: [],
     commands: [],
     commandsList: [],
     modifying: false,
-    isCreation: false
+    isCreation: false,
+    uploadProgress: 0,
   }),
   getters: {
     getFlows: (state) => state.flows || [],
@@ -29,12 +31,14 @@ export const useFlowsStore = defineStore("flows", {
     flowDescription: (state) => state.flow.description || "Descrição do fluxo",
     isModifying: (state) => state.modifying,
     lastNode: (state) => state.nodes[state.nodes.length - 1],
+    uploadProgress: (state) => state.uploadProgress || 0,
   },
   actions: {
     setSelectedNode(node: any) {
       this.selectedNode = node;
     },
     createCommands() {
+      const step = ref(0);
       const extractCommandsFromNodes = (nodes) => {
         return nodes
           .map((node) => {
@@ -42,9 +46,10 @@ export const useFlowsStore = defineStore("flows", {
               return [];
             }
             return node.data.commands.map((command) => {
+              step.value += 1;
               const nodeId = node.id;
               const { icon, ...rest } = command;
-              return { ...rest, nodeId };
+              return { ...rest, nodeId, step: step.value };
             });
           })
           .flat();
@@ -65,7 +70,23 @@ export const useFlowsStore = defineStore("flows", {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
-
+    async uploadFile(file: any) {
+      await Vapor.store(file.files[0], {
+        visibility: "public-read-write",
+        progress: (progress) => {
+          this.uploadProgress = Math.round(progress * 100);
+        },
+      }).then(async (response) => {
+        console.log({ test: response });
+        await makeRequests.post("/upload", {
+          uuid: response.uuid,
+          key: response.key,
+          bucket: response.bucket,
+          name: file.files[0].name,
+          content_type: file.files[0].type,
+        });
+      });
+    },
     async fetchFlows() {
       this.loading = true;
       await makeRequests
@@ -117,7 +138,7 @@ export const useFlowsStore = defineStore("flows", {
           ...this.flow,
           node: this.nodes,
           edge: this.edges,
-          commands: this.commandsList
+          commands: this.commandsList,
         })
         .then(() => {
           toast.add({
@@ -141,36 +162,37 @@ export const useFlowsStore = defineStore("flows", {
     async createFlow() {
       this.loading = true;
       await makeRequests
-      .post(`/flow`, {
-        ...this.flow,
-        node: this.nodes,
-        edge: this.edges,
-        commands: this.commandsList
-      })
-      .then(() => {
-        toast.add({
-          icon: "i-heroicons-check-circle",
-          title: `O fluxo foi atualizado com sucesso.`,
-          color: "green",
+        .post(`/flow`, {
+          ...this.flow,
+          node: this.nodes,
+          edge: this.edges,
+          commands: this.commandsList,
+        })
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi atualizado com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível atualizar a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = true;
+          this.modifying = false;
         });
-      })
-      .catch(() => {
-        toast.add({
-          icon: "i-heroicons-check-circle",
-          title: `Não foi possível atualizar a o fluxo.`,
-          color: "red",
-        });
-      })
-      .finally(() => {
-        this.loading = true;
-        this.modifying = false;
-      });
     },
     async removeFlow(id: number) {
-      await makeRequests.destroy(`/flow/${id}`)
-      .then(() => {})
-      .catch(() => {})
-      .finally(() => {})
-    }
+      await makeRequests
+        .destroy(`/flow/${id}`)
+        .then(() => {})
+        .catch(() => {})
+        .finally(() => {});
+    },
   },
 });
