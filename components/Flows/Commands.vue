@@ -2,6 +2,7 @@
 import { useVueFlow } from '@vue-flow/core';
 
 const { updateNodeData } = useVueFlow()
+const flowStore = useFlowsStore()
 
 const props = defineProps({
   editable: {
@@ -240,6 +241,7 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
+              <!-- <UInput v-model="command.value" type="file"  @change="flowStore.uploadFile"/> -->
               <UInput v-model="command.value" placeholder="https://exemplo.com/audio.mp3" />
             </template>
           </UFormGroup>
