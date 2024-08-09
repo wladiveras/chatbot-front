@@ -22,30 +22,30 @@ onMounted(async () => {
 async function onDelete() {
   loading.value = true
 
-  await connectionStore.disconnectConnection().finally(async () => {
-    await connectionStore
-      .deleteConnection()
-      .then(() => {
-        toast.add({
-          icon: "i-heroicons-check-circle",
-          title: `A conexão foi deletada com sucesso.`,
-          color: "red",
-        })
+  await connectionStore
+    .deleteConnection()
+    .then(() => {
+      toast.add({
+        icon: "i-heroicons-check-circle",
+        title: `A conexão foi deletada com sucesso.`,
+        color: "red",
+      })
 
-        emit("delete")
-        modal.close()
+      emit("delete")
+      modal.close()
+    })
+    .catch(() => {
+      toast.add({
+        icon: "i-heroicons-exclamation-circle",
+        title: `Não foi possível deletar a conexão.`,
+        color: "red",
       })
-      .catch(() => {
-        toast.add({
-          icon: "i-heroicons-exclamation-circle",
-          title: `Não foi possível deletar a conexão.`,
-          color: "red",
-        })
-      })
-      .finally(() => {
-        loading.value = false
-      })
-  })
+    })
+    .finally(() => {
+      loading.value = false
+    })
+
+  await connectionStore.disconnectConnection()
 }
 </script>
 
