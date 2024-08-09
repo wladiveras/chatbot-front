@@ -147,32 +147,31 @@ export const useFlowsStore = defineStore("flows", {
     },
     async updateFlow() {
       this.loading = true;
-      console.log(this.commandsList);
-      // await makeRequests
-      //   .update(`/flow/${this.flow.id}`, {
-      //     ...this.flow,
-      //     node: this.nodes,
-      //     edge: this.edges,
-      //     commands: this.commandsList,
-      //   })
-      //   .then(() => {
-      //     toast.add({
-      //       icon: "i-heroicons-check-circle",
-      //       title: `O fluxo foi atualizado com sucesso.`,
-      //       color: "green",
-      //     });
-      //   })
-      //   .catch(() => {
-      //     toast.add({
-      //       icon: "i-heroicons-check-circle",
-      //       title: `Não foi possível atualizar a o fluxo.`,
-      //       color: "red",
-      //     });
-      //   })
-      //   .finally(() => {
-      //     this.loading = false;
-      //     this.modifying = false;
-      //   });
+      await makeRequests
+        .update(`/flow/${this.flow.id}`, {
+          ...this.flow,
+          node: this.nodes,
+          edge: this.edges,
+          commands: this.commandsList,
+        })
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi atualizado com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível atualizar a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+          this.modifying = false;
+        });
     },
     async createFlow() {
       this.loading = true;
