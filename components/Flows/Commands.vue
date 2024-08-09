@@ -51,6 +51,21 @@ function removeCommand(deleted) {
     (command) => command !== deleted
   )
 }
+
+function handleChangeFile(payload) {
+  const { command, files, index } = payload;
+  const auxCommand = { ...command };
+  const file = files[0];
+  if (!file) return;
+  
+  const fReader = new FileReader();
+  fReader.onload = function(e){
+    const imageUrl = e.target.result; 
+    auxCommand.value = imageUrl;
+    commands.value[index] = auxCommand;
+  }
+  fReader.readAsDataURL(file);
+}
 </script>
 
 <template>
@@ -120,8 +135,7 @@ function removeCommand(deleted) {
         v-if="command.type == 'video' && !editable"
       >
         <p class="text-ellipsis overflow-hidden">
-          <video controls>
-            <source :src="command.value" type="video/mp4" />
+          <video :src="command.value" controls>
             <span>Seu navegador não é compatível.</span>
           </video>
           <i>{{command.caption}}</i>
@@ -144,9 +158,8 @@ function removeCommand(deleted) {
 
       >
         <p class="text-ellipsis overflow-hidden">
-          <audio controls>
-            <source :src="command.value" type="audio/mp3" />
-            Your browser does not support the audio element.
+          <audio :src="command.value" controls>
+            <span>Seu navegador não é compatível.</span>
           </audio>
           <p class="text-ellipsis overflow-hidden w-full border-t-2 mt-3">
             <UIcon
@@ -163,10 +176,10 @@ function removeCommand(deleted) {
         v-if="command.type == 'media_audio' && !editable"
       >
         <p class="text-ellipsis overflow-hidden">
-          <audio controls>
-            <source :src="command.value" type="audio/mp3" />
+          <audio :src="command.value" controls>
             Your browser does not support the audio element.
           </audio>
+          <i>{{command.caption}}</i>
         </p>
       </section>
 
@@ -241,7 +254,11 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" type="file"  @change="flowStore.uploadFile"/>
+              <UInput
+                type="file"
+                @change="(files) => handleChangeFile({ command, files, index })"
+                accept="audio/*"
+              />
             </template>
           </UFormGroup>
           <br>
@@ -260,9 +277,7 @@ function removeCommand(deleted) {
           </UFormGroup>
         </section>
 
-
         <section class="gap-5 flex-1" v-else-if="command.type === 'image'">
-
           <UFormGroup>
             <template #label>
             <span class="flex items-center justify-center">
@@ -273,7 +288,11 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" type="file"  @change="flowStore.uploadFile"/>
+              <UInput
+                type="file"
+                @change="(files) => handleChangeFile({ command, files, index })"
+                accept="image/*"
+              />
             </template>
           </UFormGroup>
           <br />
@@ -303,7 +322,11 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" type="file"  @change="flowStore.uploadFile"/>
+              <UInput
+                type="file"
+                @change="(files) => handleChangeFile({ command, files, index })"
+                accept="video/*"
+              />
             </template>
           </UFormGroup>
           <br />
@@ -335,7 +358,11 @@ function removeCommand(deleted) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" type="file" @change="flowStore.uploadFile"/>
+              <UInput
+                type="file"
+                @change="(files) => handleChangeFile({ command, files, index })"
+                accept="audio/*"
+              />
             </template>
           </UFormGroup>
 
