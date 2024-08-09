@@ -30,8 +30,7 @@ export const useFlowsStore = defineStore("flows", {
     flowName: (state) => state.flow.name || "Novo fluxo",
     flowDescription: (state) => state.flow.description || "Descrição do fluxo",
     isModifying: (state) => state.modifying,
-    lastNode: (state) => state.nodes[state.nodes.length - 1],
-    uploadProgress: (state) => state.uploadProgress || 0,
+    lastNode: (state) => state.nodes[state.nodes.length - 1]
   },
   actions: {
     setSelectedNode(node: any) {
