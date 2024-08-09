@@ -23,7 +23,9 @@ export default defineNuxtConfig({
       },
     },
   },
-
+  routeRules: {
+    "/api/**": { proxy: { to: `${process.env.API_BASE_UR}}/**` } },
+  },
   typescript: {
     strict: false,
     tsConfig: {
