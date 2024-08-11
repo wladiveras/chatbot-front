@@ -1,6 +1,7 @@
 <script setup>
 import { useVueFlow } from '@vue-flow/core';
 
+
 const { updateNodeData } = useVueFlow()
 const flowStore = useFlowsStore()
 
@@ -22,6 +23,7 @@ const props = defineProps({
   },
 })
 
+const upload = useUpload('/api/blob', { method: 'PUT' })
 const commands = ref([...props?.data]);
 
 watch(
@@ -52,19 +54,23 @@ function removeCommand(deleted) {
   )
 }
 
-function handleChangeFile(payload) {
+
+async function handleChangeFile(payload) {
   const { command, files, index } = payload;
   const auxCommand = { ...command };
-  const file = files[0];
-  if (!file) return;
-  
-  const fReader = new FileReader();
-  fReader.onload = function(e){
-    const imageUrl = e.target.result; 
-    auxCommand.value = imageUrl;
+
+  if (!files) return;
+
+  try {
+    const uploadedFile = await upload(files[0]);
+
+    auxCommand.value = uploadedFile.url;
     commands.value[index] = auxCommand;
+
+  } catch (err) {
+    console.log('error');
+    console.log(err);
   }
-  fReader.readAsDataURL(file);
 }
 </script>
 
