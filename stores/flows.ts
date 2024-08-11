@@ -72,38 +72,7 @@ export const useFlowsStore = defineStore("flows", {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
-    async uploadFile(file: any) {
-      this.loading = true;
-      try {
-        const response = await Vapor.store(file.files[0], {
-          visibility: "public-read-write",
-          progress: (progress) => {
-            this.uploadProgress = Math.round(progress * 100);
-          },
-        });
-        const payload = {
-          uuid: response.uuid,
-          key: response.key,
-          bucket: response.bucket,
-          name: file.files[0].name,
-          content_type: file.files[0].type,
-        };
-
-        return await makeRequests
-          .post("/upload", { payload })
-          .then((res) => {
-            console.log("test", res);
-            return res.data.service.payload;
-          })
-          .catch((error) => {
-            console.error(error);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-      } catch (error) {}
-      this.loading = false;
-    },
+    async uploadFile(file: any) {},
     async fetchFlows() {
       this.loading = true;
       await makeRequests
