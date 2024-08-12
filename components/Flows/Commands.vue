@@ -1,7 +1,6 @@
 <script setup>
 import { useVueFlow } from '@vue-flow/core';
 
-
 const { updateNodeData } = useVueFlow()
 const flowStore = useFlowsStore()
 
@@ -23,7 +22,7 @@ const props = defineProps({
   },
 })
 
-const upload = useUpload('/api/blob', { method: 'PUT' })
+const upload = useUpload('/api/blob', { method: 'PUT', multiple: false })
 const commands = ref([...props?.data]);
 
 watch(
@@ -54,28 +53,31 @@ function removeCommand(deleted) {
   )
 }
 
-
 async function handleChangeFile(payload) {
-  const { command, files, index } = payload;
+  const { command, event, index } = payload;
+  const { target } = event;
   const auxCommand = { ...command };
 
-  if (!files) return;
+  if (!event) return;
 
-  try {
-    const uploadedFile = await upload(files[0]);
+  const uploadedFile = await upload(target);
 
-    auxCommand.value = uploadedFile.url;
+  if (uploadedFile) {
+    auxCommand.value = uploadedFile.pathname;
+    auxCommand.ContentType = uploadedFile.contentType;
     commands.value[index] = auxCommand;
-
-  } catch (err) {
-    console.log('error');
-    console.log(err);
   }
 }
+
+onMounted(async () => {
+
+});
+
 </script>
 
 <template>
   <section class="flex flex-col gap-5" v-if="commands.length">
+
     <UCard
       v-for="(command, index) in commands"
       :key="index"
@@ -141,7 +143,7 @@ async function handleChangeFile(payload) {
         v-if="command.type == 'video' && !editable"
       >
         <p class="text-ellipsis overflow-hidden">
-          <video :src="command.value" controls>
+          <video :src="`/videos/${command.value}`" controls>
             <span>Seu navegador não é compatível.</span>
           </video>
           <i>{{command.caption}}</i>
@@ -153,7 +155,7 @@ async function handleChangeFile(payload) {
         v-if="command.type == 'image' && !editable"
       >
         <p class="text-ellipsis overflow-hidden">
-          <NuxtImg :src="command.value" alt="Imagem" />
+          <img :src="`/images/${command.value}`" alt="Imagem" />
           <i>{{command.caption}}</i>
         </p>
       </section>
@@ -164,7 +166,7 @@ async function handleChangeFile(payload) {
 
       >
         <p class="text-ellipsis overflow-hidden">
-          <audio :src="command.value" controls>
+          <audio :src="`/audios/${command.value}`" controls>
             <span>Seu navegador não é compatível.</span>
           </audio>
           <p class="text-ellipsis overflow-hidden w-full border-t-2 mt-3">
@@ -182,7 +184,7 @@ async function handleChangeFile(payload) {
         v-if="command.type == 'media_audio' && !editable"
       >
         <p class="text-ellipsis overflow-hidden">
-          <audio :src="command.value" controls>
+          <audio :src="`/audios/${command.value}`"  controls>
             Your browser does not support the audio element.
           </audio>
           <i>{{command.caption}}</i>
@@ -260,10 +262,11 @@ async function handleChangeFile(payload) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput
-                type="file"
-                @change="(files) => handleChangeFile({ command, files, index })"
+              <input
                 accept="audio/*"
+                type="file"
+                name="file"
+                @change="(event) => handleChangeFile({ command, event: event, index })"
               />
             </template>
           </UFormGroup>
@@ -294,10 +297,11 @@ async function handleChangeFile(payload) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput
-                type="file"
-                @change="(files) => handleChangeFile({ command, files, index })"
+              <input
                 accept="image/*"
+                type="file"
+                name="file"
+                @change="(event) => handleChangeFile({ command, event: event, index })"
               />
             </template>
           </UFormGroup>
@@ -328,10 +332,11 @@ async function handleChangeFile(payload) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput
-                type="file"
-                @change="(files) => handleChangeFile({ command, files, index })"
+              <input
                 accept="video/*"
+                type="file"
+                name="file"
+                @change="(event) => handleChangeFile({ command, event: event, index })"
               />
             </template>
           </UFormGroup>
@@ -364,10 +369,11 @@ async function handleChangeFile(payload) {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput
-                type="file"
-                @change="(files) => handleChangeFile({ command, files, index })"
+              <input
                 accept="audio/*"
+                type="file"
+                name="file"
+                @change="(event) => handleChangeFile({ command, event: event, index })"
               />
             </template>
           </UFormGroup>

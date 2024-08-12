@@ -15,11 +15,13 @@ export default defineNuxtConfig({
   css: ["~/assets/scss/main.scss"],
   ssr: false,
   hub: {
-    blob: true
+    blob: true,
+    remote: true,
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE_URL,
+      apiBase: process.env.BASE_URL,
+      apiBaseServer: process.env.API_BASE_URL,
       sentry: {
         dsn: process.env.SENTRY_DSN,
         environment: process.env.SENTRY_ENV,

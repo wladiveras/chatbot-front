@@ -8,13 +8,13 @@ export default function () {
     const runtimeConfig = useRuntimeConfig();
 
     const { data, status, error } = await useFetch(url, {
-      baseURL: runtimeConfig.public.apiBase,
+      baseURL: runtimeConfig.public.apiBaseServer,
       credentials: "include",
       method,
       body,
       ...config,
       onRequest({ request, options }) {
-        const token = localStorage.getItem("token");
+        const token = getStorage("token");
 
         const headers = {
           Accept: "application/json",
@@ -37,10 +37,8 @@ export default function () {
           .toString()
           .includes("/auth/magic-link");
         if (isMagicLinkRequest) {
-          localStorage.setItem(
-            "token",
-            response._data.data.service.payload || ""
-          );
+          console.log({ test: response });
+          setStorage("token", response._data.data.service.payload || "");
         }
       },
       onResponseError({ request, response, options }) {
