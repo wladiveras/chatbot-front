@@ -15,15 +15,16 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     init() {
-      this.token = localStorage.getItem("token");
-      this.user = JSON.parse(localStorage.getItem("user"));
+      this.token = getStorage("token") ? getStorage("token") : null;
+      this.user = getStorage("user") ? JSON.parse(getStorage("user")) : {};
     },
     async signIn(email: string) {
       await makeRequests.post("/auth/sign-in", { email });
     },
     async signOut() {
       const toast = useToast();
-      localStorage.removeItem("token");
+      removeStorage("token");
+      removeStorage("user");
       toast.add({
         title: "Até mais!",
         description: "Desconectado da sua sessão, te espero em breve.",
@@ -35,10 +36,7 @@ export const useAuthStore = defineStore("auth", {
       await makeRequests
         .get("/auth/user")
         .then((res) => {
-          localStorage.setItem(
-            "user",
-            JSON.stringify(res.data.service.payload)
-          );
+          setStorage("user", JSON.stringify(res.data.service.payload));
           this.user = res.data.service.payload;
           navigateTo("/connections");
         })
