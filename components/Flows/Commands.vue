@@ -53,7 +53,6 @@ function removeCommand(deleted) {
   )
 }
 
-
 async function handleChangeFile(payload) {
   const { command, event, index } = payload;
   const { target } = event;
@@ -62,8 +61,6 @@ async function handleChangeFile(payload) {
   if (!event) return;
 
   const uploadedFile = await upload(target);
-
-  console.log({ upload: uploadedFile });
 
   if (uploadedFile) {
     auxCommand.value = uploadedFile.pathname;
