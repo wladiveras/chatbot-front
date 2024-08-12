@@ -4,13 +4,13 @@ const { flow, flowName, flowDescription, isCreation } = storeToRefs(flowsStore)
 
 const isOpen = ref(false)
 const isLoading = ref(false)
+const isExecuting = ref(false)
 
 async function saveFlow() {
   if (isCreation.value) {
     await flowsStore.createFlow().then(() => {
       navigateTo(`/flows`)
     })
-    return
   }
   await flowsStore.updateFlow().then(() => {
     navigateTo(`/flows`)
@@ -18,10 +18,20 @@ async function saveFlow() {
 }
 
 async function handleClick() {
+  if (isExecuting.value) return
+
+  isExecuting.value = true
   isLoading.value = true
-  flowsStore.createCommands()
-  await saveFlow()
-  isLoading.value = false
+
+  try {
+    flowsStore.createCommands()
+    await saveFlow()
+  } catch (error) {
+    console.error("Error saving flow:", error)
+  } finally {
+    isLoading.value = false
+    isExecuting.value = false
+  }
 }
 </script>
 
@@ -55,6 +65,7 @@ async function handleClick() {
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
             :loading="isLoading"
+            :disabled="isLoading"
             :label="
               isCreation
                 ? isLoading

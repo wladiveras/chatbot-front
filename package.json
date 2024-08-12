@@ -20,7 +20,6 @@
     "@nuxthub/core": "^0.7.1",
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.2",
-    "@types/laravel-vapor": "^0.6.5",
     "@vue-flow/core": "^1.39.1",
     "@vue-flow/minimap": "^1.5.0",
     "date-fns": "^3.6.0",
@@ -32,7 +31,6 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.5.0",
     "eslint": "^9.8.0",
-    "laravel-vapor": "^0.7.1",
     "sass": "^1.77.8",
     "vue-tsc": "^2.0.29",
     "wrangler": "^3.68.0"

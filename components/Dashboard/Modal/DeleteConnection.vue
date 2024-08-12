@@ -28,7 +28,7 @@ async function onDelete() {
       toast.add({
         icon: "i-heroicons-check-circle",
         title: `A conexão foi deletada com sucesso.`,
-        color: "red",
+        color: "green",
       })
 
       emit("delete")

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import Vapor from "laravel-vapor";
 
 import type { IStateAuth } from "@/types";
 const makeRequests = useMakeRequests();
