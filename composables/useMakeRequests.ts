@@ -7,7 +7,7 @@ export default function () {
   ): Promise<T | any> {
     const runtimeConfig = useRuntimeConfig();
 
-    const { data, status, error } = await useFetch(url, {
+    const response = await $fetch(url, {
       baseURL: runtimeConfig.public.apiBaseServer,
       credentials: "include",
       method,
@@ -28,26 +28,11 @@ export default function () {
         if (!!token) headers["Authorization"] = `Bearer ${token}`;
 
         options.headers = headers;
-      },
-      onRequestError({ request, options, error }) {
-        // Handle the request errors
-      },
-      onResponse({ request, response, options }) {
-        const isMagicLinkRequest = request
-          .toString()
-          .includes("/auth/magic-link");
-        if (isMagicLinkRequest) {
-          console.log({ test: response });
-          setStorage("token", response._data.data.service.payload || "");
-        }
-      },
-      onResponseError({ request, response, options }) {
-        // Handle the response errors
-      },
+      }
     });
-
-    if (status.value === "error") throw error.value;
-    return data.value;
+    
+    if (response?.data?.success) return response;
+    throw response;
   }
 
   async function get<T>(url: string, config?: any) {
