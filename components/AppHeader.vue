@@ -57,38 +57,11 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
         {{ link.label }}
       </ULink>
 
-      <ULink
-        v-if="!isAuthenticated"
-        class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
-        to="/login"
-        active-class="text-pink-500"
-        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
-      >
-        Login
-      </ULink>
-
-      <ULink
-        v-else
-        @click="authStore.signOut()"
-        class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
-        active-class="text-pink-500"
-        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
-      >
-        Sair
-      </ULink>
       <UButton
         v-if="!isAuthenticated"
         to="/login"
         label="Teste grátis por 30 dias"
         trailing-icon="i-heroicons-arrow-right-20-solid"
-        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold animate__animated animate__rubberBand"
-      />
-
-      <UButton
-        v-if="isAuthenticated"
-        to="/connections"
-        label="Painel de Controle"
-        trailing-icon="material-symbols:dashboard-outline"
         class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold animate__animated animate__rubberBand"
       />
     </template>
