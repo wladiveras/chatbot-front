@@ -21,7 +21,7 @@
     "@nuxtjs/google-fonts": "^3.2.0",
     "@pinia/nuxt": "^0.5.2",
     "@types/laravel-vapor": "^0.6.5",
-    "@vue-flow/core": "^1.39.1",
+    "@vue-flow/core": "^1.39.3",
     "@vue-flow/minimap": "^1.5.0",
     "date-fns": "^3.6.0",
     "nuxt": "^3.12.4",
