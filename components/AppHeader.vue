@@ -58,7 +58,6 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       </ULink>
 
       <UButton
-        v-if="!isAuthenticated"
         to="/login"
         label="Teste grátis por 30 dias"
         trailing-icon="i-heroicons-arrow-right-20-solid"
