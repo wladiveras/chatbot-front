@@ -16,7 +16,7 @@ export default defineNuxtConfig({
   ssr: false,
   hub: {
     blob: true,
-    remote: process.env.NUXT_HUB_BLOB_REMOTE,
+    remote: Boolean(process.env.NUXT_HUB_BLOB_REMOTE),
   },
   runtimeConfig: {
     public: {
