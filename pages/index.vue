@@ -12,5 +12,3 @@ useSeoMeta({
   <LandingFaq />
   <LandingPromotion />
 </template>
-
-<style></style>

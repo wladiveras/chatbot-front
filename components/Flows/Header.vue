@@ -1,28 +1,8 @@
 <script setup lang="ts">
 const flowsStore = useFlowsStore()
-const { flow, flowName, flowDescription, isCreation } = storeToRefs(flowsStore)
+const { flow, flowName, flowDescription, isCreation, isLoading } = storeToRefs(flowsStore)
 
 const isOpen = ref(false)
-const isLoading = ref(false)
-
-async function saveFlow() {
-  if (isCreation.value) {
-    await flowsStore.createFlow().then(() => {
-      navigateTo(`/flows`)
-    })
-    return
-  }
-  await flowsStore.updateFlow().then(() => {
-    navigateTo(`/flows`)
-  })
-}
-
-async function handleClick() {
-  isLoading.value = true
-  flowsStore.createCommands()
-  await saveFlow()
-  isLoading.value = false
-}
 </script>
 
 <template>
@@ -64,7 +44,7 @@ async function handleClick() {
                 ? 'Salvando fluxo'
                 : 'Salvar fluxo'
             "
-            @click="handleClick"
+            @click="() => flowsStore.resolveAction()"
           />
         </section>
       </template>

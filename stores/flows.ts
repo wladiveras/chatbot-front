@@ -1,10 +1,6 @@
 import { defineStore } from "pinia";
-import Vapor from "laravel-vapor";
-
-import type { IStateAuth } from "@/types";
 const makeRequests = useMakeRequests();
 
-const toast = useToast();
 export const useFlowsStore = defineStore("flows", {
   state: () => ({
     loading: false,
@@ -33,6 +29,7 @@ export const useFlowsStore = defineStore("flows", {
       return state.flows.find((flow) => flow.id === id);
     },
     isModifying: (state) => state.modifying,
+    isLoading: (state) => state.loading,
     lastNode: (state) => state.nodes[state.nodes.length - 1],
   },
   actions: {
@@ -98,7 +95,6 @@ export const useFlowsStore = defineStore("flows", {
       }
       this.isCreation = false;
       this.loading = true;
-
       await makeRequests
         .get(`/flow/${id}`)
         .then((res) => {
@@ -118,6 +114,7 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async updateFlow() {
+      const toast = useToast();
       this.loading = true;
       await makeRequests
         .update(`/flow/${this.flow.id}`, {
@@ -146,6 +143,7 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async createFlow() {
+      const toast = useToast();
       this.loading = true;
       await makeRequests
         .post(`/flow`, {
@@ -180,5 +178,22 @@ export const useFlowsStore = defineStore("flows", {
         .catch(() => {})
         .finally(() => {});
     },
+    async resolveAction() {
+      this.loading = true;
+      this.createCommands();
+      if (this.isCreation) {
+        await this.createFlow().then(() => {
+          navigateTo(`/flows`)
+        })
+        .finally(() => {
+          this.loading = false;
+        })
+      } else {
+        await this.updateFlow()
+        .finally(() => {
+          this.loading = false;
+        })
+      }
+    }
   },
 });

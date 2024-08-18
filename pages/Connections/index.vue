@@ -66,16 +66,22 @@ useHead({
     </template>
   </CustomHeader>
   <!-- Connections -->
-  <section class="grid grid-cols-1 xl:grid-cols-2 gap-5">
+  <section class="flex justify-center flex-wrap gap-5">
     <UCard
       v-for="(item, index) in getConnections"
       :key="index"
       :ui="{
-        base: '',
+        base: 'w-full h-full max-w-[530px] max-h-[175px] border-[#E5E5E5]',
+        background: 'bg-transparent',
+        body: {
+          base: 'h-full',
+          background: '',
+          padding: 'px-8 sm:px-8',
+        },
       }"
       class="cursor-pointer"
     >
-      <section class="w-full flex justify-between gap-5">
+      <section class="h-full w-full flex justify-between gap-5">
         <!-- Logo do usuário -->
         <section
           class="flex flex-col items-center gap-3"

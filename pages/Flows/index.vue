@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { DashboardModalDeleteFlow } from "#components"
 
 const flowsStore = useFlowsStore()
