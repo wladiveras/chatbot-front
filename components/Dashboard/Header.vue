@@ -1,6 +1,13 @@
 <script setup lang="ts">
 const authStore = useAuthStore()
 const { userName, userAvatar } = storeToRefs(authStore)
+const items = [
+  [{
+    label: 'Sair',
+    icon: 'material-symbols:logout',
+    click: () => authStore.signOut()
+  }]
+]
 </script>
 
 <template>
@@ -17,7 +24,9 @@ const { userName, userAvatar } = storeToRefs(authStore)
           <UIcon class="text-2xl" name="material-symbols:person-outline" />
           leads ilimitados
         </UBadge>
-        <UAvatar :alt="userName" size="lg" :src="userAvatar" />
+        <UDropdown :items="items">
+          <UAvatar :alt="userName" size="lg" :src="userAvatar" />
+        </UDropdown>
       </section>
     </slot>
   </header>
