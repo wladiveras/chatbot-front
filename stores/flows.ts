@@ -48,7 +48,10 @@ export const useFlowsStore = defineStore("flows", {
               step.value += 1;
               const nodeId = node.id;
               const { icon, ...rest } = command;
-              return { ...rest, nodeId, step: step.value };
+              const filteredCommand = Object.fromEntries(
+                Object.entries(rest).filter(([_, value]) => value !== null)
+              );
+              return { ...filteredCommand, nodeId, step: step.value };
             });
           })
           .flat();
@@ -182,18 +185,18 @@ export const useFlowsStore = defineStore("flows", {
       this.loading = true;
       this.createCommands();
       if (this.isCreation) {
-        await this.createFlow().then(() => {
-          navigateTo(`/flows`)
-        })
-        .finally(() => {
-          this.loading = false;
-        })
+        await this.createFlow()
+          .then(() => {
+            navigateTo(`/flows`);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
       } else {
-        await this.updateFlow()
-        .finally(() => {
+        await this.updateFlow().finally(() => {
           this.loading = false;
-        })
+        });
       }
-    }
+    },
   },
 });
