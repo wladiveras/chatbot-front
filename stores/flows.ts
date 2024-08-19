@@ -39,13 +39,13 @@ export const useFlowsStore = defineStore("flows", {
     },
     createCommands() {
       const step = ref(0);
-      const extractCommandsFromNodes = (nodes) => {
+      const extractCommandsFromNodes = (nodes: any) => {
         return nodes
           .map((node: any) => {
             if (!node.data.commands) {
               return [];
             }
-            return node.data.commands.map((command) => {
+            return node.data.commands.map((command: any) => {
               step.value += 1;
               const nodeId = node.id;
               const { icon, ...rest } = command;
@@ -68,8 +68,8 @@ export const useFlowsStore = defineStore("flows", {
       let commands = extractCommandsFromNodes(this.nodes);
 
       this.commandsList = commands
-        .filter((command) => edges.includes(command.nodeId))
-        .sort((a, b) => {
+        .filter((command: any) => edges.includes(command.nodeId))
+        .sort((a: any, b: any) => {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
@@ -173,20 +173,38 @@ export const useFlowsStore = defineStore("flows", {
           });
         })
         .finally(() => {
-          this.loading = true;
+          this.loading = false;
           this.modifying = false;
         });
     },
     async removeFlow(id: number) {
+      const toast = useToast();
+      this.loading = true;
+
       await makeRequests
         .destroy(`/flow/${id}`)
-        .then(() => {})
-        .catch(() => {})
-        .finally(() => {});
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi removido com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível remover a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     async resolveAction() {
       this.loading = true;
       this.createCommands();
+
       if (this.isCreation) {
         await this.createFlow()
           .then(() => {
