@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
+import type { IFlow } from "~/types";
+
 const makeRequests = useMakeRequests();
 
 export const useFlowsStore = defineStore("flows", {
-  state: () => ({
+  state: (): IFlow => ({
     loading: false,
     flows: [],
     selectedNode: {},
     selectedFlow: {},
-
     flow: {},
     nodes: [],
     edges: [],
@@ -40,7 +41,7 @@ export const useFlowsStore = defineStore("flows", {
       const step = ref(0);
       const extractCommandsFromNodes = (nodes) => {
         return nodes
-          .map((node) => {
+          .map((node: any) => {
             if (!node.data.commands) {
               return [];
             }
@@ -72,7 +73,6 @@ export const useFlowsStore = defineStore("flows", {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
-    async uploadFile(file: any) {},
     async fetchFlows() {
       this.loading = true;
       await makeRequests
@@ -96,8 +96,10 @@ export const useFlowsStore = defineStore("flows", {
         this.edges = initialEdges;
         return;
       }
+
       this.isCreation = false;
       this.loading = true;
+
       await makeRequests
         .get(`/flow/${id}`)
         .then((res) => {
@@ -119,6 +121,7 @@ export const useFlowsStore = defineStore("flows", {
     async updateFlow() {
       const toast = useToast();
       this.loading = true;
+
       await makeRequests
         .update(`/flow/${this.flow.id}`, {
           ...this.flow,
