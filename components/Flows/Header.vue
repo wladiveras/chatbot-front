@@ -53,14 +53,14 @@ const isOpen = ref(false)
     <UModal v-model="isOpen" :transition="false">
       <UForm :state="flow" class="space-y-4 gap-5 p-10">
         <UFormGroup label="Nome do fluxo" name="flow" eager-validation>
-          <UInput v-model="flow.name" placeholder="" />
+          <UInput v-model="flow.name" />
         </UFormGroup>
         <UFormGroup label="Descrição do fluxo" name="description" eager-validation>
-          <UInput v-model="flow.description" placeholder="" />
+          <UInput v-model="flow.description" />
         </UFormGroup>
 
         <UButton class="bg-blue-950 text-white" @click="isOpen = false" block>
-          Fechar
+          Atualizar
         </UButton>
       </UForm>
     </UModal>

@@ -17,6 +17,14 @@ export default defineNuxtConfig({
   hub: {
     blob: true,
     remote: Boolean(process.env.NUXT_HUB_BLOB_REMOTE),
+
+    projectUrl({ env, branch }) {
+      // Select the preview URL from the dev branch
+      if (env === "preview") {
+        return process.env.NUXT_HUB_PREVIEW;
+      }
+      return process.env.NUXT_HUB_PRODUCTION;
+    },
   },
   runtimeConfig: {
     public: {
