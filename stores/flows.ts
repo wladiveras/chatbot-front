@@ -1,13 +1,14 @@
 import { defineStore } from "pinia";
+import type { IFlow } from "~/types";
+
 const makeRequests = useMakeRequests();
 
 export const useFlowsStore = defineStore("flows", {
-  state: () => ({
+  state: (): IFlow => ({
     loading: false,
     flows: [],
     selectedNode: {},
     selectedFlow: {},
-
     flow: {},
     nodes: [],
     edges: [],
@@ -38,13 +39,13 @@ export const useFlowsStore = defineStore("flows", {
     },
     createCommands() {
       const step = ref(0);
-      const extractCommandsFromNodes = (nodes) => {
+      const extractCommandsFromNodes = (nodes: any) => {
         return nodes
-          .map((node) => {
+          .map((node: any) => {
             if (!node.data.commands) {
               return [];
             }
-            return node.data.commands.map((command) => {
+            return node.data.commands.map((command: any) => {
               step.value += 1;
               const nodeId = node.id;
               const { icon, ...rest } = command;
@@ -67,12 +68,11 @@ export const useFlowsStore = defineStore("flows", {
       let commands = extractCommandsFromNodes(this.nodes);
 
       this.commandsList = commands
-        .filter((command) => edges.includes(command.nodeId))
-        .sort((a, b) => {
+        .filter((command: any) => edges.includes(command.nodeId))
+        .sort((a: any, b: any) => {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
-    async uploadFile(file: any) {},
     async fetchFlows() {
       this.loading = true;
       await makeRequests
@@ -96,8 +96,10 @@ export const useFlowsStore = defineStore("flows", {
         this.edges = initialEdges;
         return;
       }
+
       this.isCreation = false;
       this.loading = true;
+
       await makeRequests
         .get(`/flow/${id}`)
         .then((res) => {
@@ -119,6 +121,7 @@ export const useFlowsStore = defineStore("flows", {
     async updateFlow() {
       const toast = useToast();
       this.loading = true;
+
       await makeRequests
         .update(`/flow/${this.flow.id}`, {
           ...this.flow,
@@ -170,20 +173,38 @@ export const useFlowsStore = defineStore("flows", {
           });
         })
         .finally(() => {
-          this.loading = true;
+          this.loading = false;
           this.modifying = false;
         });
     },
     async removeFlow(id: number) {
+      const toast = useToast();
+      this.loading = true;
+
       await makeRequests
         .destroy(`/flow/${id}`)
-        .then(() => {})
-        .catch(() => {})
-        .finally(() => {});
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi removido com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível remover a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     async resolveAction() {
       this.loading = true;
       this.createCommands();
+
       if (this.isCreation) {
         await this.createFlow()
           .then(() => {
