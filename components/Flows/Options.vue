@@ -1,5 +1,5 @@
 <script setup>
-import { useVueFlow } from '@vue-flow/core';
+import { useVueFlow } from "@vue-flow/core"
 
 const flowsStore = useFlowsStore()
 const { selectedNode } = storeToRefs(flowsStore)
@@ -65,15 +65,22 @@ const options = [
     action: "message",
     icon: "material-symbols:link",
     callback: addCommand,
-  }
+  },
 ]
 
 function addCommand(command) {
-  const commands = selectedNode.value.data.commands;
-  commands.push({
+  const commands = selectedNode.value.data.commands
+
+  const newCommand = {
     ...command,
-    value: command.action === "delay" ? 1 : "",
-  });
+    delay: command.delay >= 0 ? 1 : command.delay,
+  }
+
+  if (command.action === "delay") {
+    newCommand.value = 1
+  }
+
+  commands.push(newCommand)
 
   updateNodeData(selectedNode.value.id, { commands })
 }
