@@ -1,6 +1,7 @@
 <script setup>
 import { DashboardModalDeleteFlow } from "#components"
 
+const runtimeConfig = useRuntimeConfig()
 const flowsStore = useFlowsStore()
 const { getFlows, totalFlows } = storeToRefs(flowsStore)
 const modal = useModal()
@@ -25,7 +26,7 @@ definePageMeta({
 })
 
 useHead({
-  title: "Fluxos de conversa",
+  title: runtimeConfig.public.appName + " - Fluxos de conversa",
 })
 </script>
 

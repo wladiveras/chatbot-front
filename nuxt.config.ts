@@ -21,13 +21,14 @@ export default defineNuxtConfig({
     projectUrl({ env, branch }) {
       // Select the preview URL from the dev branch
       if (env === "preview") {
-        return process.env.NUXT_HUB_PREVIEW;
+        return process.env.NUXT_HUB_BLOB_REMOTE;
       }
       return process.env.NUXT_HUB_PRODUCTION;
     },
   },
   runtimeConfig: {
     public: {
+      appName: process.env.APP_NAME,
       apiBase: process.env.BASE_URL,
       apiBaseServer: process.env.API_BASE_URL,
       sentry: {

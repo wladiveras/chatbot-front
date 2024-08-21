@@ -1,20 +1,34 @@
 <script setup lang="ts">
+import { DashboardModalCreateConnection } from "#components"
+const connectionStore = useConnectionsStore()
+
+const modal = useModal()
+
+function openCreateConnection() {
+  modal.open(DashboardModalCreateConnection, {
+    async onSuccess() {
+      await connectionStore.fetchConnections()
+    },
+  })
+}
+
 const links = [
   {
-    label: "Fluxo de conversas",
-    to: '/flows',
-    icon: "ic:baseline-swap-vert"
+    label: "Fluxos de conversas",
+    to: "/flows",
+    icon: "line-md:fork-right",
+  },
+  {
+    label: "Nova Conexão",
+    icon: "line-md:plus",
+    action: openCreateConnection,
   },
   {
     label: "Minhas Conexões",
-    to: '/connections',
-    icon: "material-symbols:wifi-rounded"
+    to: "/connections",
+    icon: "material-symbols:wifi-rounded",
   },
-  // {
-  //   label: "Nova Conexão",
-  //   to: '/new-connection',
-  //   icon: "material-symbols:add-rounded"
-  // },
+
   // {
   //   label: "Configurações",
   //   to: '/settings',
@@ -25,14 +39,14 @@ const links = [
   //   to: '/plans',
   //   icon: "material-symbols:currency-exchange-rounded"
   // }
-];
+]
 
-const sidebarStore = useSidebarStore();
-const { isExpanded } = storeToRefs(sidebarStore);
-const route = useRoute();
+const sidebarStore = useSidebarStore()
+const { isExpanded } = storeToRefs(sidebarStore)
+const route = useRoute()
 
 const isActive = computed(() => {
-  return (path) => route.path.includes(path);
+  return (path) => route.path.includes(path)
 })
 </script>
 
@@ -51,7 +65,7 @@ const isActive = computed(() => {
         'bg-gray-200 text-blue-950': isActive(link.to),
         'text-gray-500': !isActive(link.to),
       }"
-      @click="navigateTo(link.to)"
+      @click="link.action ? link.action() : navigateTo(link.to)"
     >
       <UIcon :name="link.icon" class="w-5 h-5 flex-shrink-0" />
       <span v-if="isExpanded">{{ link.label }}</span>

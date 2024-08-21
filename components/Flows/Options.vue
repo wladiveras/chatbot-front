@@ -8,6 +8,7 @@ const { updateNodeData } = useVueFlow()
 const options = [
   {
     label: "Texto",
+    description: "Enviei uma mensagem de texto ao cliente.",
     type: "text",
     action: "message",
     delay: 1,
@@ -16,6 +17,7 @@ const options = [
   },
   {
     label: "Audio",
+    description: "Envie uma mensagem de voz ao cliente.",
     type: "audio",
     action: "message",
     icon: "material-symbols:mic-outline",
@@ -23,6 +25,7 @@ const options = [
   },
   {
     label: "Variável",
+    description: "Pausa o fluxo até o cliente responder.",
     type: "Input",
     action: "input",
     icon: "fluent:braces-variable-20-filled",
@@ -30,6 +33,7 @@ const options = [
   },
   {
     label: "Imagem",
+    description: "Envie uma mídia de imagem.",
     type: "image",
     action: "message",
     caption: "",
@@ -38,6 +42,7 @@ const options = [
   },
   {
     label: "Vídeo",
+    description: "Envie uma mídia de video.",
     type: "video",
     action: "message",
     icon: "material-symbols:videocam-outline",
@@ -45,6 +50,7 @@ const options = [
   },
   {
     label: "Media",
+    description: "Envie uma mídia de audio.",
     type: "media_audio",
     action: "message",
     caption: "",
@@ -54,6 +60,7 @@ const options = [
 
   {
     label: "Atraso",
+    description: "Adicione um intervalo entre as mensagens.",
     type: "delay",
     action: "delay",
     icon: "material-symbols:schedule-outline",
@@ -61,6 +68,7 @@ const options = [
   },
   {
     label: "Link",
+    description: "Adicione um link para redirecionar o cliente.",
     type: "text",
     action: "message",
     icon: "material-symbols:link",
@@ -91,14 +99,16 @@ function addCommand(command) {
     <FlowsCommands editable :id="selectedNode.id" :data="selectedNode.data.commands" />
 
     <section class="grid grid-cols-3 gap-x-2 gap-y-5">
-      <section
-        v-for="(opt, index) in options"
-        :key="index"
-        class="flex flex-col gap-3 items-center border border-gray-300 border-dashed py-3 rounded-lg cursor-pointer hover:border-gray-600 hover:text-gray-600 transition-all ease-in-out"
-        @click="opt.callback(opt)"
-      >
-        <UIcon :name="opt?.icon" class="size-5" />
-        <p class="text-xs text-gray-500">{{ opt.label }}</p>
+      <section v-for="(opt, index) in options" :key="index" @click="opt.callback(opt)">
+        <UTooltip
+          class="flex flex-col gap-3 items-center border border-gray-300 border-dashed py-3 rounded-lg cursor-pointer hover:border-gray-600 hover:text-gray-600 transition-all ease-in-out"
+        >
+          <template #text>
+            <span class="bold">{{ opt?.description }}</span>
+          </template>
+          <UIcon :name="opt?.icon" class="size-5" />
+          <p class="text-xs text-gray-500">{{ opt.label }}</p>
+        </UTooltip>
       </section>
     </section>
   </section>
