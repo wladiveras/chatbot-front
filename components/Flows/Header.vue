@@ -1,28 +1,8 @@
 <script setup lang="ts">
 const flowsStore = useFlowsStore()
-const { flow, flowName, flowDescription, isCreation } = storeToRefs(flowsStore)
+const { flow, flowName, flowDescription, isCreation, isLoading } = storeToRefs(flowsStore)
 
 const isOpen = ref(false)
-const isLoading = ref(false)
-
-async function saveFlow() {
-  if (isCreation.value) {
-    await flowsStore.createFlow().then(() => {
-      navigateTo(`/flows`)
-    })
-    return
-  }
-  await flowsStore.updateFlow().then(() => {
-    navigateTo(`/flows`)
-  })
-}
-
-async function handleClick() {
-  isLoading.value = true
-  flowsStore.createCommands()
-  await saveFlow()
-  isLoading.value = false
-}
 </script>
 
 <template>
@@ -64,7 +44,7 @@ async function handleClick() {
                 ? 'Salvando fluxo'
                 : 'Salvar fluxo'
             "
-            @click="handleClick"
+            @click="() => flowsStore.resolveAction()"
           />
         </section>
       </template>
@@ -73,14 +53,14 @@ async function handleClick() {
     <UModal v-model="isOpen" :transition="false">
       <UForm :state="flow" class="space-y-4 gap-5 p-10">
         <UFormGroup label="Nome do fluxo" name="flow" eager-validation>
-          <UInput v-model="flow.name" placeholder="" />
+          <UInput v-model="flow.name" />
         </UFormGroup>
         <UFormGroup label="Descrição do fluxo" name="description" eager-validation>
-          <UInput v-model="flow.description" placeholder="" />
+          <UInput v-model="flow.description" />
         </UFormGroup>
 
         <UButton class="bg-blue-950 text-white" @click="isOpen = false" block>
-          Fechar
+          Atualizar
         </UButton>
       </UForm>
     </UModal>

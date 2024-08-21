@@ -166,7 +166,9 @@ onUnmounted(() => {
               </li>
 
               <li>4. Aponte seu celular para esta tela para escanear o QR code.</li>
-              <li>5. Após ler o QR code, clique no botão <strong>finalizar</strong>.</li>
+              <li>
+                5. Após ler o QR code, clique no botão <strong>Confirmar conexão</strong>.
+              </li>
             </ul>
             <UButton
               class="w-full flex text-center py-[15px] px-[25px] bg-blue-950 text-md"
@@ -174,7 +176,7 @@ onUnmounted(() => {
               @click="closeModal"
               block
             >
-              Finalizar
+              Confirmar conexão
             </UButton>
           </section>
         </section>

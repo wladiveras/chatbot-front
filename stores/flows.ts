@@ -1,17 +1,14 @@
 import { defineStore } from "pinia";
-import Vapor from "laravel-vapor";
+import type { IFlow } from "~/types";
 
-import type { IStateAuth } from "@/types";
 const makeRequests = useMakeRequests();
 
-const toast = useToast();
 export const useFlowsStore = defineStore("flows", {
-  state: () => ({
+  state: (): IFlow => ({
     loading: false,
     flows: [],
     selectedNode: {},
     selectedFlow: {},
-
     flow: {},
     nodes: [],
     edges: [],
@@ -33,6 +30,7 @@ export const useFlowsStore = defineStore("flows", {
       return state.flows.find((flow) => flow.id === id);
     },
     isModifying: (state) => state.modifying,
+    isLoading: (state) => state.loading,
     lastNode: (state) => state.nodes[state.nodes.length - 1],
   },
   actions: {
@@ -41,17 +39,20 @@ export const useFlowsStore = defineStore("flows", {
     },
     createCommands() {
       const step = ref(0);
-      const extractCommandsFromNodes = (nodes) => {
+      const extractCommandsFromNodes = (nodes: any) => {
         return nodes
-          .map((node) => {
+          .map((node: any) => {
             if (!node.data.commands) {
               return [];
             }
-            return node.data.commands.map((command) => {
+            return node.data.commands.map((command: any) => {
               step.value += 1;
               const nodeId = node.id;
               const { icon, ...rest } = command;
-              return { ...rest, nodeId, step: step.value };
+              const filteredCommand = Object.fromEntries(
+                Object.entries(rest).filter(([_, value]) => value !== null)
+              );
+              return { ...filteredCommand, nodeId, step: step.value };
             });
           })
           .flat();
@@ -67,12 +68,11 @@ export const useFlowsStore = defineStore("flows", {
       let commands = extractCommandsFromNodes(this.nodes);
 
       this.commandsList = commands
-        .filter((command) => edges.includes(command.nodeId))
-        .sort((a, b) => {
+        .filter((command: any) => edges.includes(command.nodeId))
+        .sort((a: any, b: any) => {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
-    async uploadFile(file: any) {},
     async fetchFlows() {
       this.loading = true;
       await makeRequests
@@ -96,6 +96,7 @@ export const useFlowsStore = defineStore("flows", {
         this.edges = initialEdges;
         return;
       }
+
       this.isCreation = false;
       this.loading = true;
 
@@ -118,7 +119,9 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async updateFlow() {
+      const toast = useToast();
       this.loading = true;
+
       await makeRequests
         .update(`/flow/${this.flow.id}`, {
           ...this.flow,
@@ -146,6 +149,7 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async createFlow() {
+      const toast = useToast();
       this.loading = true;
       await makeRequests
         .post(`/flow`, {
@@ -169,16 +173,51 @@ export const useFlowsStore = defineStore("flows", {
           });
         })
         .finally(() => {
-          this.loading = true;
+          this.loading = false;
           this.modifying = false;
         });
     },
     async removeFlow(id: number) {
+      const toast = useToast();
+      this.loading = true;
+
       await makeRequests
         .destroy(`/flow/${id}`)
-        .then(() => {})
-        .catch(() => {})
-        .finally(() => {});
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `O fluxo foi removido com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível remover a o fluxo.`,
+            color: "red",
+          });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+    async resolveAction() {
+      this.loading = true;
+      this.createCommands();
+
+      if (this.isCreation) {
+        await this.createFlow()
+          .then(() => {
+            navigateTo(`/flows`);
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      } else {
+        await this.updateFlow().finally(() => {
+          this.loading = false;
+        });
+      }
     },
   },
 });

@@ -6,15 +6,25 @@ export interface IStateAuth {
   user: IUser;
   token: string;
 }
-export interface IProfile {
-  wuid: string;
-  name: string;
-  picture: string;
-  email: boolean;
-  description: string;
-  website: string;
-  numberExists: boolean;
-  isBusiness: boolean;
+
+export interface IStateAuth {
+  user: IUser;
+  token: string;
+}
+
+export interface IFlow {
+  loading: boolean;
+  flows: any[];
+  selectedNode: any;
+  selectedFlow: any;
+  flow: any;
+  nodes: any[];
+  edges: any[];
+  commands: any[];
+  commandsList: any[];
+  modifying: boolean;
+  isCreation: boolean;
+  uploadProgress: number;
 }
 
 export interface IProfile {
