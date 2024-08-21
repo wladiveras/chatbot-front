@@ -38,7 +38,6 @@ export const useFlowsStore = defineStore("flows", {
       this.selectedNode = node;
     },
     createCommands() {
-      const step = ref(0);
       const extractCommandsFromNodes = (nodes: any) => {
         return nodes
           .map((node: any) => {
@@ -46,13 +45,12 @@ export const useFlowsStore = defineStore("flows", {
               return [];
             }
             return node.data.commands.map((command: any) => {
-              step.value += 1;
               const nodeId = node.id;
               const { icon, ...rest } = command;
               const filteredCommand = Object.fromEntries(
                 Object.entries(rest).filter(([_, value]) => value !== null)
               );
-              return { ...filteredCommand, nodeId, step: step.value };
+              return { ...filteredCommand, nodeId };
             });
           })
           .flat();
