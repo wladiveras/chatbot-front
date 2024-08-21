@@ -264,6 +264,7 @@ onMounted(async () => {
             </template>
             <template #default>
               <input
+                class="relative block w-full disabled:cursor-not-allowed disabled:opacity-75 focus:outline-none form-input rounded-lg placeholder-gray-400 dark:placeholder-gray-500 file:mr-1.5 file:font-medium file:text-gray-500 dark:file:text-gray-400 file:bg-transparent file:border-0 file:p-0 file:outline-none px-2.5 py-1.5 text-blue-950 text-sm font-normal border border-solid border-gray-100 focus:border-transparent focus:ring-blue-950"
                 accept="audio/*"
                 type="file"
                 name="file"
@@ -299,6 +300,7 @@ onMounted(async () => {
             </template>
             <template #default>
               <input
+                class="relative block w-full disabled:cursor-not-allowed disabled:opacity-75 focus:outline-none form-input rounded-lg placeholder-gray-400 dark:placeholder-gray-500 file:mr-1.5 file:font-medium file:text-gray-500 dark:file:text-gray-400 file:bg-transparent file:border-0 file:p-0 file:outline-none px-2.5 py-1.5 text-blue-950 text-sm font-normal border border-solid border-gray-100 focus:border-transparent focus:ring-blue-950"
                 accept="image/*"
                 type="file"
                 name="file"
@@ -334,6 +336,7 @@ onMounted(async () => {
             </template>
             <template #default>
               <input
+                class="relative block w-full disabled:cursor-not-allowed disabled:opacity-75 focus:outline-none form-input rounded-lg placeholder-gray-400 dark:placeholder-gray-500 file:mr-1.5 file:font-medium file:text-gray-500 dark:file:text-gray-400 file:bg-transparent file:border-0 file:p-0 file:outline-none px-2.5 py-1.5 text-blue-950 text-sm font-normal border border-solid border-gray-100 focus:border-transparent focus:ring-blue-950"
                 accept="video/*"
                 type="file"
                 name="file"
@@ -371,6 +374,7 @@ onMounted(async () => {
             </template>
             <template #default>
               <input
+                class="relative block w-full disabled:cursor-not-allowed disabled:opacity-75 focus:outline-none form-input rounded-lg placeholder-gray-400 dark:placeholder-gray-500 file:mr-1.5 file:font-medium file:text-gray-500 dark:file:text-gray-400 file:bg-transparent file:border-0 file:p-0 file:outline-none px-2.5 py-1.5 text-blue-950 text-sm font-normal border border-solid border-gray-100 focus:border-transparent focus:ring-blue-950"
                 accept="audio/*"
                 type="file"
                 name="file"
