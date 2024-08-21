@@ -201,7 +201,8 @@ onMounted(async () => {
             <!-- todo -->
             </template>
             <template #default>
-              <UInput v-model="command.value" placeholder="Olá...."/>
+
+              <UTextarea v-model="command.value" placeholder="Olá...."/>
             </template>
           </UFormGroup>
           <br>
@@ -394,7 +395,8 @@ onMounted(async () => {
           </UFormGroup>
         </section>
       </section>
-      <UButton v-if="editable" color="red" block @click="removeCommand(command)">Remover</UButton>
+      <UButton v-if="editable" truncate color="red" :padded="false" icon="line-md:close-small" label="remover" class="no-underline" variant="link" @click="removeCommand(command)"/>
+
     </UCard>
   </section>
 </template>

@@ -53,15 +53,12 @@ const createConnection = async (event: FormSubmitEvent<Schema>) => {
 }
 
 const closeModal = () => {
-  emit("close")
-  modal.close()
-}
-
-onUnmounted(() => {
   if (connectionStatus.value) {
     clearInterval(connectionStatus.value)
   }
-})
+  emit("close")
+  modal.close()
+}
 </script>
 
 <template>

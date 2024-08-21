@@ -1,6 +1,8 @@
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig()
 useSeoMeta({
-  title: "Marina Bot - Revolucione suas vendas com automação de WhatsApp!",
+  title:
+    runtimeConfig.public.appName + "- Revolucione suas vendas com automação de WhatsApp!",
 })
 </script>
 

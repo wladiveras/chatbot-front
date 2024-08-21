@@ -1,8 +1,25 @@
 <script setup lang="ts">
 const flowsStore = useFlowsStore()
 const { flow, flowName, flowDescription, isCreation, isLoading } = storeToRefs(flowsStore)
+const runtimeConfig = useRuntimeConfig()
 
 const isOpen = ref(false)
+const restartIsOpen = ref(false)
+const restartLoading = ref(false)
+const isDisableLoading = ref(false)
+
+function onDelete() {
+  restartLoading.value = true
+
+  flowsStore.resetFlowSession().finally(() => {
+    restartLoading.value = false
+    restartIsOpen.value = false
+  })
+}
+
+useHead({
+  title: runtimeConfig.public.appName + " - Editor de fluxo",
+})
 </script>
 
 <template>
@@ -26,12 +43,32 @@ const isOpen = ref(false)
     >
       <template #actions>
         <section class="flex items-center gap-5">
-          <UButton
-            icon="mdi:tag-edit"
-            label="Editar nome e descrição"
-            class="bg-gray-100 text-blue-950"
-            @click="isOpen = true"
-          />
+          <!-- <UTooltip text="Desativar fluxo.">
+            <UButton
+              :icon="isDisableLoading ? 'svg-spinners:ring-resize' : 'line-md:watch-off'"
+              :disabled="isDisableLoading"
+              class="bg-gray-100 text-blue-950"
+              @click="() => flowsStore.handleFlowActive()"
+            />
+          </UTooltip> -->
+          <UTooltip text="Reinicia as sessões do fluxo.">
+            <UButton
+              icon="line-md:backup-restore"
+              :disabled="restartLoading"
+              class="bg-gray-100 text-blue-950"
+              @click="restartIsOpen = true"
+            />
+          </UTooltip>
+
+          <UTooltip text="Edite o titulo de a descrição do fluxo">
+            <UButton
+              :icon="isLoading ? 'svg-spinners:ring-resize' : 'line-md:pencil'"
+              :disabled="isLoading"
+              class="bg-gray-100 text-blue-950"
+              @click="isOpen = true"
+            />
+          </UTooltip>
+
           <UButton
             icon="streamline:interface-content-fire-lit-flame-torch-trending"
             :loading="isLoading"
@@ -50,6 +87,27 @@ const isOpen = ref(false)
       </template>
     </CustomHeader>
 
+    <UDashboardModal
+      v-model="restartIsOpen"
+      title="Reiniciar sessões"
+      description="Tem certeza que deseja reiniciar as sessões do fluxo? ao fazer isso, todas as sessões ativas serão encerradas e o fluxo vai recomeçar."
+      icon="i-heroicons-exclamation-circle"
+      :ui="{
+      icon: { base: 'text-red-500 dark:text-red-400' } as any,
+      footer: { base: 'ml-16' } as any
+    }"
+    >
+      <template #footer>
+        <UButton
+          color="red"
+          label="Reiniciar"
+          :loading="restartLoading"
+          @click="onDelete"
+        />
+        <UButton color="white" label="Cancelar" @click="restartIsOpen = false" />
+      </template>
+    </UDashboardModal>
+
     <UModal v-model="isOpen" :transition="false">
       <UForm :state="flow" class="space-y-4 gap-5 p-10">
         <UFormGroup label="Nome do fluxo" name="flow" eager-validation>
@@ -59,9 +117,12 @@ const isOpen = ref(false)
           <UInput v-model="flow.description" />
         </UFormGroup>
 
-        <UButton class="bg-blue-950 text-white" @click="isOpen = false" block>
-          Atualizar
-        </UButton>
+        <UButton
+          class="bg-blue-950 text-white"
+          @click="isOpen = false"
+          label="Atualizar"
+          block
+        />
       </UForm>
     </UModal>
   </header>

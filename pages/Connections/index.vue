@@ -7,6 +7,7 @@ import {
 const connectionStore = useConnectionsStore()
 const { getConnections, totalConnections } = storeToRefs(connectionStore)
 
+const runtimeConfig = useRuntimeConfig()
 const modal = useModal()
 
 function openCreateConnection() {
@@ -33,7 +34,10 @@ function navigateOrOpenModal(path, connection) {
   if (!connection.is_active) {
     modal.open(DashboardModalFetchConnection, {
       connection_id: connection.id,
-      async success() {
+      async onSuccess() {
+        await connectionStore.fetchConnections()
+      },
+      async onClose() {
         await connectionStore.fetchConnections()
       },
     })
@@ -55,7 +59,7 @@ definePageMeta({
 })
 
 useHead({
-  title: "Minhas conexões",
+  title: runtimeConfig.public.appName + " - Minhas conexões",
 })
 </script>
 
@@ -66,7 +70,7 @@ useHead({
     </template>
   </CustomHeader>
   <!-- Connections -->
-  <section class="flex justify-center flex-wrap gap-5">
+  <section class="flex justify-left flex-wrap gap-5">
     <UCard
       v-for="(item, index) in getConnections"
       :key="index"

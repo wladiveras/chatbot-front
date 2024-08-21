@@ -39,11 +39,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
 </script>
 
 <template>
-  <UHeader class="py-5 border-0 bg-gray-50/0">
-    <template #logo>
-      <NuxtImg src="/Logo.png" class="h-[30px] w-full" />
-    </template>
-
+  <UHeader>
     <template #right>
       <ULink
         class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
@@ -52,12 +48,19 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
         :to="link.to"
         :active="link.active"
         active-class="text-blue-950"
-        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 "
+        inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
       >
         {{ link.label }}
       </ULink>
-
       <UButton
+        v-if="isAuthenticated"
+        to="/flows"
+        label="Painel de Controle"
+        icon="line-md:gauge"
+        class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold animate__animated animate__rubberBand"
+      />
+      <UButton
+        v-else
         to="/login"
         label="Teste grátis por 30 dias"
         trailing-icon="i-heroicons-arrow-right-20-solid"
@@ -67,14 +70,8 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
 
     <template #panel>
       <UAsideLinks :links="links" />
-
       <UDivider class="my-6" />
-      <UButton
-        v-if="isAuthenticated"
-        to="/connections"
-        label="Painel de Controle"
-        block
-      />
+      <UButton v-if="isAuthenticated" to="/flows" label="Painel de Controle" block />
       <UButton v-else to="/login" label="Teste 30 dias gratis" block />
     </template>
   </UHeader>

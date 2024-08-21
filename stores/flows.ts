@@ -71,6 +71,28 @@ export const useFlowsStore = defineStore("flows", {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
+    async handleFlowActive() {},
+    async resetFlowSession() {
+      const toast = useToast();
+
+      await makeRequests
+        .destroy(`/flow/${this.flow.id}/reset`)
+        .then(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `As sessões foram reiniciadas com sucesso.`,
+            color: "green",
+          });
+        })
+        .catch(() => {
+          toast.add({
+            icon: "i-heroicons-check-circle",
+            title: `Não foi possível reiniciadas as sessões.`,
+            color: "red",
+          });
+        })
+        .finally(() => {});
+    },
     async fetchFlows() {
       this.loading = true;
       await makeRequests

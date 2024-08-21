@@ -16,7 +16,7 @@ const {
   addNodes,
   onNodeClick,
   setCenter,
-  onNodesChange
+  onNodesChange,
 } = useVueFlow()
 
 onInit((vueFlowInstance) => {
@@ -36,8 +36,8 @@ onNodeClick(({ node }) => {
 })
 
 onNodesChange((param) => {
-  if (param[0].type === 'remove') {
-    sidebarStore.toggleSize();
+  if (param[0].type === "remove") {
+    sidebarStore.toggleSize()
   }
 })
 

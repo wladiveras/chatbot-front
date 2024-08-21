@@ -2,6 +2,8 @@
 import { z } from "zod"
 import type { FormSubmitEvent } from "#ui/types"
 
+const runtimeConfig = useRuntimeConfig()
+
 onBeforeMount(() => {
   if (isAuthenticated.value) {
     navigateTo("/connections")
@@ -13,7 +15,7 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: "Marina Bot - Entrar no sistema",
+  title: runtimeConfig.public.appName + "  - Entrar no sistema",
 })
 
 const toast = useToast()
