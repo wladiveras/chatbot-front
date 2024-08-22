@@ -14,7 +14,7 @@ export default function () {
       body,
       ...config,
       onRequest({ request, options }) {
-        const token = getStorage("token");
+        const token = localStorage.getItem("token");
 
         const headers = {
           Accept: "application/json",
@@ -28,9 +28,9 @@ export default function () {
         if (!!token) headers["Authorization"] = `Bearer ${token}`;
 
         options.headers = headers;
-      }
+      },
     });
-    
+
     if (response?.data?.success) return response;
     throw response;
   }

@@ -15,16 +15,20 @@ export const useAuthStore = defineStore("auth", {
   },
   actions: {
     init() {
-      this.token = getStorage("token") ? getStorage("token") : null;
-      this.user = getStorage("user") ? JSON.parse(getStorage("user")) : {};
+      this.token = localStorage.getItem("token")
+        ? localStorage.getItem("token")
+        : null;
+      this.user = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : {};
     },
     async signIn(email: string) {
       await makeRequests.post("/auth/sign-in", { email });
     },
     async signOut() {
       const toast = useToast();
-      removeStorage("token");
-      removeStorage("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
       toast.add({
         title: "Até mais!",
         description: "Desconectado da sua sessão, te espero em breve.",
@@ -36,8 +40,13 @@ export const useAuthStore = defineStore("auth", {
       await makeRequests
         .get("/auth/user")
         .then((res) => {
-          setStorage("user", JSON.stringify(res.data.service.payload));
+          localStorage.setItem(
+            "user",
+            JSON.stringify(res.data.service.payload)
+          );
+
           this.user = res.data.service.payload;
+
           navigateTo("/connections");
         })
         .catch((error) => {
@@ -50,6 +59,7 @@ export const useAuthStore = defineStore("auth", {
         .post(`/auth/magic-link/${code}`)
         .then((res) => {
           this.token = res.data.service.payload;
+          localStorage.setItem("token", this.token);
           this.fetchUser();
         })
         .catch((error) => {
