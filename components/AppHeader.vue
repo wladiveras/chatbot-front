@@ -39,7 +39,10 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
 </script>
 
 <template>
-  <UHeader>
+  <UHeader class="py-5 border-0 bg-gray-50/0">
+    <template #logo>
+      <NuxtImg src="/Logo.png" class="h-[30px] w-full" />
+    </template>
     <template #right>
       <ULink
         class="hidden lg:flex mx-5 text-sm font-base text-blue-950"
