@@ -119,22 +119,14 @@ export const useConnectionsStore = defineStore("connections", {
         });
     },
     async disconnectConnection() {
-      this.loading = true;
-
-      await makeRequests
-        .destroy(`/integration/whatsapp/${this.getToken}/disconnect`)
-        .finally(() => {
-          this.loading = false;
-        });
+      await makeRequests.destroy(
+        `/integration/whatsapp/${this.getToken}/disconnect`
+      );
     },
     async deleteConnection() {
-      this.loading = true;
-
-      await makeRequests
-        .destroy(`/integration/whatsapp/${this.getToken}/delete`)
-        .finally(() => {
-          this.loading = false;
-        });
+      await makeRequests.destroy(
+        `/integration/whatsapp/${this.getToken}/delete`
+      );
     },
     async selectFlow(flow_id: any) {
       const toast = useToast();
