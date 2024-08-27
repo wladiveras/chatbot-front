@@ -58,8 +58,8 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
       <UButton
         v-if="isAuthenticated"
         to="/flows"
-        label="Painel de Controle"
-        icon="line-md:gauge"
+        label="Acessar o Sistema"
+        trailing-icon="line-md:gauge"
         class="hidden lg:flex lg:ml-10 py-[12px] px-[20px] gap-[7px] font-semibold animate__animated animate__rubberBand"
       />
       <UButton
@@ -74,7 +74,7 @@ nuxtApp.hooks.hookOnce("page:finish", () => {
     <template #panel>
       <UAsideLinks :links="links" />
       <UDivider class="my-6" />
-      <UButton v-if="isAuthenticated" to="/flows" label="Painel de Controle" block />
+      <UButton v-if="isAuthenticated" to="/flows" label="Acessar o Sistema" block />
       <UButton v-else to="/login" label="Teste 30 dias gratis" block />
     </template>
   </UHeader>
