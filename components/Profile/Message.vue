@@ -68,8 +68,6 @@ const items = [
                 v-if="open"
                 @click.prevent="item.action"
                 icon="material-symbols:send"
-                :label="loading ? 'Enviando mensagem...' : 'Enviar Mensagem'"
-                :loading="loading"
               >
                 Enviar
               </UButton>
