@@ -9,35 +9,25 @@ const message = reactive({
 })
 
 const sendMessage = async () => {
-  await connectionStore
-    .sendMessage(message.number, message.text)
-    .then(() => {
-      toast.add({
-        title: "Atenção!",
-        description: "Mensagem enviada com sucesso.",
-        icon: "i-heroicons-check-badge",
-      })
-    })
-    .catch(() => {
-      toast.add({
-        title: "Atenção!",
-        description: "Não foi possível enviar a mensagem.",
-        icon: "material-symbols:error-outline",
-      })
-    })
+  toast.add({
+    title: "Atenção!",
+    description: "Envio de mensagem disparada com sucesso.",
+    icon: "i-heroicons-check-badge",
+  })
+
+  await connectionStore.sendMessage(message.number, message.text).finally(() => {
+    message.text = ""
+    message.number = ""
+  })
 }
 
 const items = [
   {
     slot: "send_message",
-    label: "Enviar Mensagem",
+    label: "Mensagem",
     icon: "material-symbols:favorite-outline",
     defaultOpen: true,
-  },
-  {
-    slot: "privacy",
-    label: "Privacidade",
-    icon: "material-symbols:lock-outline",
+    action: () => sendMessage(),
   },
 ]
 </script>
@@ -56,6 +46,41 @@ const items = [
         },
       }"
     >
+      <template #default="{ item, open }">
+        <UButton
+          color="gray"
+          variant="ghost"
+          class=""
+          :ui="{ rounded: 'rounded-none', padding: { sm: 'p-3' } }"
+        >
+          <template #leading>
+            <div class="w-10 h-10 flex items-center justify-center -my-1">
+              <UIcon :name="item.icon" class="w-6 h-6 text-blue-950" />
+            </div>
+          </template>
+
+          <span class="truncate text-blue-950"> {{ item.label }}</span>
+
+          <template #trailing>
+            <div class="ms-auto transform transition-transform duration-200">
+              <UButton
+                class="bg-blue-950 px-5"
+                v-if="open"
+                @click.prevent="item.action"
+                icon="material-symbols:send"
+              >
+                Enviar
+              </UButton>
+              <UIcon
+                v-if="!open"
+                name="i-heroicons-chevron-right-20-solid"
+                class="w-5 h-5 ms-auto transform transition-transform duration-200"
+                :class="[open && 'rotate-90']"
+              />
+            </div>
+          </template>
+        </UButton>
+      </template>
       <template #send_message>
         <section class="flex flex-col gap-4">
           <UFormGroup
@@ -81,17 +106,6 @@ const items = [
             }"
           >
             <UTextarea v-model="message.text" />
-          </UFormGroup>
-          <UFormGroup>
-            <UButton
-              class="bg-blue-950 text-white"
-              icon="material-symbols:send"
-              :label="loading ? 'Enviando mensagem...' : 'Enviar Mensagem'"
-              @click="sendMessage"
-              :loading="loading"
-              variant="soft"
-              block
-            ></UButton>
           </UFormGroup>
         </section>
       </template>

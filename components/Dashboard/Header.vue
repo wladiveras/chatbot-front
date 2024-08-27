@@ -2,11 +2,13 @@
 const authStore = useAuthStore()
 const { userName, userAvatar } = storeToRefs(authStore)
 const items = [
-  [{
-    label: 'Sair',
-    icon: 'material-symbols:logout',
-    click: () => authStore.signOut()
-  }]
+  [
+    {
+      label: "Sair",
+      icon: "material-symbols:logout",
+      click: () => authStore.signOut(),
+    },
+  ],
 ]
 </script>
 
