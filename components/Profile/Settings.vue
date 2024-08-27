@@ -1,7 +1,8 @@
 <script setup>
 const flowStore = useFlowsStore()
 const connectionStore = useConnectionsStore()
-const { getFlows, flowById } = storeToRefs(flowStore)
+const { getFlows } = storeToRefs(flowStore)
+const { getFlowId, loading } = storeToRefs(connectionStore)
 
 await flowStore.fetchFlows()
 
@@ -9,7 +10,7 @@ let flows = Array.isArray(getFlows.value) ? getFlows.value : Object.values(getFl
 
 flows = flows.map((item) => ({
   id: item.id,
-  label: item.name,
+  name: item.name,
 }))
 
 const items = [
@@ -18,20 +19,21 @@ const items = [
     label: "Vincular fluxo a conexão",
     icon: "material-symbols:favorite-outline",
     defaultOpen: true,
+    action: () => handleFlowSelected(),
   },
   {
     slot: "privacy",
     label: "Privacidade",
     icon: "material-symbols:lock-outline",
+    action: () => console.log("Privacy"),
   },
 ]
 
-const onSelectFlow = (option) => {
-  const id = ref(option?.id)
-  if (id) {
-    connectionStore.selectFlow(id.value)
-  }
+const handleFlowSelected = async () => {
+  await connectionStore.selectFlow(flowSelected.value)
 }
+
+const flowSelected = ref(getFlowId)
 </script>
 
 <template>
@@ -39,9 +41,9 @@ const onSelectFlow = (option) => {
     <UAccordion
       :items="items"
       :ui="{
-        wrapper: 'w-full flex flex-col',
+        wrapper: 'w-full flex flex-col text-primary',
         item: {
-          base: 'text-blue-950',
+          base: 'text-blue-950 bg-blue-750',
           size: 'text-sm',
           color: 'text-gray-500 dark:text-gray-400',
           padding: 'px-3',
@@ -49,42 +51,72 @@ const onSelectFlow = (option) => {
         },
       }"
     >
+      <template #default="{ item, open }">
+        <UButton
+          color="gray"
+          variant="ghost"
+          class=""
+          :ui="{ rounded: 'rounded-none', padding: { sm: 'p-3' } }"
+        >
+          <template #leading>
+            <div class="w-10 h-10 flex items-center justify-center -my-1">
+              <UIcon :name="item.icon" class="w-6 h-6 text-blue-950" />
+            </div>
+          </template>
+
+          <span class="truncate text-blue-950"> {{ item.label }}</span>
+
+          <template #trailing>
+            <div class="ms-auto transform transition-transform duration-200">
+              <UButton
+                class="bg-blue-950 px-5"
+                v-if="open"
+                @click.prevent="item.action"
+                :loading="loading"
+              >
+                Salvar
+              </UButton>
+              <UIcon
+                v-if="!open"
+                name="i-heroicons-chevron-right-20-solid"
+                class="w-5 h-5 ms-auto transform transition-transform duration-200"
+                :class="[open && 'rotate-90']"
+              />
+            </div>
+          </template>
+        </UButton>
+      </template>
+
       <template #select_flow>
         <section class="flex flex-col gap-4">
-          <UCommandPalette
-            icon="carbon:flow-modeler"
-            :loading="getFlows.loading"
-            v-model="getFlowId"
-            @update:model-value="onSelectFlow"
-            placeholder="Pesquisar fluxos..."
-            nullable
-            :fuse="{
-              resultLimit: 3,
-            }"
-            :groups="[{ key: 'flows', commands: flows }]"
-            :close-button="{
-              icon: 'i-heroicons-x-mark-20-solid',
-              color: 'gray',
-              variant: 'link',
-              padded: false,
+          <UFormGroup
+            label="Fluxo"
+            :ui="{
+              label: {
+                base: 'text-xs font-semibold text-gray-500',
+              },
             }"
           >
-            <template #empty-state>
-              <div class="flex flex-col items-center justify-center py-6 gap-3">
-                <UIcon name="carbon:flow-modeler" size="30px" />
-                <span class="text-md"> Não foi possivel encontrar nenhum fluxo. </span>
-                <UButton
-                  label="Criar um novo fluxo"
-                  @click="navigateTo('/flows/new')"
-                  variant="soft"
-                  class="mt-5"
-                />
-              </div>
-            </template>
-          </UCommandPalette>
+            <USelectMenu
+              v-model="flowSelected"
+              :options="flows"
+              value-attribute="id"
+              option-attribute="name"
+              searchable
+              searchable-placeholder="Buscar fluxo..."
+              placeholder="Selecione um fluxo..."
+            />
+          </UFormGroup>
         </section>
       </template>
-      <template #privacy> em breve </template>
+
+      <template #privacy>
+        <div class="flex items-center gap-2">
+          <UIcon name="lock-closed" />
+
+          <span>Privacidade</span>
+        </div>
+      </template>
     </UAccordion>
   </section>
 </template>

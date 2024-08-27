@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { DashboardModalCreateConnection } from "#components"
 const connectionStore = useConnectionsStore()
+const authStore = useAuthStore()
 
 const modal = useModal()
 
@@ -10,6 +11,10 @@ function openCreateConnection() {
       await connectionStore.fetchConnections()
     },
   })
+}
+
+async function logOut() {
+  await authStore.signOut()
 }
 
 const links = [
@@ -27,6 +32,11 @@ const links = [
     label: "Minhas Conexões",
     to: "/connections",
     icon: "material-symbols:wifi-rounded",
+  },
+  {
+    label: "Sair",
+    action: logOut,
+    icon: "material-symbols:logout",
   },
 
   // {
@@ -46,7 +56,7 @@ const { isExpanded } = storeToRefs(sidebarStore)
 const route = useRoute()
 
 const isActive = computed(() => {
-  return (path) => route.path.includes(path)
+  return (path: any) => route.path.includes(path)
 })
 </script>
 

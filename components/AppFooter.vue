@@ -24,12 +24,6 @@ const links = computed(() => [
     icon: "i-heroicons-academic-cap",
     active: activeHeadings.value.includes("testimonials"),
   },
-  {
-    label: "Login",
-    to: "/login",
-    icon: "i-heroicons-question-mark-circle",
-    active: activeHeadings.value.includes("/login"),
-  },
 ])
 </script>
 
@@ -50,12 +44,21 @@ const links = computed(() => [
     <div
       class="flex flex-nowrap items-center text-center justify-center gap-5 my-[30px] mb-[80px]"
     >
-      <UIcon name="uil:facebook" class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer" />
-      <UIcon name="uil:twitter" class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer" />
-      <UIcon name="uil:instagram" class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer" />
+      <UIcon
+        name="uil:facebook"
+        class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer"
+      />
+      <UIcon
+        name="uil:twitter"
+        class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer"
+      />
+      <UIcon
+        name="uil:instagram"
+        class="flex text-2xl text-gray-500 border-gray-10 cursor-pointer"
+      />
     </div>
     <p
-      class="text-gray-500 border-gray-10 text-sm text-center border-t text-gray-500 border-gray-10 w-full block py-16"
+      class="text-sm text-center border-t text-gray-500 border-gray-10 w-full block py-16"
     >
       Copyright © {{ new Date().getFullYear() }}. Todos os direitos reservados.
     </p>
