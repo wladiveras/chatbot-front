@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { DashboardSlideoverSettings, DashboardSlideoverPreview } from "#components"
+
+const runtimeConfig = useRuntimeConfig()
+const slideover = useSlideover()
 const flowsStore = useFlowsStore()
 const { flow, flowName, flowDescription, isCreation, isLoading } = storeToRefs(flowsStore)
-const runtimeConfig = useRuntimeConfig()
 
 const isOpen = ref(false)
 const restartIsOpen = ref(false)
@@ -13,6 +16,18 @@ function onRestart() {
   flowsStore.resetFlowSession().finally(() => {
     restartLoading.value = false
     restartIsOpen.value = false
+  })
+}
+
+function openSettings() {
+  slideover.open(DashboardSlideoverSettings, {
+    onClose: slideover.close,
+  })
+}
+
+function openPreview() {
+  slideover.open(DashboardSlideoverPreview, {
+    onClose: slideover.close,
   })
 }
 
@@ -50,7 +65,7 @@ useHead({
               @click="() => flowsStore.handleFlowActive()"
             />
           </UTooltip> -->
-          <UTooltip text="Reinicia as sessões do fluxo.">
+          <UTooltip text="Reinicia as sessões do fluxo">
             <UButton
               icon="line-md:backup-restore"
               :disabled="restartLoading"
@@ -58,20 +73,18 @@ useHead({
               @click="restartIsOpen = true"
             />
           </UTooltip>
-          <UTooltip text="Configuções de Remarketing.">
+          <!-- <UTooltip text="Pre-visualizar automação">
             <UButton
-              icon="nimbus:marketing"
-              :disabled="restartLoading"
+              icon="line-md:chat-round-dots"
               class="bg-gray-100 text-blue-950"
-              @click="restartIsOpen = true"
+              @click="openPreview"
             />
-          </UTooltip>
-          <UTooltip text="Edite o titulo de a descrição do fluxo">
+          </UTooltip> -->
+          <UTooltip text="Configurações Gerais">
             <UButton
-              :icon="isLoading ? 'svg-spinners:ring-resize' : 'line-md:pencil'"
-              :disabled="isLoading"
+              icon="line-md:cog"
               class="bg-gray-100 text-blue-950"
-              @click="isOpen = true"
+              @click="openSettings"
             />
           </UTooltip>
 
@@ -114,22 +127,6 @@ useHead({
       </template>
     </UDashboardModal>
 
-    <UModal v-model="isOpen" :transition="false">
-      <UForm :state="flow" class="space-y-4 gap-5 p-10">
-        <UFormGroup label="Nome do fluxo" name="flow" eager-validation>
-          <UInput v-model="flow.name" />
-        </UFormGroup>
-        <UFormGroup label="Descrição do fluxo" name="description" eager-validation>
-          <UInput v-model="flow.description" />
-        </UFormGroup>
-
-        <UButton
-          class="bg-blue-950 text-white"
-          @click="isOpen = false"
-          label="Atualizar"
-          block
-        />
-      </UForm>
-    </UModal>
+    <UModal v-model="isOpen" :transition="false"> </UModal>
   </header>
 </template>

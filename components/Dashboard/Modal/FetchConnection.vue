@@ -8,12 +8,10 @@ const props = defineProps({
 
 const emit = defineEmits(["success"])
 
-const loading = ref(false)
 const modal = useModal()
-const toast = useToast()
 const connectionStatus = ref(null)
 const connectionStore = useConnectionsStore()
-const { getName, getQrcode } = storeToRefs(connectionStore)
+const { getQrcode } = storeToRefs(connectionStore)
 
 onMounted(async () => {
   await connectionStore.fetchConnection(props.connection_id).then(() => {
@@ -36,7 +34,7 @@ function handleClose() {
 
 <template>
   <UModal prevent-close>
-    <section class="flex flex-col items-center gap-1 p-5">
+    <section class="flex flex-col items-center gap-1 p-10">
       <UIcon
         @click="modal.close()"
         name="material-symbols-light:close"

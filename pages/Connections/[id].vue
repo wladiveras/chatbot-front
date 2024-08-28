@@ -10,9 +10,6 @@ const route = useRoute()
 
 const id: any = route?.params?.id
 
-const authStore = useAuthStore()
-const {} = storeToRefs(authStore)
-
 const profileStore = useProfileStore()
 const connectionStore = useConnectionsStore()
 
