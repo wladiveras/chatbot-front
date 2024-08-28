@@ -6,9 +6,8 @@ const runtimeConfig = useRuntimeConfig()
 const isOpen = ref(false)
 const restartIsOpen = ref(false)
 const restartLoading = ref(false)
-const isDisableLoading = ref(false)
 
-function onDelete() {
+function onRestart() {
   restartLoading.value = true
 
   flowsStore.resetFlowSession().finally(() => {
@@ -59,7 +58,14 @@ useHead({
               @click="restartIsOpen = true"
             />
           </UTooltip>
-
+          <UTooltip text="Configuções de Remarketing.">
+            <UButton
+              icon="nimbus:marketing"
+              :disabled="restartLoading"
+              class="bg-gray-100 text-blue-950"
+              @click="restartIsOpen = true"
+            />
+          </UTooltip>
           <UTooltip text="Edite o titulo de a descrição do fluxo">
             <UButton
               :icon="isLoading ? 'svg-spinners:ring-resize' : 'line-md:pencil'"
@@ -102,7 +108,7 @@ useHead({
           color="red"
           label="Reiniciar"
           :loading="restartLoading"
-          @click="onDelete"
+          @click="onRestart"
         />
         <UButton color="white" label="Cancelar" @click="restartIsOpen = false" />
       </template>
