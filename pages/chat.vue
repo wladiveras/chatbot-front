@@ -55,7 +55,7 @@ Frases a falar com contexto: Quer saber mais sobre os produtos e as novidades da
 
 Explore o universo de Jin Hi e descubra o segredo da beleza e estilo que estão encantando o mundo! 💖
 
-links: umsite.com, chat.com
+links: umsite.com, chat.com, marinabot.com.br
   `,
   stream: true,
 }
