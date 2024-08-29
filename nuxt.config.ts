@@ -16,6 +16,7 @@ export default defineNuxtConfig({
   ssr: false,
   hub: {
     blob: true,
+    ai: true,
     remote: Boolean(process.env.NUXT_HUB_BLOB_REMOTE),
 
     projectUrl({ env, branch }) {
