@@ -23,7 +23,7 @@ async function onDelete() {
     .then(() => {
       toast.add({
         icon: "i-heroicons-check-circle",
-        title: `O fluxo foi deletado com sucesso.`,
+        title: `A automação foi deletado com sucesso.`,
         color: "red",
       })
 
@@ -33,7 +33,7 @@ async function onDelete() {
     .catch(() => {
       toast.add({
         icon: "i-heroicons-x-circle",
-        title: `Não foi possível deletar o fluxo.`,
+        title: `Não foi possível deletar a automação.`,
         color: "red",
       })
     })
@@ -45,8 +45,8 @@ async function onDelete() {
 
 <template>
   <UDashboardModal
-    :title="`Deletar Fluxo`"
-    :description="`Tem certeza que deseja deletar o fluxo?`"
+    :title="`Deletar automação`"
+    :description="`Tem certeza que deseja deletar o automação?`"
     icon="i-heroicons-exclamation-circle"
     prevent-close
     :close-button="null"

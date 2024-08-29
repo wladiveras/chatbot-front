@@ -25,7 +25,7 @@ const options = [
   },
   {
     label: "Variável",
-    description: "Pausa o fluxo até o cliente responder.",
+    description: "Pausa o automação até o cliente responder.",
     type: "Input",
     action: "input",
     icon: "fluent:braces-variable-20-filled",

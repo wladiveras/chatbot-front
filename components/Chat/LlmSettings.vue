@@ -1,18 +1,5 @@
 <template>
   <div class="h-full flex flex-col overflow-hidden">
-    <div class="flex items-center justify-between px-4 h-14">
-      <div class="flex items-center gap-x-4">
-        <NuxtImg src="/Logo.png" class="max-h-[40px] mt-[2px] m-auto" />
-      </div>
-      <UButton
-        icon="i-heroicons-x-mark-20-solid"
-        color="gray"
-        variant="ghost"
-        class="md:hidden"
-        @click="$emit('hideDrawer')"
-      />
-    </div>
-    <UDivider />
     <div class="p-4 flex-1 space-y-6 overflow-y-auto">
       <UFormGroup label="Modelo de IA">
         <USelectMenu

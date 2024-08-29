@@ -24,8 +24,9 @@ export const useFlowsStore = defineStore("flows", {
     getNodes: (state) => state.nodes,
     getEdges: (state) => state.edges,
     getCommands: (state) => state.commands,
-    flowName: (state) => state.flow.name || "Novo fluxo",
-    flowDescription: (state) => state.flow.description || "Descrição do fluxo",
+    flowName: (state) => state.flow.name || "Nova automação",
+    flowDescription: (state) =>
+      state.flow.description || "Descrição da automação",
     flowById: (state) => (id: number) => {
       return state.flows.find((flow) => flow.id === id);
     },
@@ -152,14 +153,14 @@ export const useFlowsStore = defineStore("flows", {
         .then(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `O fluxo foi atualizado com sucesso.`,
+            title: `O automação foi atualizado com sucesso.`,
             color: "green",
           });
         })
         .catch(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `Não foi possível atualizar a o fluxo.`,
+            title: `Não foi possível atualizar a o automação.`,
             color: "red",
           });
         })
@@ -181,14 +182,14 @@ export const useFlowsStore = defineStore("flows", {
         .then(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `O fluxo foi atualizado com sucesso.`,
+            title: `A automação foi atualizado com sucesso.`,
             color: "green",
           });
         })
         .catch(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `Não foi possível atualizar a o fluxo.`,
+            title: `Não foi possível atualizar a automação.`,
             color: "red",
           });
         })
@@ -206,14 +207,14 @@ export const useFlowsStore = defineStore("flows", {
         .then(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `O fluxo foi removido com sucesso.`,
+            title: `A automação foi removido com sucesso.`,
             color: "green",
           });
         })
         .catch(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `Não foi possível remover a o fluxo.`,
+            title: `Não foi possível remover a automação.`,
             color: "red",
           });
         })

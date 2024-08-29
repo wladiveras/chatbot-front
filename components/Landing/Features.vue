@@ -3,7 +3,7 @@ const features = reactive([
   {
     title: "Fácil de usar",
     description:
-      "Marina Bot possui uma interface intuitiva, permitindo que você configure automações rapidamente sem a necessidade de conhecimentos técnicos. Crie fluxos de mensagens com poucos cliques e comece a automatizar seu atendimento em minutos.",
+      "Marina Bot possui uma interface intuitiva, permitindo que você configure automações rapidamente sem a necessidade de conhecimentos técnicos. Crie automações de mensagens com poucos cliques e comece a automatizar seu atendimento em minutos.",
     icon: "solar:star-outline",
   },
   {

@@ -1,12 +1,6 @@
 <template>
-  <div class="flex flex-col h-full bg-gray-50 dark:bg-gray-950">
-    <ChatHeader
-      :clear-disabled="chatHistory.length === 0"
-      @clear="$emit('clear')"
-      @show-drawer="$emit('showDrawer')"
-    />
-    <UDivider />
-    <div ref="chatContainer" class="flex-1 overflow-y-auto p-4 space-y-5">
+  <div class="flex flex-col h-svh bg-gray-50 dark:bg-gray-950">
+    <div ref="chatContainer" class="flex-1 overflow-y-auto p-4">
       <div
         v-for="(message, index) in chatHistory"
         :key="`message-${index}`"
@@ -32,7 +26,7 @@
         <ChatAssistantMessage v-else :content="message.content" />
       </div>
       <ChatLoadingSkeleton v-if="loading === 'message'" />
-      <ChatNoChats v-if="chatHistory.length === 0" class="h-full" />
+      <ChatNoChats v-if="chatHistory.length === 0" />
     </div>
     <UDivider />
     <div class="flex items-start p-3.5 relative">

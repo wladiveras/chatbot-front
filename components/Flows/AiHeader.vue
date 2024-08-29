@@ -25,11 +25,14 @@ function openSettings() {
   })
 }
 
-function openPreview() {
-  slideover.open(DashboardSlideoverPreview, {
-    onClose: slideover.close,
-  })
-}
+defineEmits(["clear", "showDrawer"])
+
+defineProps({
+  clearDisabled: {
+    type: Boolean,
+    default: true,
+  },
+})
 
 useHead({
   title: runtimeConfig.public.appName + " - Editor de automação",
@@ -57,14 +60,6 @@ useHead({
     >
       <template #actions>
         <section class="flex items-center gap-5">
-          <!-- <UTooltip text="Desativar automação.">
-            <UButton
-              :icon="isDisableLoading ? 'svg-spinners:ring-resize' : 'line-md:watch-off'"
-              :disabled="isDisableLoading"
-              class="bg-gray-100 text-blue-950"
-              @click="() => flowsStore.handleFlowActive()"
-            />
-          </UTooltip> -->
           <UTooltip text="Reinicia as sessões do automação">
             <UButton
               icon="line-md:backup-restore"
@@ -73,13 +68,10 @@ useHead({
               @click="restartIsOpen = true"
             />
           </UTooltip>
-          <!-- <UTooltip text="Pre-visualizar automação">
-            <UButton
-              icon="line-md:chat-round-dots"
-              class="bg-gray-100 text-blue-950"
-              @click="openPreview"
-            />
-          </UTooltip> -->
+          <UTooltip text="Limpar chat" v-if="!clearDisabled">
+            <UButton color="gray" icon="i-heroicons-trash" @click="$emit('clear')" />
+          </UTooltip>
+
           <UTooltip text="Configurações Gerais">
             <UButton
               icon="line-md:cog"
