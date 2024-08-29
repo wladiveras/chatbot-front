@@ -56,6 +56,8 @@ useSeoMeta({
       }"
     /> -->
     <NuxtLoadingIndicator />
+    <NuxtRouteAnnouncer />
+
     <UMain class="overflow-x-hidden">
       <NuxtLayout>
         <UContainer>
