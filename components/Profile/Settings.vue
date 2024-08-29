@@ -33,7 +33,7 @@ const handleFlowSelected = async () => {
   await connectionStore.selectFlow(flowSelected.value)
 }
 
-const flowSelected = ref(getFlowId)
+const flowSelected = ref(getFlowId.value)
 </script>
 
 <template>
@@ -105,6 +105,7 @@ const flowSelected = ref(getFlowId)
               searchable
               searchable-placeholder="Buscar fluxo..."
               placeholder="Selecione um fluxo..."
+              @change="handleFlowSelected"
             />
           </UFormGroup>
         </section>

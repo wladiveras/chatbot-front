@@ -19,22 +19,21 @@ const items = [
     defaultOpen: true,
     action: () => console.log("Privacy"),
   },
-  {
-    slot: "remarketing_finished",
-    label: "Remarketing de conclusão",
-    icon: "nimbus:marketing",
-    action: () => console.log("Privacy"),
-  },
-  {
-    slot: "remarketing_recovery",
-    label: "Remarketing de recuperação",
-    icon: "nimbus:marketing",
-    action: () => console.log("Privacy"),
-  },
+  // {
+  //   slot: "remarketing_finished",
+  //   label: "Remarketing de conclusão",
+  //   icon: "nimbus:marketing",
+  //   action: () => console.log("Privacy"),
+  // },
+  // {
+  //   slot: "remarketing_recovery",
+  //   label: "Remarketing de recuperação",
+  //   icon: "nimbus:marketing",
+  //   action: () => console.log("Privacy"),
+  // },
 ]
 
 const remarketingIn = ref(1)
-const flowSelected = ref(null)
 
 const emit = defineEmits(["close"])
 
@@ -172,8 +171,8 @@ const handleClose = () => {
               >
                 <URange v-model="remarketingIn" :min="1" :max="100" />
                 <small>
-                  Enviar remarketing após {{ remarketingIn }} dias de inatividade do
-                  cliente que não finalizou o fluxo.
+                  Enviar remarketing após <strong>{{ remarketingIn }} dias</strong> de
+                  inatividade do cliente que não finalizou o fluxo.
                 </small>
               </UFormGroup>
             </section>
@@ -209,8 +208,8 @@ const handleClose = () => {
               >
                 <URange v-model="remarketingIn" :min="1" :max="100" />
                 <small>
-                  Enviar remarketing {{ remarketingIn }} dias após a conclusão do fluxo
-                  principal.
+                  Enviar remarketing <strong>{{ remarketingIn }} dias</strong> após a
+                  conclusão do fluxo principal.
                 </small>
               </UFormGroup>
             </section>

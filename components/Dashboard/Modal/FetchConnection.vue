@@ -34,7 +34,7 @@ function handleClose() {
 
 <template>
   <UModal prevent-close>
-    <section class="flex flex-col items-center gap-1 p-10">
+    <section class="flex flex-col items-center gap-1 p-10 rounded-full">
       <UIcon
         @click="modal.close()"
         name="material-symbols-light:close"
