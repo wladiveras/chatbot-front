@@ -19,7 +19,7 @@ async function logOut() {
 
 const links = [
   {
-    label: "Fluxos de conversas",
+    label: "Automações de conversas",
     to: "/flows",
     icon: "line-md:fork-right",
   },

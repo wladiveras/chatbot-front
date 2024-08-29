@@ -139,14 +139,14 @@ export const useConnectionsStore = defineStore("connections", {
         .then(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `O fluxo foi selecionado com sucesso.`,
+            title: `O automação foi selecionado com sucesso.`,
             color: "green",
           });
         })
         .catch(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `Não foi possível selecionar a o fluxo.`,
+            title: `Não foi possível selecionar a o automação.`,
             color: "red",
           });
         })

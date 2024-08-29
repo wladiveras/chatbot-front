@@ -34,6 +34,7 @@ const items = [
 ]
 
 const remarketingIn = ref(1)
+const flowSelected = ref(0)
 
 const emit = defineEmits(["close"])
 
@@ -143,7 +144,7 @@ const handleClose = () => {
           <template #remarketing_recovery>
             <section class="flex flex-col gap-4">
               <UFormGroup
-                label="Fluxo para remarketing"
+                label="automação para remarketing"
                 :ui="{
                   label: {
                     base: 'text-xs font-semibold text-gray-500',
@@ -156,8 +157,8 @@ const handleClose = () => {
                   value-attribute="id"
                   option-attribute="name"
                   searchable
-                  searchable-placeholder="Buscar fluxo..."
-                  placeholder="Selecione um fluxo..."
+                  searchable-placeholder="Buscar automação..."
+                  placeholder="Selecione um automação..."
                 />
               </UFormGroup>
 
@@ -172,7 +173,7 @@ const handleClose = () => {
                 <URange v-model="remarketingIn" :min="1" :max="100" />
                 <small>
                   Enviar remarketing após <strong>{{ remarketingIn }} dias</strong> de
-                  inatividade do cliente que não finalizou o fluxo.
+                  inatividade do cliente que não finalizou o automação.
                 </small>
               </UFormGroup>
             </section>
@@ -180,7 +181,7 @@ const handleClose = () => {
           <template #remarketing_finished>
             <section class="flex flex-col gap-4">
               <UFormGroup
-                label="Fluxo para remarketing"
+                label="automação para remarketing"
                 :ui="{
                   label: {
                     base: 'text-xs font-semibold text-gray-500',
@@ -193,8 +194,8 @@ const handleClose = () => {
                   value-attribute="id"
                   option-attribute="name"
                   searchable
-                  searchable-placeholder="Buscar fluxo..."
-                  placeholder="Selecione um fluxo..."
+                  searchable-placeholder="Buscar automação..."
+                  placeholder="Selecione um automação..."
                 />
               </UFormGroup>
 
@@ -209,7 +210,7 @@ const handleClose = () => {
                 <URange v-model="remarketingIn" :min="1" :max="100" />
                 <small>
                   Enviar remarketing <strong>{{ remarketingIn }} dias</strong> após a
-                  conclusão do fluxo principal.
+                  conclusão do automação principal.
                 </small>
               </UFormGroup>
             </section>

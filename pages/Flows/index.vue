@@ -26,24 +26,24 @@ definePageMeta({
 })
 
 useHead({
-  title: runtimeConfig.public.appName + " - Fluxos de conversa",
+  title: runtimeConfig.public.appName + " - automações de conversa",
 })
 </script>
 
 <template>
-  <CustomHeader title="Fluxos de conversa" :description="description">
+  <CustomHeader title="automações de conversa" :description="description">
     <template #actions>
       <section class="flex gap-5">
         <UTooltip text="Em breve">
           <UButton
             class="px-8 py-3 cursor-not-allowed"
-            label="Importar fluxo"
+            label="Importar automação"
             variant="outline"
           />
         </UTooltip>
         <UButton
           class="px-8 py-3"
-          label="Criar fluxo"
+          label="Criar automação"
           @click="navigateTo('/flows/new')"
         />
       </section>

@@ -32,7 +32,7 @@ function openPreview() {
 }
 
 useHead({
-  title: runtimeConfig.public.appName + " - Editor de fluxo",
+  title: runtimeConfig.public.appName + " - Editor de automação",
 })
 </script>
 
@@ -57,7 +57,7 @@ useHead({
     >
       <template #actions>
         <section class="flex items-center gap-5">
-          <!-- <UTooltip text="Desativar fluxo.">
+          <!-- <UTooltip text="Desativar automação.">
             <UButton
               :icon="isDisableLoading ? 'svg-spinners:ring-resize' : 'line-md:watch-off'"
               :disabled="isDisableLoading"
@@ -65,7 +65,7 @@ useHead({
               @click="() => flowsStore.handleFlowActive()"
             />
           </UTooltip> -->
-          <UTooltip text="Reinicia as sessões do fluxo">
+          <UTooltip text="Reinicia as sessões do automação">
             <UButton
               icon="line-md:backup-restore"
               :disabled="restartLoading"
@@ -94,11 +94,11 @@ useHead({
             :label="
               isCreation
                 ? isLoading
-                  ? 'Criando fluxo'
-                  : 'Criar Fluxo'
+                  ? 'Criando automação'
+                  : 'Criar automação'
                 : isLoading
-                ? 'Salvando fluxo'
-                : 'Salvar fluxo'
+                ? 'Salvando automação'
+                : 'Salvar automação'
             "
             @click="() => flowsStore.resolveAction()"
           />
@@ -109,7 +109,7 @@ useHead({
     <UDashboardModal
       v-model="restartIsOpen"
       title="Reiniciar sessões"
-      description="Tem certeza que deseja reiniciar as sessões do fluxo? ao fazer isso, todas as sessões ativas serão encerradas e o fluxo vai recomeçar."
+      description="Tem certeza que deseja reiniciar as sessões do automação? ao fazer isso, todas as sessões ativas serão encerradas e a automação vai recomeçar."
       icon="i-heroicons-exclamation-circle"
       :ui="{
       icon: { base: 'text-red-500 dark:text-red-400' } as any,

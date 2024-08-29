@@ -16,7 +16,7 @@ flows = flows.map((item) => ({
 const items = [
   {
     slot: "select_flow",
-    label: "Vincular fluxo a conexão",
+    label: "Vincular automação a conexão",
     icon: "material-symbols:favorite-outline",
     defaultOpen: true,
     action: () => handleFlowSelected(),
@@ -90,7 +90,7 @@ const flowSelected = ref(getFlowId.value)
       <template #select_flow>
         <section class="flex flex-col gap-4">
           <UFormGroup
-            label="Fluxo"
+            label="Automação"
             :ui="{
               label: {
                 base: 'text-xs font-semibold text-gray-500',
@@ -103,8 +103,8 @@ const flowSelected = ref(getFlowId.value)
               value-attribute="id"
               option-attribute="name"
               searchable
-              searchable-placeholder="Buscar fluxo..."
-              placeholder="Selecione um fluxo..."
+              searchable-placeholder="Buscar automação..."
+              placeholder="Selecione um automação..."
               @change="handleFlowSelected"
             />
           </UFormGroup>

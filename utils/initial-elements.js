@@ -1,8 +1,8 @@
 import { MarkerType } from '@vue-flow/core'
 
 export const initialFlow = {
-  name: "Novo fluxo",
-  description: "Descrição do fluxo"
+  name: "Nova automação",
+  description: "Descrição do automação"
 }
 
 export const initialNodes = [

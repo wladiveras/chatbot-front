@@ -38,7 +38,7 @@
                 '1 Conexão de WhatsApp',
                 '30 dias gratis',
                 '100 leads de Limite',
-                'Fluxo Marina Bot',
+                'Automação Marina Bot',
                 'Dashboard exclusiva',
                 'Suporte por WhatsApp',
               ]"
@@ -54,7 +54,7 @@
               :features="[
                 '1 Conexão de WhatsApp',
                 'Leads ilimitados',
-                'Fluxo Marina Bot',
+                'Automação Marina Bot',
                 'Dashboard exclusiva',
                 'Suporte por WhatsApp',
               ]"
@@ -72,7 +72,7 @@
               :features="[
                 '6 Conexão de WhatsApp',
                 'Leads ilimitados',
-                'Fluxo Marina Bot',
+                'Automação Marina Bot',
                 'Dashboard exclusiva',
                 'Suporte por WhatsApp',
                 'Suporte Prioritário.',
