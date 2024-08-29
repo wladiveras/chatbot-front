@@ -41,8 +41,9 @@ onNodesChange((param) => {
   }
 })
 
-function addNewStep() {
+const addNewStep = () => {
   const id = Number(lastNode.value.id) + 1
+
   const position = {
     x: lastNode.value.position.x + 500,
     y: lastNode.value.position.y + 500,
@@ -57,11 +58,12 @@ function addNewStep() {
       commands: [],
     },
   }
+
   addNodes([newNode])
   setCenter(position.x, position.y, { duration: 200, zoom: 1 })
 }
 
-function resetSidebar() {
+const resetSidebar = () => {
   sidebarStore.toggleSize()
   flowsStore.setSelectedNode()
 }
