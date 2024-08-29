@@ -11,11 +11,7 @@ await flowsStore.fetchFlow(route.params?.id)
 
 const isDrawerOpen = ref(false)
 
-const defaultSettings: LlmParams = {
-  model: "@cf/meta/llama-3.1-8b-instruct",
-  temperature: 0.6,
-  maxTokens: 512,
-  systemPrompt: `Regras:
+const prompt = `Regras:
 Comece com um bom dia/boa tarde/boa noite a depender do horário de Brasilia.
 Pergunte o nome do cliente logo após a saudação.
 Fale sempre em português.
@@ -68,7 +64,13 @@ Marina:
     marinabot.com.br - Veja como podemos transformar o atendimento ao cliente na sua empresa.
 
 Marina:
-Se precisar de mais alguma informação, é só me chamar, [Nome do usuário]! Vou adorar te ajudar a alcançar o sucesso com a automação. 😊`,
+Se precisar de mais alguma informação, é só me chamar, [Nome do usuário]! Vou adorar te ajudar a alcançar o sucesso com a automação. 😊`
+
+const defaultSettings: LlmParams = {
+  model: "@cf/meta/llama-3.1-8b-instruct",
+  temperature: 0.6,
+  maxTokens: 512,
+  systemPrompt: prompt,
   stream: true,
 }
 
@@ -79,6 +81,10 @@ const resetSettings = () => {
 
 const { getResponse, streamResponse } = useChat()
 const chatHistory = ref<ChatMessage[]>([])
+
+// todo: load all messages from the current flow
+//chatHistory.value.push({ role: "user", content: "tudo bem?" })
+
 const loading = ref<LoadingType>("idle")
 async function sendMessage(message: string) {
   chatHistory.value.push({ role: "user", content: message })
@@ -113,6 +119,7 @@ async function sendMessage(message: string) {
     console.error("Error sending message:", error)
   } finally {
     loading.value = "idle"
+    console.log(chatHistory.value)
   }
 }
 
