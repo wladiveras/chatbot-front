@@ -107,6 +107,10 @@ const accordionItems = [
 
 const models = [
   {
+    name: "dreamshaper-8-lcm",
+    id: "@cf/lykon/dreamshaper-8-lcm",
+  },
+  {
     name: "deepseek-coder-6.7b-base-awq",
     id: "@hf/thebloke/deepseek-coder-6.7b-base-awq",
   },
