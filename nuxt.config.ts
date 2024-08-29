@@ -22,9 +22,9 @@ export default defineNuxtConfig({
     projectUrl({ env, branch }) {
       // Select the preview URL from the dev branch
       if (env === "preview") {
-        return process.env.NUXT_HUB_BLOB_REMOTE;
+        return process.env.NUXT_HUB_BLOB_PREVIEW;
       }
-      return process.env.NUXT_HUB_PRODUCTION;
+      return process.env.NUXT_HUB_BLOB_PRODUCTION;
     },
   },
   runtimeConfig: {
