@@ -63,7 +63,7 @@ const closeModal = () => {
 
 <template>
   <UModal prevent-close>
-    <section class="flex flex-col items-center gap-1 p-5">
+    <section class="flex flex-col items-center gap-1 p-10 rounded-full">
       <UIcon
         @click="closeModal"
         name="material-symbols-light:close"
