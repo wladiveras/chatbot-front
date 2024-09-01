@@ -1,10 +1,10 @@
 <template>
-  <div class="flex flex-col h-svh bg-gray-50 dark:bg-gray-950">
+  <div class="flex flex-col full-size-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
     <div ref="chatContainer" class="flex-1 overflow-y-auto p-4">
       <div
         v-for="(message, index) in chatHistory"
         :key="`message-${index}`"
-        class="flex items-start gap-x-4"
+        class="flex items-start gap-x-5 mt-2"
       >
         <div
           class="w-12 h-12 p-2 rounded-full"
@@ -26,7 +26,7 @@
         <ChatAssistantMessage v-else :content="message.content" />
       </div>
       <ChatLoadingSkeleton v-if="loading === 'message'" />
-      <ChatNoChats v-if="chatHistory.length === 0" />
+      <ChatNoChats v-if="chatHistory.length === 0" class="h-full" />
     </div>
     <UDivider />
     <div class="flex items-start p-3.5 relative">
@@ -102,3 +102,9 @@ const sendMessage = () => {
   userMessage.value = ""
 }
 </script>
+<style scoped>
+.full-size-screen {
+  overflow: hidden;
+  height: calc(100vh - 100px);
+}
+</style>
