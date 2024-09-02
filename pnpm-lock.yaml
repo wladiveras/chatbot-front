@@ -33,11 +33,11 @@ importers:
         specifier: ^0.5.3
         version: 0.5.3(magicast@0.3.4)(rollup@4.20.0)(typescript@5.5.4)(vue@3.4.37(typescript@5.5.4))
       '@vue-flow/core':
-        specifier: ^1.40.1
-        version: 1.40.1(vue@3.4.37(typescript@5.5.4))
+        specifier: ^1.41.0
+        version: 1.41.0(vue@3.4.37(typescript@5.5.4))
       '@vue-flow/minimap':
         specifier: ^1.5.0
-        version: 1.5.0(@vue-flow/core@1.40.1(vue@3.4.37(typescript@5.5.4)))(vue@3.4.37(typescript@5.5.4))
+        version: 1.5.0(@vue-flow/core@1.41.0(vue@3.4.37(typescript@5.5.4)))(vue@3.4.37(typescript@5.5.4))
       date-fns:
         specifier: ^3.6.0
         version: 3.6.0
@@ -1647,8 +1647,8 @@ packages:
     peerDependencies:
       '@eslint/config-array': '>=0.16.0'
 
-  '@vue-flow/core@1.40.1':
-    resolution: {integrity: sha512-27g0ixztulxBuNPIsloKwXbgi0Kb+BV3uJhBbAOJsd87gXQlZeb7ZXRsAZwd5pLB5HvNXedOPCtJiq9HatUQyw==}
+  '@vue-flow/core@1.41.0':
+    resolution: {integrity: sha512-JM0y0eKiqaVfKJL7lwO8rrZZuJ2Ye+askBkbDqGeCwCXP5bmG8yhJft6OTrONSHEDBYVWRcDj1i67XtsG0SKqA==}
     peerDependencies:
       vue: ^3.3.0
 
@@ -7413,7 +7413,7 @@ snapshots:
       '@eslint/config-array': 0.17.1
       '@nodelib/fs.walk': 2.0.0
 
-  '@vue-flow/core@1.40.1(vue@3.4.37(typescript@5.5.4))':
+  '@vue-flow/core@1.41.0(vue@3.4.37(typescript@5.5.4))':
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.4.37(typescript@5.5.4))
       d3-drag: 3.0.0
@@ -7423,9 +7423,9 @@ snapshots:
     transitivePeerDependencies:
       - '@vue/composition-api'
 
-  '@vue-flow/minimap@1.5.0(@vue-flow/core@1.40.1(vue@3.4.37(typescript@5.5.4)))(vue@3.4.37(typescript@5.5.4))':
+  '@vue-flow/minimap@1.5.0(@vue-flow/core@1.41.0(vue@3.4.37(typescript@5.5.4)))(vue@3.4.37(typescript@5.5.4))':
     dependencies:
-      '@vue-flow/core': 1.40.1(vue@3.4.37(typescript@5.5.4))
+      '@vue-flow/core': 1.41.0(vue@3.4.37(typescript@5.5.4))
       d3-selection: 3.0.0
       d3-zoom: 3.0.0
       vue: 3.4.37(typescript@5.5.4)
