@@ -56,10 +56,6 @@
           </UCard>
         </template>
       </UAccordion>
-
-      <UButton color="gray" size="sm" block @click="$emit('reset')">
-        Reiniciar configurações
-      </UButton>
     </div>
     <div class="p-2"></div>
   </div>

@@ -7,8 +7,6 @@ const flowsStore = useFlowsStore()
 const { isExpanded } = storeToRefs(sidebarStore)
 const { nodes, edges, lastNode, selectedNode } = storeToRefs(flowsStore)
 
-await flowsStore.fetchFlow(route.params?.id)
-
 const {
   onInit,
   onConnect,
@@ -67,6 +65,10 @@ const resetSidebar = () => {
   sidebarStore.toggleSize()
   flowsStore.setSelectedNode()
 }
+
+onMounted(async () => {
+  await flowsStore.fetchFlow("flow", route.params?.id)
+})
 
 onUnmounted(() => {
   if (!isExpanded.value) {

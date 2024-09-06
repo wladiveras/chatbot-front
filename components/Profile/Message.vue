@@ -93,7 +93,6 @@ const items = [
           >
             <UInput
               v-model="message.number"
-              v-masked="false"
               v-mask="['+55 (##) ####-####', '+55 (##) #####-####']"
             />
           </UFormGroup>

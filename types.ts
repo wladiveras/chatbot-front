@@ -31,19 +31,37 @@ export interface IStateAuth {
   token: string;
 }
 
-export interface IFlow {
+export interface IFlows {
   loading: boolean;
-  flows: any[];
+  flows: IFlow[];
   selectedNode: any;
   selectedFlow: any;
-  flow: any;
+  flow: IFlow;
   nodes: any[];
   edges: any[];
   commands: any[];
   commandsList: any[];
   modifying: boolean;
   isCreation: boolean;
-  uploadProgress: number;
+}
+
+export interface IFlow {
+  id: number;
+  user_id: number;
+  name: string;
+  description: string;
+  node: string;
+  edge: string;
+  commands: object;
+  is_active: boolean;
+  is_public: boolean;
+  recovery_flow_id: number;
+  finished_flow_id: number;
+  recovery_days: number;
+  finish_days: number;
+  created_at: string;
+  updated_at: string;
+  type: string | string[];
 }
 
 export interface IProfile {

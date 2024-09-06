@@ -1,38 +1,37 @@
 import { defineStore } from "pinia";
-import type { IFlow } from "~/types";
+import type { IFlows, IFlow } from "~/types";
 
 const makeRequests = useMakeRequests();
 
 export const useFlowsStore = defineStore("flows", {
-  state: (): IFlow => ({
+  state: (): IFlows => ({
     loading: false,
     flows: [],
     selectedNode: {},
     selectedFlow: {},
-    flow: {},
+    flow: {} as IFlow,
     nodes: [],
     edges: [],
     commands: [],
     commandsList: [],
     modifying: false,
     isCreation: false,
-    uploadProgress: 0,
   }),
   getters: {
     getFlows: (state) => state.flows || [],
-    totalFlows: (state) => state.flows.length,
-    getNodes: (state) => state.nodes,
-    getEdges: (state) => state.edges,
-    getCommands: (state) => state.commands,
-    flowName: (state) => state.flow.name || "Nova automação",
-    flowDescription: (state) =>
-      state.flow.description || "Descrição da automação",
+    getType: (state) => state.flow.type || "",
+    totalFlows: (state) => state.flows.length || 0,
+    getNodes: (state) => state.nodes || [],
+    getEdges: (state) => state.edges || [],
+    getCommands: (state) => state.commands || [],
+    isModifying: (state) => state.modifying || false,
+    isLoading: (state) => state.loading || false,
+    lastNode: (state) => state.nodes[state.nodes.length - 1] || 0,
+    flowName: (state) => state.flow.name || "",
+    flowDescription: (state) => state.flow.description || "",
     flowById: (state) => (id: number) => {
       return state.flows.find((flow) => flow.id === id);
     },
-    isModifying: (state) => state.modifying,
-    isLoading: (state) => state.loading,
-    lastNode: (state) => state.nodes[state.nodes.length - 1],
   },
   actions: {
     setSelectedNode(node: any) {
@@ -72,7 +71,6 @@ export const useFlowsStore = defineStore("flows", {
           return edges.indexOf(a.nodeId) - edges.indexOf(b.nodeId);
         });
     },
-    async handleFlowActive() {},
     async resetFlowSession() {
       const toast = useToast();
 
@@ -109,17 +107,28 @@ export const useFlowsStore = defineStore("flows", {
           this.loading = false;
         });
     },
-    async fetchFlow(id: any) {
+    async fetchFlow(type: string | string[], id: any) {
       if (id === "new") {
         this.isCreation = true;
-        this.flow = initialFlow;
+        this.flow = {
+          name: "Nova automação",
+          description: "Descrição do automação",
+          type: type,
+        } as IFlow;
+
         this.nodes = initialNodes;
         this.edges = initialEdges;
+
+        if (type === "automation") {
+          // @ts-ignore
+          this.commands = initialCommands;
+        }
+
         return;
       }
 
       this.isCreation = false;
-      this.loading = true;
+      this.loading = false;
 
       await makeRequests
         .get(`/flow/${id}`)
@@ -139,6 +148,7 @@ export const useFlowsStore = defineStore("flows", {
           this.loading = false;
         });
     },
+
     async updateFlow() {
       const toast = useToast();
       this.loading = true;
@@ -148,7 +158,8 @@ export const useFlowsStore = defineStore("flows", {
           ...this.flow,
           node: this.nodes,
           edge: this.edges,
-          commands: this.commandsList,
+          commands:
+            this.flow.type === "automation" ? this.commands : this.commandsList,
         })
         .then(() => {
           toast.add({
@@ -172,24 +183,26 @@ export const useFlowsStore = defineStore("flows", {
     async createFlow() {
       const toast = useToast();
       this.loading = true;
+
       await makeRequests
         .post(`/flow`, {
           ...this.flow,
           node: this.nodes,
           edge: this.edges,
-          commands: this.commandsList,
+          commands:
+            this.flow.type === "automation" ? this.commands : this.commandsList,
         })
         .then(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `A automação foi atualizado com sucesso.`,
+            title: `A automação foi atualizado com sucesso. ${this.getType}`,
             color: "green",
           });
         })
         .catch(() => {
           toast.add({
             icon: "i-heroicons-check-circle",
-            title: `Não foi possível atualizar a automação.`,
+            title: `Não foi possível atualizar a automação. ${this.getType}`,
             color: "red",
           });
         })

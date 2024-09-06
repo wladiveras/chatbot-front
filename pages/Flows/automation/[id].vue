@@ -5,9 +5,7 @@ const route = useRoute()
 const sidebarStore = useSidebarStore()
 const flowsStore = useFlowsStore()
 const { isExpanded } = storeToRefs(sidebarStore)
-const { nodes } = storeToRefs(flowsStore)
-
-await flowsStore.fetchFlow(route.params?.id)
+const { flow } = storeToRefs(flowsStore)
 
 const isDrawerOpen = ref(false)
 
@@ -131,6 +129,10 @@ const resetSidebar = () => {
   sidebarStore.toggleSize()
 }
 
+onMounted(async () => {
+  await flowsStore.fetchFlow("automation", route.params?.id)
+})
+
 onUnmounted(() => {
   if (!isExpanded.value) {
     resetSidebar()
@@ -138,7 +140,7 @@ onUnmounted(() => {
 })
 
 definePageMeta({
-  layout: "automation",
+  layout: "flows",
 })
 </script>
 

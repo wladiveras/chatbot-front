@@ -110,7 +110,6 @@ const closeModal = () => {
               class="block"
               type="tel"
               v-model="ConnectionPayload.connection_key"
-              v-masked="false"
               v-mask="['+55 (##) ####-####', '+55 (##) #####-####']"
               placeholder="Número de telefone. Ex: (11) 99999-9999"
               variant="outline"
