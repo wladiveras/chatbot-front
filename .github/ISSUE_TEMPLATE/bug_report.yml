@@ -1,7 +1,7 @@
 name: 🐛 Relatório de Bug
 description: Crie um relatório para nos ajudar a melhorar
 title: "[BUG] "
-labels: ["bug", "needs triage", "front"]
+labels: ["bug", "triage", "front"]
 assignees:
 - wladiveras
 

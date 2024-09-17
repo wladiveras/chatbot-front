@@ -2,6 +2,8 @@
 
 <template>
   <main class="flex flex-col w-full h-screen box-border">
+    <RealtimeEvents />
+    <DashboardModalCheckDetails />
     <DashboardHeader />
     <main class="flex flex-1 overflow-hidden">
       <DashboardSidebar />

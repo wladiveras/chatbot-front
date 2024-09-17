@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// Define props
 const props = defineProps({
   connection_id: {
     type: Number,
@@ -6,35 +7,34 @@ const props = defineProps({
   },
 })
 
+// Define emits
 const emit = defineEmits(["delete"])
 
+// State variables
 const loading = ref(false)
 const modal = useModal()
-const toast = useToast()
-const connectionStore = useConnectionsStore()
 
+const connectionStore = useConnectionsStore()
 const { getName } = storeToRefs(connectionStore)
 
+// Fetch connection details on mount
 onMounted(async () => {
   await connectionStore.fetchConnection(props.connection_id)
 })
 
-async function onDelete() {
+// Handle delete action
+const onDelete = async () => {
   loading.value = true
-
   await connectionStore.disconnectConnection()
-  await connectionStore.deleteConnection()
-
-  loading.value = false
-
-  toast.add({
-    icon: "i-heroicons-check-circle",
-    title: `A conexão foi deletada com sucesso.`,
-    color: "green",
-  })
-
-  emit("delete")
-  modal.close()
+  await connectionStore
+    .deleteConnection()
+    .then(() => {
+      emit("delete")
+      modal.close()
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 </script>
 

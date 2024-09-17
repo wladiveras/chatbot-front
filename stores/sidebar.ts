@@ -1,8 +1,6 @@
-import { defineStore } from 'pinia'
-
-export const useSidebarStore = defineStore('sidebar', {
+export const useSidebarStore = defineStore("sidebar", {
   state: () => ({
-    expanded: true
+    expanded: true,
   }),
   getters: {
     isExpanded: (state) => state.expanded,
@@ -10,6 +8,6 @@ export const useSidebarStore = defineStore('sidebar', {
   actions: {
     toggleSize() {
       this.expanded = !this.expanded;
-    }
-  }
+    },
+  },
 });

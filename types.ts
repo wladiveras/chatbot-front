@@ -1,4 +1,4 @@
-export type LlmParams = {
+export type IAutomation = {
   model: string;
   temperature: number;
   maxTokens: number;
@@ -24,6 +24,18 @@ export interface IStateProfile {
 export interface IStateAuth {
   user: IUser;
   token: string;
+  //loading states
+  isLoadingSignIn: boolean;
+  isLoadingUpdateDetails: boolean;
+}
+export interface PingData {
+  message: string;
+  timestamp: string;
+}
+
+export interface IEventData {
+  message: string;
+  timestamp: string;
 }
 
 export interface IStateAuth {
@@ -31,19 +43,38 @@ export interface IStateAuth {
   token: string;
 }
 
-export interface IFlow {
+export interface IFlows {
   loading: boolean;
-  flows: any[];
+  flows: IFlow[];
   selectedNode: any;
   selectedFlow: any;
-  flow: any;
+  flow: IFlow;
   nodes: any[];
   edges: any[];
   commands: any[];
   commandsList: any[];
+  automation: IAutomation;
   modifying: boolean;
   isCreation: boolean;
-  uploadProgress: number;
+}
+
+export interface IFlow {
+  id: number;
+  user_id: number;
+  name: string;
+  description: string;
+  node: string;
+  edge: string;
+  commands: object;
+  is_active: boolean;
+  is_public: boolean;
+  recovery_flow_id: number;
+  finished_flow_id: number;
+  recovery_days: number;
+  finish_days: number;
+  created_at: string;
+  updated_at: string;
+  type: string | string[];
 }
 
 export interface IProfile {
@@ -74,6 +105,7 @@ export interface IConnection {
   name: string;
   description: string;
   connection_key: string;
+  connection_profile: IProfile;
   token: string;
   type: string;
   is_active: boolean;

@@ -4,7 +4,7 @@ import type {
   IStateConnection,
 } from "~/types";
 
-const makeRequests = useMakeRequests();
+const { get, post, put, destroy } = useMakeRequests();
 
 export const useConnectionsStore = defineStore("connections", {
   state: (): IStateConnection => ({
@@ -53,10 +53,9 @@ export const useConnectionsStore = defineStore("connections", {
     async fetchConnections() {
       this.loading = true;
 
-      await makeRequests
-        .get("/connections")
+      await get("/connections")
         .then((res) => {
-          this.connections = res.data.service.payload;
+          this.connections = res.data.service;
         })
         .catch((error) => {
           console.error(error);
@@ -75,11 +74,10 @@ export const useConnectionsStore = defineStore("connections", {
         connection_key: connectionKey,
       };
 
-      await makeRequests
-        .post("/integration/whatsapp/create-connection", payload)
+      await post("/integration/whatsapp/create-connection", payload)
         .then((res) => {
-          this.qrCode = res.data.service.payload.qrcode?.base64;
-          this.token = res.data.service.payload.qrcode?.token;
+          this.qrCode = res.data.service.qrcode?.base64;
+          this.token = res.data.service.qrcode?.token;
         })
 
         .finally(() => {
@@ -89,14 +87,13 @@ export const useConnectionsStore = defineStore("connections", {
     async fetchConnection(id: number) {
       this.loading = true;
 
-      await makeRequests
-        .get(`/connection/${id}`)
+      await get(`/connection/${id}`)
         .then((res) => {
-          const { payload, ...connection } = res.data.service.payload;
+          const { payload, ...connection } = res.data.service;
           this.connection = connection;
           this.instance = payload;
-          this.qrCode = res.data.service.payload.qrcode?.base64;
-          this.token = res.data.service.payload.qrcode?.token;
+          this.qrCode = res.data.service.qrcode?.base64;
+          this.token = res.data.service.qrcode?.token;
         })
         .finally(() => {
           this.loading = false;
@@ -105,10 +102,9 @@ export const useConnectionsStore = defineStore("connections", {
     async connectionStatus() {
       this.loading = true;
 
-      await makeRequests
-        .get(`/integration/whatsapp/${this.getToken}/connect`)
+      await get(`/integration/whatsapp/${this.getToken}/connect`)
         .then((res) => {
-          const qrCodeImage = res.data.service.payload.base64;
+          const qrCodeImage = res.data.service.base64;
 
           if (qrCodeImage) {
             this.qrCode = qrCodeImage;
@@ -119,40 +115,18 @@ export const useConnectionsStore = defineStore("connections", {
         });
     },
     async disconnectConnection() {
-      await makeRequests.destroy(
-        `/integration/whatsapp/${this.getToken}/disconnect`
-      );
+      await destroy(`/integration/whatsapp/${this.getToken}/disconnect`);
     },
     async deleteConnection() {
-      await makeRequests.destroy(
-        `/integration/whatsapp/${this.getToken}/delete`
-      );
+      await destroy(`/integration/whatsapp/${this.getToken}/delete`);
     },
     async selectFlow(flow_id: any) {
-      const toast = useToast();
-
       this.loading = true;
-      makeRequests
-        .update(`/integration/whatsapp/select-flow/${this.connection.id}`, {
-          flow_id: flow_id,
-        })
-        .then(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `O automação foi selecionado com sucesso.`,
-            color: "green",
-          });
-        })
-        .catch(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `Não foi possível selecionar a o automação.`,
-            color: "red",
-          });
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      put(`/integration/whatsapp/select-flow/${this.connection.id}`, {
+        flow_id: flow_id,
+      }).finally(() => {
+        this.loading = false;
+      });
     },
     async sendMessage(number: string, message: string) {
       this.loading = true;
@@ -167,11 +141,12 @@ export const useConnectionsStore = defineStore("connections", {
         value: message,
       };
 
-      await makeRequests
-        .post("integration/whatsapp/send-message", payload)
-        .finally(() => {
-          this.loading = false;
-        });
+      await post("integration/whatsapp/send-message", payload).finally(() => {
+        this.loading = false;
+      });
     },
+
+    // Events
+    async onChangeConnectionStatus(data: any) {},
   },
 });

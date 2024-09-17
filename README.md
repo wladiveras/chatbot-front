@@ -1,11 +1,11 @@
-# Marinabot
+# Chatbot
 
 WhatsApp Chatbot for E-commerce
 
 This is a WhatsApp chatbot project that helps customers with their purchases on an e-commerce store. The chatbot uses a workflow gerated by a flow chart creator per connection. It integrates with the e-commerce store's API to provide a seamless customer experience.
 
 
-![[marinabot]()](https://i.imgur.com/FgPbPGA.png)
+![[Chatbot]()](https://i.imgur.com/FgPbPGA.png)
     
   
  
@@ -38,7 +38,7 @@ This is a WhatsApp chatbot project that helps customers with their purchases on 
     Customer initiates conversation with the chatbot on WhatsApp
     chatbot responds to customer inquiries using EVOLUTION API
     chatbot recommends products based on customer preferences by connection
-    Customer selects product and marinabot flow that`s provides a product url link.
+    Customer selects product and chatbot flow that`s provides a product url link.
     soon Customer makes purchase directly from the chatbot
     chatbot integrates with e-commerce store's API for seamless checkout
     
@@ -50,7 +50,7 @@ Step to setup project in your machine.
     
 ### node setup
 
-Welcome to marinaBot, create a new branch and starting coding with us.
+Welcome to chatbot, create a new branch and starting coding with us.
 
 Skip this step if you already use node 21.
 Install NVM by downloading the install script from their GitHub page. You can use curl or wget:

@@ -1,6 +1,6 @@
 import type { IProfile, IStateProfile } from "~/types";
 
-const makeRequests = useMakeRequests();
+const { post } = useMakeRequests();
 
 export const useProfileStore = defineStore("profile", {
   state: (): IStateProfile => ({
@@ -14,12 +14,11 @@ export const useProfileStore = defineStore("profile", {
 
       this.loading = true;
 
-      await makeRequests
-        .post(`/integration/whatsapp/${getToken.value}/profile`, {
-          number: getNumber.value,
-        })
+      await post(`/integration/whatsapp/${getToken.value}/profile`, {
+        number: getNumber.value,
+      })
         .then((res) => {
-          this.profile = res.data.service.payload;
+          this.profile = res.data.service;
         })
         .catch((error) => {
           console.error(error);

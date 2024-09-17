@@ -1,7 +1,6 @@
 <script setup>
 const connectionStore = useConnectionsStore()
 const { loading } = storeToRefs(connectionStore)
-const toast = useToast()
 
 const message = reactive({
   text: "",
@@ -9,12 +8,6 @@ const message = reactive({
 })
 
 const sendMessage = async () => {
-  toast.add({
-    title: "Atenção!",
-    description: "Envio de mensagem disparada com sucesso.",
-    icon: "i-heroicons-check-badge",
-  })
-
   await connectionStore.sendMessage(message.number, message.text).finally(() => {
     message.text = ""
     message.number = ""
@@ -93,7 +86,6 @@ const items = [
           >
             <UInput
               v-model="message.number"
-              v-masked="false"
               v-mask="['+55 (##) ####-####', '+55 (##) #####-####']"
             />
           </UFormGroup>

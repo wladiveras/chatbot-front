@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig()
+const appName = runtimeConfig.public.appName
+
 const features = reactive([
   {
     title: "Fácil de usar",
@@ -48,7 +51,7 @@ const features = reactive([
         <h1
           class="text-[32px] font-bold text-blue-950 flex flex-wrap justify-center lg:justify-left"
         >
-          Descubra como a MarinaBot pode impulsionar suas vendas!
+          Descubra como a {{ appName }} pode impulsionar suas vendas!
         </h1>
       </div>
 

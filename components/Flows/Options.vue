@@ -20,6 +20,7 @@ const options = [
     description: "Envie uma mensagem de voz ao cliente.",
     type: "audio",
     action: "message",
+    delay: 1,
     icon: "material-symbols:mic-outline",
     callback: addCommand,
   },
@@ -69,7 +70,7 @@ const options = [
   {
     label: "Link",
     description: "Adicione um link para redirecionar o cliente.",
-    type: "text",
+    type: "link",
     action: "message",
     icon: "material-symbols:link",
     callback: addCommand,
@@ -81,7 +82,6 @@ function addCommand(command) {
 
   const newCommand = {
     ...command,
-    delay: command.delay >= 0 ? 1 : command.delay,
   }
 
   if (command.action === "delay") {

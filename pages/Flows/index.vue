@@ -1,80 +1,68 @@
-<script setup>
-import { DashboardModalDeleteFlow } from "#components"
+<script setup lang="ts">
+import { DashboardModalCreateAutomation, DashboardModalDeleteFlow } from "#components"
 
-const runtimeConfig = useRuntimeConfig()
+// Store and Refs
 const flowsStore = useFlowsStore()
 const { getFlows, totalFlows } = storeToRefs(flowsStore)
 
+// Composables
+const runtimeConfig = useRuntimeConfig()
 const modal = useModal()
 
-const description = computed(() => {
-  return `${totalFlows.value} conexões realizadas`
-})
+// Page Title and Description
+const title = ref(`${runtimeConfig.public.appName} - Automações de conversas`)
+const description = computed(() => `${totalFlows.value} conexões realizadas`)
 
-await flowsStore.fetchFlows()
-
-const openDeleteFlow = (flow_id) => {
+// Methods
+const openDeleteFlow = (flowId: number) => {
   modal.open(DashboardModalDeleteFlow, {
-    flow_id: flow_id,
+    flow_id: flowId,
     async onDelete() {
-      await flowsStore.fetchFlows()
+      try {
+        await flowsStore.fetchFlows()
+      } catch (error) {
+        console.error("Failed to fetch flows:", error)
+      }
     },
   })
 }
 
-const isOpen = ref(false)
+const handleChoiceAutomation = () => {
+  //modal.open(DashboardModalCreateAutomation)
+  navigateTo("/flows/new")
+}
 
+const fetchFlows = async () => {
+  try {
+    await flowsStore.fetchFlows()
+  } catch (error) {
+    console.error("Failed to fetch flows:", error)
+  }
+}
+
+const handleNavigationTo = (flowType: string | string[], flowId: number) => {
+  flowType === "automation"
+    ? navigateTo(`/flows/automation/${flowId}`)
+    : navigateTo(`/flows/${flowId}`)
+}
+
+// Fetch Flows on Mount
+onMounted(() => {
+  fetchFlows()
+})
+
+// Page Meta
 definePageMeta({
   layout: "dashboard",
 })
 
-useHead({
-  title: runtimeConfig.public.appName + " - automações de conversa",
+useSeoMeta({
+  title: title.value,
 })
 </script>
 
 <template>
-  <UModal v-model="isOpen" prevent-close>
-    <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-            Qual tipo de Automação deseja criar?
-          </h3>
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            class="-my-1"
-            @click="isOpen = false"
-          />
-        </div>
-      </template>
-
-      <section class="flex content-center gap-5">
-        <section class="flex-1">
-          <UButton
-            block
-            label="Automação com IA"
-            @click="navigateTo(`/flows/automation/new`)"
-          />
-          <small class="ml-2 mt-2 block">
-            Crie uma automação de conversa com inteligência artificial para atender seus
-            clientes.
-          </small>
-        </section>
-        <section class="flex-1">
-          <UButton block label="Automação com fluxos" @click="navigateTo(`/flows/new`)" />
-          <small class="ml-2 mt-2 block">
-            Crie um fluxo de conversa para automatizar o atendimento e a comunicação com
-            seus clientes.
-          </small>
-        </section>
-      </section>
-    </UCard>
-  </UModal>
-
-  <CustomHeader title="automações de conversa" :description="description">
+  <CustomHeader title="Automações de conversa" :description="description">
     <template #actions>
       <section class="flex gap-5">
         <UTooltip text="Em breve">
@@ -84,7 +72,11 @@ useHead({
             variant="outline"
           />
         </UTooltip>
-        <UButton class="px-8 py-3" label="Criar automação" @click="isOpen = true" />
+        <UButton
+          class="px-8 py-3"
+          label="Criar automação"
+          @click="handleChoiceAutomation"
+        />
       </section>
     </template>
   </CustomHeader>
@@ -99,7 +91,7 @@ useHead({
           base: 'flex flex-col gap-6',
         },
       }"
-      @click="navigateTo(`/flows/${item.id}`)"
+      @click="handleNavigationTo(item.type, item.id)"
     >
       <CustomHeader
         :title="item.name"
@@ -117,21 +109,42 @@ useHead({
         </template>
       </CustomHeader>
       <section class="gap-3 w-full flex items-center justify-between">
-        <UBadge
-          class="gap-3 text-sm font-semibold px-4 py-2"
-          :ui="{ rounded: 'rounded-full' }"
-          :class="{
-            'bg-[#46C78B1A] text-[#46C78B]': item.is_active,
-            'bg-[#CD0E300D] text-[#CD0E30]': !item.is_active,
-          }"
-        >
-          <UIcon
-            :name="
-              item.is_active ? 'material-symbols:flash-on' : 'material-symbols:flash-off'
-            "
-          />
-          {{ item.is_active ? "Ativo" : "Inativo" }}
-        </UBadge>
+        <div>
+          <UBadge
+            class="gap-1 text-sm font-semibold px-2 py-2 mr-2"
+            :ui="{ rounded: 'rounded-full' }"
+            :class="{
+              'bg-[#46C78B1A] text-[#46C78B]': item.is_active,
+              'bg-[#CD0E300D] text-[#CD0E30]': !item.is_active,
+            }"
+          >
+            <UIcon
+              :name="
+                item.is_active
+                  ? 'material-symbols:flash-on'
+                  : 'material-symbols:flash-off'
+              "
+            />
+            {{ item.is_active ? "Ativo" : "Inativo" }}
+          </UBadge>
+          <UBadge
+            class="gap-1 text-sm font-semibold px-2 py-2"
+            :ui="{ rounded: 'rounded-full' }"
+            :class="{
+              'bg-blue-100 text-blue-400': item.type === 'flow',
+              'bg-[#09adce0d] text-[#42a3bb]': item.type === 'automation',
+            }"
+          >
+            <UIcon
+              :name="
+                item.type === 'automation'
+                  ? 'fluent:bot-sparkle-20-filled'
+                  : 'carbon:flow-stream-reference'
+              "
+            />
+            {{ item.type === "automation" ? "Inteligência Artificial" : "Fluxograma" }}
+          </UBadge>
+        </div>
         <p class="text-gray-500 text-xs font-normal">
           Modificado em {{ formatDate(item.updated_at) }}
         </p>

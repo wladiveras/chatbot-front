@@ -34,6 +34,7 @@ export default defineNuxtConfig({
       appName: process.env.APP_NAME,
       apiBase: process.env.BASE_URL,
       apiBaseServer: process.env.API_BASE_URL,
+
       sentry: {
         dsn: process.env.SENTRY_DSN,
         environment: process.env.SENTRY_ENV,
