@@ -1,6 +1,7 @@
 {
   "eslint.experimental.useFlatConfig": true,
   "cSpell.words": [
+    "Composables",
     "csrf",
     "laravel",
     "Marinabot",

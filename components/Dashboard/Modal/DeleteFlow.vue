@@ -10,7 +10,6 @@ const emit = defineEmits(["delete"])
 
 const loading = ref(false)
 const modal = useModal()
-const toast = useToast()
 const flowStore = useFlowsStore()
 
 onMounted(async () => {})
@@ -21,21 +20,8 @@ async function onDelete() {
   await flowStore
     .removeFlow(props.flow_id)
     .then(() => {
-      toast.add({
-        icon: "i-heroicons-check-circle",
-        title: `A automação foi deletado com sucesso.`,
-        color: "red",
-      })
-
       emit("delete")
       modal.close()
-    })
-    .catch(() => {
-      toast.add({
-        icon: "i-heroicons-x-circle",
-        title: `Não foi possível deletar a automação.`,
-        color: "red",
-      })
     })
     .finally(() => {
       loading.value = false

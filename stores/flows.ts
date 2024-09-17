@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import type { IFlows, IFlow } from "~/types";
+import type { IFlows, IFlow, IAutomation } from "~/types";
 
-const makeRequests = useMakeRequests();
+const { get, post, put, destroy } = useMakeRequests();
 
 export const useFlowsStore = defineStore("flows", {
   state: (): IFlows => ({
@@ -10,6 +10,7 @@ export const useFlowsStore = defineStore("flows", {
     selectedNode: {},
     selectedFlow: {},
     flow: {} as IFlow,
+    automation: {} as IAutomation,
     nodes: [],
     edges: [],
     commands: [],
@@ -72,32 +73,13 @@ export const useFlowsStore = defineStore("flows", {
         });
     },
     async resetFlowSession() {
-      const toast = useToast();
-
-      await makeRequests
-        .destroy(`/flow/${this.flow.id}/reset`)
-        .then(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `As sessões foram reiniciadas com sucesso.`,
-            color: "green",
-          });
-        })
-        .catch(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `Não foi possível reiniciadas as sessões.`,
-            color: "red",
-          });
-        })
-        .finally(() => {});
+      await destroy(`/flow/${this.flow.id}/resetSession`);
     },
     async fetchFlows() {
       this.loading = true;
-      await makeRequests
-        .get("/flow")
+      await get("/flow")
         .then((res) => {
-          this.flows = res.data.service.payload;
+          this.flows = res.data.service;
           this.modifying = false;
         })
         .catch((error) => {
@@ -122,6 +104,7 @@ export const useFlowsStore = defineStore("flows", {
         if (type === "automation") {
           // @ts-ignore
           this.commands = initialCommands;
+          this.automation = initialCommands[0];
         }
 
         return;
@@ -130,15 +113,15 @@ export const useFlowsStore = defineStore("flows", {
       this.isCreation = false;
       this.loading = false;
 
-      await makeRequests
-        .get(`/flow/${id}`)
+      await get(`/flow/${id}`)
         .then((res) => {
-          const { node, edge, commands, ...flow } = res.data.service.payload;
+          const { node, edge, commands, ...flow } = res.data.service;
 
           this.flow = flow;
           this.nodes = JSON.parse(node);
           this.edges = JSON.parse(edge);
           this.commands = JSON.parse(commands);
+          this.automation = JSON.parse(commands);
           this.modifying = true;
         })
         .catch((error) => {
@@ -150,90 +133,39 @@ export const useFlowsStore = defineStore("flows", {
     },
 
     async updateFlow() {
-      const toast = useToast();
       this.loading = true;
 
-      await makeRequests
-        .update(`/flow/${this.flow.id}`, {
-          ...this.flow,
-          node: this.nodes,
-          edge: this.edges,
-          commands:
-            this.flow.type === "automation" ? this.commands : this.commandsList,
-        })
-        .then(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `O automação foi atualizado com sucesso.`,
-            color: "green",
-          });
-        })
-        .catch(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `Não foi possível atualizar a o automação.`,
-            color: "red",
-          });
-        })
-        .finally(() => {
-          this.loading = false;
-          this.modifying = false;
-        });
+      await put(`/flow/${this.flow.id}`, {
+        ...this.flow,
+        node: this.nodes,
+        edge: this.edges,
+        commands:
+          this.flow.type === "automation" ? this.automation : this.commandsList,
+      }).finally(() => {
+        this.loading = false;
+        this.modifying = false;
+      });
     },
     async createFlow() {
-      const toast = useToast();
       this.loading = true;
 
-      await makeRequests
-        .post(`/flow`, {
-          ...this.flow,
-          node: this.nodes,
-          edge: this.edges,
-          commands:
-            this.flow.type === "automation" ? this.commands : this.commandsList,
-        })
-        .then(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `A automação foi atualizado com sucesso. ${this.getType}`,
-            color: "green",
-          });
-        })
-        .catch(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `Não foi possível atualizar a automação. ${this.getType}`,
-            color: "red",
-          });
-        })
-        .finally(() => {
-          this.loading = false;
-          this.modifying = false;
-        });
+      await post(`/flow`, {
+        ...this.flow,
+        node: this.nodes,
+        edge: this.edges,
+        commands:
+          this.flow.type === "automation" ? this.automation : this.commandsList,
+      }).finally(() => {
+        this.loading = false;
+        this.modifying = false;
+      });
     },
     async removeFlow(id: number) {
-      const toast = useToast();
       this.loading = true;
 
-      await makeRequests
-        .destroy(`/flow/${id}`)
-        .then(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `A automação foi removido com sucesso.`,
-            color: "green",
-          });
-        })
-        .catch(() => {
-          toast.add({
-            icon: "i-heroicons-check-circle",
-            title: `Não foi possível remover a automação.`,
-            color: "red",
-          });
-        })
-        .finally(() => {
-          this.loading = false;
-        });
+      await destroy(`/flow/${id}`).finally(() => {
+        this.loading = false;
+      });
     },
     async resolveAction() {
       this.loading = true;

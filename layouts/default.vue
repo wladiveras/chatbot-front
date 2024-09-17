@@ -3,6 +3,7 @@
 <template>
   <div class="background-header" />
   <UContainer>
+    <DashboardModalCheckDetails />
     <UPage>
       <AppHeader />
       <slot />

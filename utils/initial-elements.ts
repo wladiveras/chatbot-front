@@ -1,40 +1,50 @@
-import { MarkerType } from '@vue-flow/core'
+import { MarkerType } from "@vue-flow/core";
 
 export const initialNodes = [
   {
-    id: '1',
-    type: 'init',
+    id: "1",
+    type: "init",
     position: { x: 0, y: 0 },
     data: {
-      commands: []
+      commands: [],
     },
-    class: 'custom-node init',
+    class: "custom-node init",
   },
   {
-    id: '2',
-    type: 'content',
+    id: "2",
+    type: "content",
     position: { x: 500, y: 200 },
     data: {
-      commands: []
+      commands: [
+        {
+          label: "Texto",
+          description: "Enviei uma mensagem de texto ao cliente.",
+          type: "text",
+          action: "message",
+          value: "Olá, tudo bem?",
+          delay: 5,
+          icon: "material-symbols:font-download-outline",
+        },
+      ],
     },
-    class: 'custom-node content',
-  }
-]
+    class: "custom-node content",
+  },
+];
 
 export const initialEdges = [
   {
-    id: 'e1-2',
-    source: '1',
-    target: '2',
-    animated: false,
+    id: "e1-2",
+    source: "1",
+    target: "2",
+    animated: true,
     markerEnd: MarkerType.ArrowClosed,
-  }
-]
-
+  },
+];
 
 export const initialCommands = [
   {
-    prompt: `Regras:
+    model: "@cf/meta/llama-3.1-8b-instruct",
+    systemPrompt: `Regras:
     Comece com um bom dia/boa tarde/boa noite a depender do horário de Brasilia.
     Pergunte o nome do cliente logo após a saudação.
     Fale sempre em português.
@@ -88,8 +98,12 @@ export const initialCommands = [
 
     Marina:
     Se precisar de mais alguma informação, é só me chamar, [Nome do usuário]! Vou adorar te ajudar a alcançar o sucesso com a automação. 😊`,
-      maxTokens: 512,
-      temperature: 0.6,
-      stream: true,
-  }
-]
+    maxTokens: 100,
+    temperature: 0.6,
+    stream: true,
+    topP: 0.1,
+    topK: 0.1,
+    frequencyPenalty: 0.1,
+    presencePenalty: 0.1,
+  },
+];

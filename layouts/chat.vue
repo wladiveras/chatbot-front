@@ -1,5 +1,8 @@
 <script lang="ts" setup></script>
 
 <template>
-  <div><NuxtPage /></div>
+  <div>
+    <DashboardModalCheckDetails />
+    <NuxtPage />
+  </div>
 </template>

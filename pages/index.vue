@@ -1,8 +1,11 @@
 <script setup lang="ts">
 const runtimeConfig = useRuntimeConfig()
+const title = ref(
+  `${runtimeConfig.public.appName} - Revolucione suas vendas com automação de WhatsApp!`
+)
+
 useSeoMeta({
-  title:
-    runtimeConfig.public.appName + "- Revolucione suas vendas com automação de WhatsApp!",
+  title: title.value,
 })
 </script>
 

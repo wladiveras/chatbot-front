@@ -2,9 +2,7 @@
 import { z } from "zod"
 import type { FormSubmitEvent } from "#ui/types"
 
-const toast = useToast()
 const modal = useModal()
-
 const connectionStatus = ref(null)
 
 const schema = z.object({
@@ -23,40 +21,23 @@ type Schema = z.output<typeof schema>
 
 const connectionStore = useConnectionsStore()
 const { ConnectionPayload, getQrcode, isLoading } = storeToRefs(connectionStore)
-const emit = defineEmits(["success", "close"])
+const emit = defineEmits(["success"])
 
 connectionStore.init()
 
 const createConnection = async (event: FormSubmitEvent<Schema>) => {
-  await connectionStore
-    .createConnection()
-    .then(() => {
-      toast.add({
-        title: "Atenção!",
-        description: `Conexão ${ConnectionPayload.value.connection_key} criada com sucesso.`,
-        icon: "i-heroicons-check-badge",
-      })
-
-      emit("success")
-
-      connectionStatus.value = setInterval(async () => {
-        await connectionStore.connectionStatus()
-      }, 29000)
-    })
-    .catch(() => {
-      toast.add({
-        title: "Atenção!",
-        description: "Não foi possível criar a conexão.",
-        icon: "material-symbols:error-outline",
-      })
-    })
+  await connectionStore.createConnection().then(() => {
+    connectionStatus.value = setInterval(async () => {
+      await connectionStore.connectionStatus()
+    }, 29000)
+  })
 }
 
 const closeModal = () => {
   if (connectionStatus.value) {
     clearInterval(connectionStatus.value)
   }
-  emit("close")
+  emit("success")
   modal.close()
 }
 </script>

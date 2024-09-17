@@ -1,18 +1,22 @@
 <script setup lang="ts">
-import { DashboardModalDeleteFlow } from "#components"
+import { DashboardModalCreateAutomation, DashboardModalDeleteFlow } from "#components"
 
-const runtimeConfig = useRuntimeConfig()
+// Store and Refs
 const flowsStore = useFlowsStore()
 const { getFlows, totalFlows } = storeToRefs(flowsStore)
 
+// Composables
+const runtimeConfig = useRuntimeConfig()
 const modal = useModal()
-const isOpen = ref(false)
 
+// Page Title and Description
+const title = ref(`${runtimeConfig.public.appName} - Automações de conversas`)
 const description = computed(() => `${totalFlows.value} conexões realizadas`)
 
-const openDeleteFlow = (flow_id: number) => {
+// Methods
+const openDeleteFlow = (flowId: number) => {
   modal.open(DashboardModalDeleteFlow, {
-    flow_id,
+    flow_id: flowId,
     async onDelete() {
       try {
         await flowsStore.fetchFlows()
@@ -23,6 +27,11 @@ const openDeleteFlow = (flow_id: number) => {
   })
 }
 
+const handleChoiceAutomation = () => {
+  //modal.open(DashboardModalCreateAutomation)
+  navigateTo("/flows/new")
+}
+
 const fetchFlows = async () => {
   try {
     await flowsStore.fetchFlows()
@@ -31,65 +40,29 @@ const fetchFlows = async () => {
   }
 }
 
-const handleNavigationTo = (flow_type: string | string[]) => {
-  flow_type === "automation"
-    ? navigateTo(`/flows/automation/${flow_type}`)
-    : navigateTo(`/flows/${flow_type}`)
+const handleNavigationTo = (flowType: string | string[], flowId: number) => {
+  flowType === "automation"
+    ? navigateTo(`/flows/automation/${flowId}`)
+    : navigateTo(`/flows/${flowId}`)
 }
 
-fetchFlows()
+// Fetch Flows on Mount
+onMounted(() => {
+  fetchFlows()
+})
 
+// Page Meta
 definePageMeta({
   layout: "dashboard",
 })
 
-useHead({
-  title: `${runtimeConfig.public.appName} - automações de conversa`,
+useSeoMeta({
+  title: title.value,
 })
 </script>
 
 <template>
-  <UModal v-model="isOpen" prevent-close>
-    <UCard :ui="{ ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
-      <template #header>
-        <div class="flex items-center justify-between">
-          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
-            Qual tipo de Automação deseja criar?
-          </h3>
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-x-mark-20-solid"
-            class="-my-1"
-            @click="isOpen = false"
-          />
-        </div>
-      </template>
-
-      <section class="flex content-center gap-5">
-        <section class="flex-1">
-          <UButton
-            block
-            label="Automação com IA"
-            @click="navigateTo('/flows/automation/new')"
-          />
-          <small class="ml-2 mt-2 block">
-            Crie uma automação de conversa com inteligência artificial para atender seus
-            clientes.
-          </small>
-        </section>
-        <section class="flex-1">
-          <UButton block label="Automação com fluxos" @click="navigateTo('/flows/new')" />
-          <small class="ml-2 mt-2 block">
-            Crie um fluxo de conversa para automatizar o atendimento e a comunicação com
-            seus clientes.
-          </small>
-        </section>
-      </section>
-    </UCard>
-  </UModal>
-
-  <CustomHeader title="automações de conversa" :description="description">
+  <CustomHeader title="Automações de conversa" :description="description">
     <template #actions>
       <section class="flex gap-5">
         <UTooltip text="Em breve">
@@ -99,7 +72,11 @@ useHead({
             variant="outline"
           />
         </UTooltip>
-        <UButton class="px-8 py-3" label="Criar automação" @click="isOpen = true" />
+        <UButton
+          class="px-8 py-3"
+          label="Criar automação"
+          @click="handleChoiceAutomation"
+        />
       </section>
     </template>
   </CustomHeader>
@@ -114,7 +91,7 @@ useHead({
           base: 'flex flex-col gap-6',
         },
       }"
-      @click="handleNavigationTo(item.type)"
+      @click="handleNavigationTo(item.type, item.id)"
     >
       <CustomHeader
         :title="item.name"

@@ -6,7 +6,9 @@ const ProfileSettings = resolveComponent("ProfileSettings")
 const ProfileMessage = resolveComponent("ProfileMessage")
 const ProfilePersonal = resolveComponent("ProfilePersonal")
 
+const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
+const title = ref(`${runtimeConfig.public.appName} - Minhas conexões`)
 
 const id: any = route?.params?.id
 
@@ -72,8 +74,8 @@ definePageMeta({
   layout: "dashboard",
 })
 
-useHead({
-  title: `Conexão | ${connection.value.name}`,
+useSeoMeta({
+  title: title.value,
 })
 </script>
 

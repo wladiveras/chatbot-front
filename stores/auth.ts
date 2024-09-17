@@ -1,17 +1,22 @@
 import { defineStore } from "pinia";
 import type { IStateAuth } from "@/types";
 
-const makeRequests = useMakeRequests();
+const { get, post, put } = useMakeRequests();
 
 export const useAuthStore = defineStore("auth", {
   state: (): IStateAuth => ({
     user: {},
     token: null,
+
+    // All loading states
+    isLoadingSignIn: false,
+    isLoadingUpdateDetails: false,
   }),
   getters: {
-    userName: (state) => state.user?.name || "",
+    userName: (state) => state.user?.name,
     userAvatar: (state) => state.user?.avatar || "",
-    isAuthenticated: (state) => !!state.user && !!state.token,
+    isAuthenticated: (state) => state.user && state.token,
+    isMissingDetails: (state) => !state.user?.name,
   },
   actions: {
     init() {
@@ -23,29 +28,43 @@ export const useAuthStore = defineStore("auth", {
         : {};
     },
     async signIn(email: string) {
-      await makeRequests.post("/auth/sign-in", { email });
+      this.isLoadingSignIn = true;
+
+      post("/auth/sign-in", { email }).finally(() => {
+        this.isLoadingSignIn = false;
+      });
     },
     async signOut() {
-      const toast = useToast();
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      toast.add({
-        title: "Até mais!",
-        description: "Desconectado da sua sessão, te espero em breve.",
-        icon: "i-heroicons-check-badge",
-      });
+
       navigateTo("/");
     },
-    async fetchUser() {
-      await makeRequests
-        .get("/auth/user")
-        .then((res) => {
-          localStorage.setItem(
-            "user",
-            JSON.stringify(res.data.service.payload)
-          );
+    async updateDetails(name: string) {
+      this.isLoadingUpdateDetails = true;
+      // If some data is missing, wee need to force user to update data.
+      this.user.name = name;
 
-          this.user = res.data.service.payload;
+      return await this.updateUser().finally(() => {
+        this.isLoadingUpdateDetails = false;
+      });
+    },
+    async updateUser() {
+      await put(`/user/${this.user.id}`, this.user).then(async () => {
+        await this.reloadUser();
+      });
+    },
+    async reloadUser() {
+      localStorage.removeItem("user");
+      await this.fetchUser();
+    },
+
+    async fetchUser() {
+      await get("/auth/user")
+        .then((res) => {
+          localStorage.setItem("user", JSON.stringify(res.data.service));
+
+          this.user = res.data.service;
 
           navigateTo("/connections");
         })
@@ -55,10 +74,9 @@ export const useAuthStore = defineStore("auth", {
         .finally(() => {});
     },
     async validateCode(code: string) {
-      await makeRequests
-        .post(`/auth/magic-link/${code}`)
+      await post(`/auth/magic-link/${code}`)
         .then((res) => {
-          this.token = res.data.service.payload;
+          this.token = res.data.service;
           localStorage.setItem("token", this.token);
           this.fetchUser();
         })

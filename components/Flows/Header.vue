@@ -2,10 +2,12 @@
 import { DashboardSlideoverSettings, DashboardSlideoverPreview } from "#components"
 
 const runtimeConfig = useRuntimeConfig()
+
 const slideover = useSlideover()
 const flowsStore = useFlowsStore()
-const { flow, flowName, flowDescription, isCreation, isLoading } = storeToRefs(flowsStore)
+const { flowName, flowDescription, isCreation, isLoading } = storeToRefs(flowsStore)
 
+const title = ref(`${runtimeConfig.public.appName} - Editor de automação`)
 const isOpen = ref(false)
 const restartIsOpen = ref(false)
 const restartLoading = ref(false)
@@ -32,7 +34,7 @@ function openPreview() {
 }
 
 useHead({
-  title: runtimeConfig.public.appName + " - Editor de automação",
+  title: title.value,
 })
 </script>
 
@@ -57,14 +59,6 @@ useHead({
     >
       <template #actions>
         <section class="flex items-center gap-5">
-          <!-- <UTooltip text="Desativar automação.">
-            <UButton
-              :icon="isDisableLoading ? 'svg-spinners:ring-resize' : 'line-md:watch-off'"
-              :disabled="isDisableLoading"
-              class="bg-gray-100 text-blue-950"
-              @click="() => flowsStore.handleFlowActive()"
-            />
-          </UTooltip> -->
           <UTooltip text="Reinicia as sessões do automação">
             <UButton
               icon="line-md:backup-restore"
@@ -73,13 +67,7 @@ useHead({
               @click="restartIsOpen = true"
             />
           </UTooltip>
-          <!-- <UTooltip text="Pre-visualizar automação">
-            <UButton
-              icon="line-md:chat-round-dots"
-              class="bg-gray-100 text-blue-950"
-              @click="openPreview"
-            />
-          </UTooltip> -->
+
           <UTooltip text="Configurações Gerais">
             <UButton
               icon="line-md:cog"

@@ -3,6 +3,7 @@ import { z } from "zod"
 import type { FormSubmitEvent } from "#ui/types"
 
 const runtimeConfig = useRuntimeConfig()
+const title = ref(`${runtimeConfig.public.appName} - Entrar no sistema`)
 
 onBeforeMount(() => {
   if (isAuthenticated.value) {
@@ -15,13 +16,11 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: runtimeConfig.public.appName + "  - Entrar no sistema",
+  title: title.value,
 })
 
-const toast = useToast()
-const loading = ref(false)
 const authStore = useAuthStore()
-const { isAuthenticated } = storeToRefs(authStore)
+const { isAuthenticated, isLoadingSignIn } = storeToRefs(authStore)
 
 const schema = z.object({
   email: z.string({ message: "Informe um email pra gente continuar." }).email({
@@ -35,40 +34,10 @@ const state = reactive({
   email: undefined,
 })
 
-const signInWithOAuth = async (provide: any) => {
-  const error = false
-  if (error) {
-    toast.add({
-      title: "Atenção!",
-      description: "x",
-      icon: "material-symbols:error-outline",
-    })
-  } else {
-  }
-}
+const signInWithOAuth = async (provide: any) => {}
 
 const handleLogin = async (event: FormSubmitEvent<Schema>) => {
-  loading.value = true
-  authStore
-    .signIn(state.email)
-    .then(() => {
-      toast.add({
-        title: "Bem vindo, falta pouco!",
-        description:
-          "Agora, verifique seu email, foi enviado um link mágico para acessar no sistema automaticamente.",
-        icon: "i-heroicons-check-badge",
-      })
-    })
-    .catch((error) => {
-      toast.add({
-        title: "Algo deu errado!",
-        description: "Não foi possivel realizar sua conexão.",
-        icon: "material-symbols:error-outline",
-      })
-    })
-    .finally(() => {
-      loading.value = false
-    })
+  await authStore.signIn(state.email)
 }
 </script>
 
@@ -112,12 +81,12 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
             <UIcon name="uim:google" size="20px" class="text-yellow-600" />
           </UButton>
           <UButton
-            @click="signInWithOAuth('twitter')"
+            @click="signInWithOAuth('facebook')"
             class="text-center px-10 mx-1 py-3 flex text-gray-200"
             :ui="{ rounded: 'rounded-md' }"
             variant="outline"
           >
-            <UIcon name="uim:twitter" size="20px" class="text-blue-500" />
+            <UIcon name="uim:facebook" size="20px" class="text-blue-500" />
           </UButton>
         </div>
         <UDivider
@@ -146,7 +115,7 @@ const handleLogin = async (event: FormSubmitEvent<Schema>) => {
       <UButton
         type="submit"
         class="w-full flex text-center py-[15px] px-[25px] bg-blue-950"
-        :loading="loading"
+        :loading="isLoadingSignIn"
         block
       >
         Continuar

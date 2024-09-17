@@ -1,27 +1,28 @@
-<script setup>
+<script setup lang="ts">
 import {
   DashboardModalCreateConnection,
   DashboardModalFetchConnection,
   DashboardModalDeleteConnection,
 } from "#components"
+import type { IConnection } from "~/types"
 const connectionStore = useConnectionsStore()
 const { getConnections, totalConnections } = storeToRefs(connectionStore)
 
 const runtimeConfig = useRuntimeConfig()
 const modal = useModal()
 
-function openCreateConnection() {
+const title = ref(`${runtimeConfig.public.appName} - Minhas conexões`)
+const description = computed(() => `${totalConnections.value} conexões realizadas`)
+
+const openCreateConnection = () => {
   modal.open(DashboardModalCreateConnection, {
     async onSuccess() {
-      await connectionStore.fetchConnections()
-    },
-    async onClose() {
       await connectionStore.fetchConnections()
     },
   })
 }
 
-function openDeleteConnection(connection_id) {
+const openDeleteConnection = (connection_id: number) => {
   modal.open(DashboardModalDeleteConnection, {
     connection_id: connection_id,
     async onDelete() {
@@ -30,14 +31,11 @@ function openDeleteConnection(connection_id) {
   })
 }
 
-function navigateOrOpenModal(path, connection) {
+const navigateOrOpenModal = (path: string, connection: IConnection) => {
   if (!connection.is_active) {
     modal.open(DashboardModalFetchConnection, {
       connection_id: connection.id,
       async onSuccess() {
-        await connectionStore.fetchConnections()
-      },
-      async onClose() {
         await connectionStore.fetchConnections()
       },
     })
@@ -50,16 +48,12 @@ onMounted(() => {
   connectionStore.fetchConnections()
 })
 
-const description = computed(() => {
-  return `${totalConnections.value} conexões realizadas`
-})
-
 definePageMeta({
   layout: "dashboard",
 })
 
-useHead({
-  title: runtimeConfig.public.appName + " - Minhas conexões",
+useSeoMeta({
+  title: title.value,
 })
 </script>
 
@@ -70,17 +64,17 @@ useHead({
     </template>
   </CustomHeader>
   <!-- Connections -->
-  <section class="flex justify-left flex-wrap gap-5">
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-5">
     <UCard
       v-for="(item, index) in getConnections"
       :key="index"
       :ui="{
-        base: 'w-full h-full max-w-[530px] max-h-[175px] border-[#E5E5E5]',
+        base: 'border-[#E5E5E5]',
         background: 'bg-transparent',
         body: {
           base: 'h-full',
           background: '',
-          padding: 'px-8 sm:px-8',
+          padding: 'flex flex-col gap-6',
         },
       }"
       class="cursor-pointer"

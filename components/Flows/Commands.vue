@@ -1,8 +1,5 @@
-<script setup>
+<script setup lang="ts">
 import { useVueFlow } from '@vue-flow/core';
-
-const { updateNodeData } = useVueFlow()
-const flowStore = useFlowsStore()
 
 const props = defineProps({
   editable: {
@@ -20,40 +17,32 @@ const props = defineProps({
     required: true,
     default: () => {},
   },
-})
+});
 
+const { updateNodeData } = useVueFlow()
 const upload = useUpload('/api/blob', { method: 'PUT', multiple: false })
+
+// @ts-ignore
 const commands = ref([...props?.data]);
 
-watch(
-  () => props?.data,
-  handleNodeChange,
-  { deep: true }
-)
-
-watch(
-  () => commands,
-  handleChange,
-  { deep: true }
-)
-
-function handleNodeChange() {
+const handleNodeChange = () => {
+  // @ts-ignore
   commands.value = props?.data;
 }
 
-function handleChange() {
+const handleChange = () => {
   if (props.editable) {
     updateNodeData(props.id, { commands: commands.value });
   }
 }
 
-function removeCommand(deleted) {
+const removeCommand = (deleted) => {
   commands.value = commands.value.filter(
     (command) => command !== deleted
   )
 }
 
-async function handleChangeFile(payload) {
+const handleChangeFile = async (payload) => {
   const { command, event, index } = payload;
   const { target } = event;
   const auxCommand = { ...command };
@@ -69,9 +58,17 @@ async function handleChangeFile(payload) {
   }
 }
 
-onMounted(async () => {
+watch(
+  () => props?.data,
+  handleNodeChange,
+  { deep: true }
+)
 
-});
+watch(
+  () => commands,
+  handleChange,
+  { deep: true }
+)
 
 </script>
 
@@ -83,7 +80,7 @@ onMounted(async () => {
       :key="index"
       :ui="{
         base: '',
-        background: 'bg-gray-100',
+        background: editable? 'bg-gray-100' : 'bg-gray-300',
         body: {
           base: 'flex flex-col gap-3',
           padding: editable ? 'p-5 sm:p-5' : 'p-2 sm:p-2',
@@ -101,6 +98,19 @@ onMounted(async () => {
           />
           Criar variável
           <strong><span>{</span>{{ command.name }}<span>}</span> </strong>...
+        </p>
+      </section>
+
+      <section
+        class="flex items-center gap-3"
+        v-if="command.type === 'link' && !editable"
+      >
+        <p class="text-ellipsis overflow-hidden">
+          <UIcon
+            name="nimbus:link"
+            class="size-5 relative top-[0.2rem]"
+          />
+          <a :href="command.value" target="_blank">{{ command.value }}</a>
         </p>
       </section>
 
@@ -126,7 +136,8 @@ onMounted(async () => {
             name="material-symbols:font-download-outline"
             class="size-5 relative top-[0.3rem]"
           />
-          {{ command.value }}
+          <span v-if="!command.value">{{ command.value }}</span>
+          <span v-else v-html="command.value.replace(/\{([^}]+)\}/g, '<b>{$1}</b>')"></span>
           <p class="text-ellipsis overflow-hidden w-full border-t-2 mt-3">
             <UIcon
               name="material-symbols:schedule-outline"
@@ -143,7 +154,7 @@ onMounted(async () => {
         v-if="command.type == 'video' && !editable"
       >
         <p class="text-ellipsis overflow-hidden">
-          <video :src="`/videos/${command.value}`" controls>
+          <video class="rounded-md mb-2 w-100 relative" :src="`/videos/${command.value}`" controls>
             <span>Seu navegador não é compatível.</span>
           </video>
           <i>{{command.caption}}</i>
@@ -154,8 +165,8 @@ onMounted(async () => {
         class="flex items-center gap-3"
         v-if="command.type == 'image' && !editable"
       >
-        <p class="text-ellipsis overflow-hidden">
-          <img :src="`/images/${command.value}`" alt="Imagem" />
+        <p class="text-ellipsis overflow-hidden m-1">
+          <img class="rounded-md mb-2 w-100 relative" :src="`/images/${command.value}`" alt="Imagem" />
           <i>{{command.caption}}</i>
         </p>
       </section>
@@ -166,7 +177,7 @@ onMounted(async () => {
 
       >
         <p class="text-ellipsis overflow-hidden">
-          <audio :src="`/audios/${command.value}`" controls>
+          <audio class="rounded-md mb-2 w-100 relative" :src="`/audios/${command.value}`" controls>
             <span>Seu navegador não é compatível.</span>
           </audio>
           <p class="text-ellipsis overflow-hidden w-full border-t-2 mt-3">
@@ -184,7 +195,7 @@ onMounted(async () => {
         v-if="command.type == 'media_audio' && !editable"
       >
         <p class="text-ellipsis overflow-hidden">
-          <audio :src="`/audios/${command.value}`"  controls>
+          <audio class="rounded-md mb-2 w-100 relative" :src="`/audios/${command.value}`"  controls>
             Your browser does not support the audio element.
           </audio>
           <i>{{command.caption}}</i>
@@ -250,6 +261,21 @@ onMounted(async () => {
           </UFormGroup>
 
         </section>
+
+
+        <section class="gap-5 flex-1" v-else-if="command.type === 'link'">
+          <UFormGroup>
+            <template #label>
+              <p><UIcon name="nimbus:link" class="relative top-[0.1rem]"/> URL do link</p>
+            </template>
+            <template #help>
+            <!-- todo -->
+            </template>
+            <template #default>
+              <UInput icon="nimbus:link" v-model="command.value" placeholder="https://seusite.com.br" />
+            </template>
+          </UFormGroup>
+          </section>
 
         <section class="gap-5 flex-1" v-else-if="command.type === 'audio'">
 
