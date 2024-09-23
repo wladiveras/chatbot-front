@@ -32,7 +32,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.5.2",
     "eslint": "^9.8.0",
-    "sass": "^1.77.8",
+    "sass": "^1.79.3",
     "vue-tsc": "^2.1.6",
     "wrangler": "^3.75.0"
   },
