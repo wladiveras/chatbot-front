@@ -108,11 +108,19 @@ pnpm run preview
 
 Check out the [nuxt 3 documentation](https://nuxt.com/docs) and [nuxt UI](https://ui.nuxt.com/getting-started/) for more information.
 
+## Documentation
+
+### Tutorials
+
+- [Tutorial VueFlow (Português)](./TUTORIAL_VUEFLOW.md) - Guia completo sobre como usar VueFlow neste projeto
+- [VueFlow Tutorial (English)](./TUTORIAL_VUEFLOW_EN.md) - Complete guide on how to use VueFlow in this project
+
 ## Utils Links
 
 [iconify icons](https://icon-sets.iconify.design/)
 [Tailwind css](https://tailwindcss.com/docs/)
 [Animate Style css](https://animate.style/)
+[VueFlow Documentation](https://vueflow.dev/)
 
 ## Licence
 
