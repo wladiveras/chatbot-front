@@ -114,6 +114,8 @@ Check out the [nuxt 3 documentation](https://nuxt.com/docs) and [nuxt UI](https:
 
 - [Tutorial VueFlow (Português)](./TUTORIAL_VUEFLOW.md) - Guia completo sobre como usar VueFlow neste projeto
 - [VueFlow Tutorial (English)](./TUTORIAL_VUEFLOW_EN.md) - Complete guide on how to use VueFlow in this project
+- [Guia Rápido / Quick Reference](./VUEFLOW_QUICK_REFERENCE.md) - Referência rápida de comandos e exemplos
+- [Exemplos de Código / Code Examples](./VUEFLOW_EXAMPLES.md) - Exemplos práticos extraídos do projeto
 
 ## Utils Links
 
